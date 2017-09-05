@@ -1,9 +1,21 @@
 Package: taipan
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-Depends: R (>= 3.4.1)
-License: What license is it under?
+Version: 0.1.0.9000
+Title: Taipan for R
+Description: Placeholder description
+Depends:
+    R (>= 3.2.0)
+Imports:
+    shiny,
+    shinyjs,
+    ggplot2,
+    imager
+Suggests: 
+    testthat
+Authors@R: c(person("Mitchell", "O'Hara-Wild", email = "mail@mitchelloharawild.com", role = c("aut", "cre")))
+URL: https://github.com/srkob1/taipan
+BugReports: https://github.com/srkob1/taipan/issues
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+ByteCompile: true
+RoxygenNote: 6.0.1.9000
