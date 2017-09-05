@@ -7,8 +7,7 @@ Depends:
 Imports:
     shiny,
     shinyjs,
-    ggplot2,
-    imager
+    ggplot2
 Suggests: 
     testthat
 Authors@R: c(person("Mitchell", "O'Hara-Wild", email = "mail@mitchelloharawild.com", role = c("aut", "cre")))
