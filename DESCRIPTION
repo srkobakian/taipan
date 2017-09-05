@@ -10,7 +10,8 @@ Imports:
     ggplot2
 Suggests: 
     testthat
-Authors@R: c(person("Mitchell", "O'Hara-Wild", email = "mail@mitchelloharawild.com", role = c("aut", "cre")))
+Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
+             person("Mitchell", "O'Hara-Wild", email = "mail@mitchelloharawild.com", role = c("aut")))
 URL: https://github.com/srkob1/taipan
 BugReports: https://github.com/srkob1/taipan/issues
 License: GPL-3
