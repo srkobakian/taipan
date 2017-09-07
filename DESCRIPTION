@@ -1,7 +1,7 @@
 Package: taipan
 Version: 0.1.0.9000
 Title: Taipan for R
-Description: Placeholder description
+Description: Taipan allows users to annotate images. Users can supply images, questions and the possible answers associated that relate to the image or defined areas within.
 Depends:
     R (>= 3.2.0)
 Imports:
