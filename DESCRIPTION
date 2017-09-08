@@ -9,7 +9,8 @@ Depends:
 Imports:
     shiny,
     shinyjs,
-    ggplot2
+    ggplot2,
+    dplyr
 Suggests: 
     testthat
 Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
