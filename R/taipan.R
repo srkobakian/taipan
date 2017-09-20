@@ -10,6 +10,7 @@ dplyr::`%>%`
 
 library(shiny)
 library(shinythemes)
+library(shinyWidgets)
 
 ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
                 tabPanel("Edit", icon = icon("pencil"),

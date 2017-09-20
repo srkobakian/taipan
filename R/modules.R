@@ -38,7 +38,7 @@ questionInput <- function(input, output, session){
 answerOptUI <- function(id){
   ns <- NS(id)
 
-  fluidRow(column(10,textInput("a",NULL, "Enter possible choice")),
+  fluidRow(column(10,textInput("a",NULL, placeholder = "Enter possible choice")),
            column(2,
                   # div(style= "position: relative;",
                   #  div(style= "position: absolute; bottom: 0",
