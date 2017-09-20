@@ -23,20 +23,8 @@ ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
                              tabsetPanel(
                                tabPanel("Scene",
                                         wellPanel(id = "qs", style = "overflow-y:scroll; max-height: 600px;",
-                                                  fluidRow(column(2, offset=1, actionButton("addq", "Add a Question", icon("plus")))),
-                                                  fluidRow(column(11, offset = 1 ,textInput("q","New Question","Question text"),
-                                                                  selectInput("qtype", "Question type", c("Check box" = "check",
-                                                                                                          "Radio button" = "radio")),
-                                                                  fluidRow(column(10,textInput("a",NULL, "Enter possible choice")),
-                                                                           column(2,
-                                                                                 # div(style= "position: relative;",
-                                                                                #  div(style= "position: absolute; bottom: 0",
-                                                                             actionButton("adda",icon("plus")),
-                                                                             actionButton("removea",icon("times")), style= "bottom:0;"
-                                                                                        # ))
-                                                                                  ))
-
-                                                  )))),
+                                                  fluidRow(column(2, offset=1, actionButton("scene_addq", "Add a Question", icon("plus")))),
+                                                  div(id = "scene_questions"))),
 
                                tabPanel("Selection",
                                         wellPanel(
@@ -87,6 +75,8 @@ ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
 
 
 server <-function(input, output, session) {
+  source("modules.R") # Temporary - encorporate into the package
+
   output$plotE <- renderPlot({
     plot(cars, type=input$plotType)
   })
@@ -95,6 +85,10 @@ server <-function(input, output, session) {
     plot(cars, type=input$plotType)
   })
 
+  observeEvent(input$scene_addq, {
+    insertUI("#scene_questions", ui = questionInputUI(paste0("question", input$scene_addq)))
+    callModule(questionInput, paste0("question", input$scene_addq))
+  })
 }
 
 
