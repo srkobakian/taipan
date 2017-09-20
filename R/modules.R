@@ -4,17 +4,26 @@ questionInputUI <- function(id){
   wellPanel(
     style = "background-color: #ffffff;",
     id = ns("self"),
+
     fluidRow(
-      div(class="input-group", style="display:flex;width:100%;",
-          strong("New Question"),
-          textInput(ns("q"),NULL,"Question text", width = "100%"),
-          span(class="input-btn-group",
+      div(class="input-group",
+          #strong("New Question"),
+          div(class="input-group-btn",
+              pickerInput(inputId = "Id059",
+                          label = NULL, choices = c("a", "b", "c", "d"))
+          ),
+          textInput(ns("q"),NULL,placeholder = "Question text"),# width = "100%"),
+          div(class="input-group-btn",
                actionButton(ns("remove_self"), "Delete Question", icon = icon("times"), class="btn btn-danger")
           )
       )
     ),
+    # fluidRow(
+    #   radioButtons(ns("qtype"), "Question type", c("Check box" = "check", "Radio button" = "radio"), inline=TRUE)
+    # ),
     fluidRow(
-      radioButtons(ns("qtype"), "Question type", c("Check box" = "check", "Radio button" = "radio"), inline=TRUE),
+      h4("Enter your options"),
+      div(ns("choices")),
       answerOptUI(ns("option_0"))
     )
   )
