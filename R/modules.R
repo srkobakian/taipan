@@ -18,13 +18,14 @@ questionInputUI <- function(id){
           )
       )
     ),
-    # fluidRow(
-    #   radioButtons(ns("qtype"), "Question type", c("Check box" = "check", "Radio button" = "radio"), inline=TRUE)
-    # ),
+     fluidRow(
+       radioButtons(ns("qtype"), "Question type", c("Check box" = "check", "Radio button" = "radio"), inline=TRUE)
+     ),
+    actionButton(ns("adda"),icon("plus")),
     fluidRow(
       h4("Enter your options"),
-      div(ns("choices")),
-      answerOptUI(ns("option_0"))
+      div(id=ns("choices"),
+          answerOptUI(ns("option_0")))
     )
   )
 }
@@ -33,17 +34,49 @@ questionInput <- function(input, output, session){
   observeEvent(input$remove_self, {
     removeUI(selector = paste0("#", session$ns("self")))
   })
+
+  ainputs <- reactiveValues(answers=list())
+
+  ainputs$answers[[session$ns("option_0")]] <- callModule(answerOpt, "option_0")
+
+
+  observeEvent(input$adda, {
+    insertUI(paste0("#",session$ns("choices")), ui = answerOptUI(session$ns(paste0("option_", input$adda))))
+    ainputs$answers[[session$ns(paste0("option_", input$adda))]] <- callModule(answerOpt, paste0("option_", input$adda))
+  })
+
+  return(list(qtext = reactive({input$`q`}),
+              qtype = reactive({input$`qtype`}),
+              rm = reactive({input$`remove_self`}),
+              opts = reactive({ainputs$answers %>%
+                map(~ if(is.null(.x$rm())){.x$answer()} else {NULL}) %>%
+                compact})
+              ))
 }
 
 answerOptUI <- function(id){
   ns <- NS(id)
 
-  fluidRow(column(10,textInput("a",NULL, placeholder = "Enter possible choice")),
+  div(id = ns("self"),
+
+   fluidRow(column(10,textInput(ns("answer"), NULL, placeholder = "Enter possible choice")),
            column(2,
                   # div(style= "position: relative;",
                   #  div(style= "position: absolute; bottom: 0",
-                  actionButton(ns("adda"),icon("plus")),
+
                   actionButton(ns("removea"),icon("times")), style= "bottom:0;"
                   # ))
            ))
+  )
+}
+
+
+answerOpt <- function(input, output, session){
+  observeEvent(input$removea, {
+    removeUI(selector = paste0("#", session$ns("self")))
+  })
+
+  return(list(answer = reactive({input$`answer`}),
+              rm = reactive({input$`removea`})
+  ))
 }

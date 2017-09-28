@@ -18,7 +18,12 @@ ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
                            column(8, textInput("dir","Directory","Path")),
                            column(2, offset = 2, actionButton("dirin", "Load Folder"))),
 
+                         actionButton("debug", "debug"),
+
+
+                         #conditional panel
                          #fluidRow(plotOutput("plotE")), add preview when folder path is selected?
+
                          wellPanel(
                            fluidRow(
                              tabsetPanel(
@@ -36,7 +41,7 @@ ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
 
                            fluidRow(column(1),
                                     column(3, actionButton("folderl", "Previous Folder", icon("arrow-left"))),
-                                    column(4, offset=4, actionButton("save", "Save Questions", icon("check")),
+                                    column(4, offset=4, actionButton("saveq", "Save Questions", icon("check")),
                                               actionButton("folderr","Next Folder",icon("arrow-right"))))
 
                            ),
@@ -62,12 +67,12 @@ ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
 
                          fluidRow(column(1),
                                   column(6, actionButton("imagel", "Previous Image", icon("arrow-left"))),
-                                  column(5, actionButton("save", "Save Answers", icon("check")),
+                                  column(5, actionButton("savei", "Save Answers", icon("check")),
                                          actionButton("imager","Next Image",icon("arrow-right")))),
 
                          fluidRow(column(1),
                                     column(6, actionButton("folderl", "Previous Folder", icon("arrow-left"))),
-                                    column(5, actionButton("save", "Save Answers", icon("check")),
+                                    column(5, actionButton("savef", "Save Answers", icon("check")),
                                            actionButton("folderr","Next Folder",icon("arrow-right"))))
                          )
 
@@ -77,6 +82,29 @@ ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
 
 server <-function(input, output, session) {
   source("modules.R") # Temporary - encorporate into the package
+
+  #if there are no images in the folder in the folder path
+  # stop and give a message to reset folder path
+
+
+  #debug
+  observeEvent(input$debug, {
+    browser()
+  })
+
+  v <- try(reactiveValues(imgcount = dir(),
+                          questions = read.csv("questions.csv"),
+                          qdata = rep(NA,6))
+           )
+
+  if(class(v)=="try-error"){
+    message("Previous question set not found")
+  }
+
+
+  qinputs <- reactiveValues(selection = list(),
+                            scene = list())
+
 
   output$plotE <- renderPlot({
     plot(cars, type=input$plotType)
@@ -88,7 +116,7 @@ server <-function(input, output, session) {
 
   observeEvent(input$scene_addq, {
     insertUI("#scene_questions", ui = questionInputUI(paste0("question", input$scene_addq)))
-    callModule(questionInput, paste0("question", input$scene_addq))
+    qinputs$scene[[paste0("question", input$scene_addq)]] <- callModule(questionInput, paste0("question", input$scene_addq))
   })
 }
 
