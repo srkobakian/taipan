@@ -121,8 +121,8 @@ server <-function(input, output, session) {
   })
 
   observeEvent(input$selection_addq, {
-    insertUI("#selection_questions", ui = questionInputUI(paste0("selection", input$scene_addq)))
-    qinputs$selection[[paste0("selection", input$scene_addq)]] <- callModule(questionInput, paste0("selection", input$scene_addq))
+    insertUI("#selection_questions", ui = questionInputUI(paste0("selection", input$selection_addq)))
+    qinputs$selection[[paste0("selection", input$selection_addq)]] <- callModule(questionInput, paste0("selection", input$selection_addq))
   })
 
 
