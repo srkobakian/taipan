@@ -11,6 +11,8 @@ dplyr::`%>%`
 library(shiny)
 library(shinythemes)
 library(shinyWidgets)
+# not necessary if importing pipe function
+library(tidyverse)
 
 ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
                 tabPanel("Edit", icon = icon("pencil"),
@@ -118,6 +120,13 @@ server <-function(input, output, session) {
     insertUI("#scene_questions", ui = questionInputUI(paste0("question", input$scene_addq)))
     qinputs$scene[[paste0("question", input$scene_addq)]] <- callModule(questionInput, paste0("question", input$scene_addq))
   })
+
+
+  {
+    # save questions and answers
+    # nested maps
+   # qinputs$scene %>% map(~ data.frame(Title = .x$qtext(), Type = .x$qtype()) %>%cbind(.x$opts() %>% unlist))
+  }
 }
 
 
