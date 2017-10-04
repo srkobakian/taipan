@@ -30,13 +30,14 @@ ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
                            fluidRow(
                              tabsetPanel(
                                tabPanel("Scene",
-                                        wellPanel(id = "qs", style = "overflow-y:scroll; max-height: 600px;",
+                                        wellPanel(style = "overflow-y:scroll; max-height: 600px;",
                                                   fluidRow(column(2, offset=1, actionButton("scene_addq", "Add a Question", icon("plus")))),
                                                   div(id = "scene_questions"))),
 
                                tabPanel("Selection",
-                                        wellPanel(
-                                          fluidRow("Add Question section when confirmed")))
+                                        wellPanel(style = "overflow-y:scroll; max-height: 600px;",
+                                                  fluidRow(column(2, offset=1, actionButton("selection_addq", "Add a Question", icon("plus")))),
+                                                  div(id = "selection_questions")))
 
                            ))
                          ),
@@ -103,10 +104,8 @@ server <-function(input, output, session) {
     message("Previous question set not found")
   }
 
-
   qinputs <- reactiveValues(selection = list(),
                             scene = list())
-
 
   output$plotE <- renderPlot({
     plot(cars, type=input$plotType)
@@ -119,6 +118,11 @@ server <-function(input, output, session) {
   observeEvent(input$scene_addq, {
     insertUI("#scene_questions", ui = questionInputUI(paste0("question", input$scene_addq)))
     qinputs$scene[[paste0("question", input$scene_addq)]] <- callModule(questionInput, paste0("question", input$scene_addq))
+  })
+
+  observeEvent(input$selection_addq, {
+    insertUI("#selection_questions", ui = questionInputUI(paste0("selection", input$scene_addq)))
+    qinputs$selection[[paste0("selection", input$scene_addq)]] <- callModule(questionInput, paste0("selection", input$scene_addq))
   })
 
 
