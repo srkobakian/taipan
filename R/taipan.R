@@ -85,6 +85,7 @@ ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
 
 server <-function(input, output, session) {
   source("modules.R") # Temporary - encorporate into the package
+  source("helpers.R") # Temporary - encorporate into the package
 
   #if there are no images in the folder in the folder path
   # stop and give a message to reset folder path
@@ -104,8 +105,9 @@ server <-function(input, output, session) {
     message("Previous question set not found")
   }
 
-  qinputs <- reactiveValues(selection = list(),
-                            scene = list())
+  v2 <- reactiveValues(img_questions = list(selection = list(),
+                                            scene = list())
+                       )
 
   output$plotE <- renderPlot({
     plot(cars, type=input$plotType)
@@ -117,20 +119,24 @@ server <-function(input, output, session) {
 
   observeEvent(input$scene_addq, {
     insertUI("#scene_questions", ui = questionInputUI(paste0("question", input$scene_addq)))
-    qinputs$scene[[paste0("question", input$scene_addq)]] <- callModule(questionInput, paste0("question", input$scene_addq))
+    v2$img_questions$scene[[paste0("question", input$scene_addq)]] <- callModule(questionInput, paste0("question", input$scene_addq))
   })
 
   observeEvent(input$selection_addq, {
     insertUI("#selection_questions", ui = questionInputUI(paste0("selection", input$selection_addq)))
-    qinputs$selection[[paste0("selection", input$selection_addq)]] <- callModule(questionInput, paste0("selection", input$selection_addq))
+    v2$img_questions$selection[[paste0("selection", input$selection_addq)]] <- callModule(questionInput, paste0("selection", input$selection_addq))
   })
 
 
-  {
+  observeEvent(input$saveq, {
     # save questions and answers
     # nested maps
-   # qinputs$scene %>% map(~ data.frame(Title = .x$qtext(), Type = .x$qtype()) %>%cbind(.x$opts() %>% unlist))
-  }
+
+    out <- buildQuestionTable(v2$img_questions)
+
+    write_csv(out, tempfile())
+
+  })
 }
 
 
