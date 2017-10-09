@@ -13,12 +13,13 @@ library(shinythemes)
 library(shinyWidgets)
 # not necessary if importing pipe function
 library(tidyverse)
+library(tools) #file extension
 
 ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
                 tabPanel("Edit", icon = icon("pencil"),
                          fluidRow(
-                           column(8, textInput("dir","Directory","Path")),
-                           column(2, offset = 2, actionButton("dirin", "Load Folder"))),
+                           column(3, "File Path"),
+                           column(5, offset = 2, selectInput("folderSelect", "Select Folder Path", choices = img_folders))),
 
                          actionButton("debug", "debug"),
 
@@ -44,7 +45,7 @@ ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
 
                            fluidRow(column(1),
                                     column(3, actionButton("folderl", "Previous Folder", icon("arrow-left"))),
-                                    column(4, offset=4, actionButton("saveq", "Save Questions", icon("check")),
+                                    column(4, offset=4, downloadButton("saveq", "Save Questions", icon("check")),
                                               actionButton("folderr","Next Folder",icon("arrow-right"))))
 
                            ),
@@ -89,6 +90,23 @@ server <-function(input, output, session) {
 
   #if there are no images in the folder in the folder path
   # stop and give a message to reset folder path
+# run from beginning
+  if("images" %in% list.files()){
+    img_folders <- c()
+    for (path in list.dirs("images")) {
+      exts <- c("jpg", "png")
+      if (length(list_files_with_exts(file.path(path), exts))>0){
+        img_folders <- c(img_folders, path)
+      }
+    }
+  }
+
+
+  observeEvent(input$folderSelect, {
+    currentFilePath <- input$folderSelect
+    #populate questions with previous question data
+
+  })
 
 
   #debug
@@ -128,15 +146,20 @@ server <-function(input, output, session) {
   })
 
 
-  observeEvent(input$saveq, {
-    # save questions and answers
-    # nested maps
+  output$saveq <- downloadHandler(
+    filename = function(currentFilePath){
+      paste0("taipan",currentFilePath, "-qs.csv")},
 
-    out <- buildQuestionTable(v2$img_questions)
+    content = function(con) {
 
-    write_csv(out, tempfile())
+      out <- buildQuestionTable(v2$img_questions)
+      write.csv(out, con, row.names = FALSE)
+    },
+    contentType = "text/csv"
+  )
 
-  })
+
+
 }
 
 
