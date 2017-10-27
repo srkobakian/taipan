@@ -135,7 +135,7 @@ server <- function(input, output, session) {
     if (is.null(input$plotP_brush)){
       updateTabsetPanel(session, "areaQuestionsP",
                         selected = "SceneP")}
-    else if (!is.null(input$plotE_brush)){
+    else if (!is.null(input$plotP_brush)){
       updateTabsetPanel(session, "areaQuestionsP",
                         selected = "SelectionP")}
   })
