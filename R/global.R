@@ -1,4 +1,4 @@
-#produce the list of the images within the "images" folder
+### produce the list of the images within the "images" folder
 
 
 #if there are no images in the folder in the folder path
@@ -14,6 +14,11 @@
 #   }
 # }
 
-
-
 imglist <- list_files_with_exts(file.path("../images"), c("jpg","jpeg", "png", "bmp"))
+
+
+### produce the pixel size of the first image
+
+img1 <- imager::load.image(imglist[2])
+hwratio <- height(img1)/width(img1)
+

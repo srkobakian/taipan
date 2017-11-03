@@ -58,6 +58,7 @@ ui <- navbarPage(theme = shinytheme("spacelab"), "QuestionInput",
                 tabPanel("Preview", icon = icon("search"),
 
                          tabPanel("Plot", uiOutput("plotUIP")),
+                         actionButton("updateQs", "Update Questions"),
                          wellPanel(
                            fluidRow(
                              tabsetPanel(id="areaQuestionsP", selected = "SceneP",
@@ -94,7 +95,8 @@ server <- function(input, output, session) {
 
 
   v2 <- reactiveValues(img_questions = list(selection = list(),
-                                            scene = list()))
+                                            scene = list()),
+                       sArea=list(E = "SceneE", P = "SceneP"))
 
 
   output$plotUIE <- renderUI({
@@ -121,24 +123,29 @@ server <- function(input, output, session) {
   })
 
  # switch between question sets if an area is selected by the brush
+  observeEvent(input$plotE_click, {
+    v2$sArea$E <- "SceneE"
+  })
   observeEvent(input$plotE_brush, {
-    if (is.null(input$plotE_brush)){
-      updateTabsetPanel(session, "areaQuestionsE",
-                        selected = "SceneE")}
-    else if (!is.null(input$plotE_brush)){
-      updateTabsetPanel(session, "areaQuestionsE",
-                        selected = "SelectionE")}
+    v2$sArea$E <- "SelectionE"
   })
 
+  observeEvent(v2$sArea$E,  {
+    updateTabsetPanel(session, "areaQuestionsE",
+                      selected = v2$sArea$E)})
+
   # switch between question sets if an area is selected by the brush
-  observeEvent(input$plotP_brush, {
-    if (is.null(input$plotP_brush)){
-      updateTabsetPanel(session, "areaQuestionsP",
-                        selected = "SceneP")}
-    else if (!is.null(input$plotP_brush)){
-      updateTabsetPanel(session, "areaQuestionsP",
-                        selected = "SelectionP")}
+  observeEvent(input$plotP_click, {
+    v2$sArea$P <- "SceneP"
   })
+  observeEvent(input$plotP_brush, {
+    v2$sArea$P <- "SelectionP"
+  })
+
+
+  observeEvent(v2$sArea$P,  {
+    updateTabsetPanel(session, "areaQuestionsP",
+                      selected = v2$sArea$P)})
 
 
     output$plotUIP <- renderUI({
@@ -170,8 +177,8 @@ server <- function(input, output, session) {
 
 
   output$saveq <- downloadHandler(
-    filename = function(currentFilePath){
-      paste0("taipan",currentFilePath, "-qs.csv")},
+    filename =
+      paste0("taipan-qs.csv"),
 
     content = function(con) {
 
@@ -200,6 +207,24 @@ server <- function(input, output, session) {
       "brush: ", xy_range_str(input$plotE_brush)
     )
   })
+
+  observeEvent(input$updateQs, {
+
+    #Populate preview question sections
+    #turn this into a module
+    #take in temp file, build app around it
+
+      tmp <- tempfile()
+      write.csv(buildQuestionTable(v2$img_questions), row.names = FALSE, tmp)
+      read_csv(tmp) %>%
+        mutate(inputID = paste(AreaType, InputType, Title,sep="_")) %>%
+        split(.$Path) %>%
+        map(~ .x %>% split(.$AreaType) %>%
+              map(~ .x %>% split(.$Title))) #%>% write outputs function
+          #    map(~ .x %>% buildQuestionOutputs(.)))
+
+  })
+
 
 }
 

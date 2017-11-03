@@ -78,7 +78,6 @@ answerOptUI <- function(id){
   )
 }
 
-
 answerOpt <- function(input, output, session){
   observeEvent(input$removea, {
     removeUI(selector = paste0("#", session$ns("self")))
@@ -88,3 +87,8 @@ answerOpt <- function(input, output, session){
               rm = reactive({input$`removea`})
   ))
 }
+
+# insertUI("#selection_questionsP", ui = questionDisplayUI(paste0("selection", input$selection_addq)))
+# }
+#
+
