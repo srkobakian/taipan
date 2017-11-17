@@ -21,17 +21,9 @@ launchTaipan <- function(questions = sampleQuestions,
                    actionButton("updateQs", "Update Questions"),
                    wellPanel(
                      fluidRow(
-                       tabsetPanel(id="areaQuestions", selected = "Scene",
-                                   tabPanel("Scene", value = "Scene",
-                                            wellPanel(
-                                              fluidRow(id="sceneQuestions")
-                                            )),
-
-                                   tabPanel("Selection", value = "Selection",
-                                            wellPanel(
-                                              fluidRow(id="selectionQuestions")
-                                            ))
-                       ))),
+                       uiOutput("questionTabs")
+                       )
+                     ),
 
                    fluidRow(column(1),
                             column(6, actionButton("imagePrev", "Previous Image", icon("arrow-left"))),
@@ -99,6 +91,17 @@ launchTaipan <- function(questions = sampleQuestions,
         },
         width="auto"
       )
+
+      output$questionTabs <- renderUI({
+        tabs <- sampleQuestions %>%
+          imap(~ map2(.x, paste0(.y, "_", names(.x)),
+                      ~ buildQuestionOutputs(.x, .y)) %>%
+                 wellPanel %>%
+                 tabPanel(tolower(.y), .))
+
+        names(tabs) <- NULL
+        do.call(tabsetPanel, tabs)
+      })
     }
     )
 
