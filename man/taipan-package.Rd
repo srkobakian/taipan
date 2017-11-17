@@ -6,7 +6,7 @@
 \alias{taipan-package}
 \title{taipan: Taipan for R}
 \description{
-Placeholder description
+Taipan is a tool for annotating images in preparation for analysis. It allows users to annotate images in an interactive environment. Users can supply images, questions and the possible answers associated that relate to the image or defined areas within.
 }
 \seealso{
 Useful links:
@@ -17,7 +17,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Mitchell O'Hara-Wild \email{mail@mitchelloharawild.com}
+\strong{Maintainer}: Stephanie Kobakian \email{stephanie.kobakian@gmail.com}
+
+Authors:
+\itemize{
+  \item Mitchell O'Hara-Wild \email{mail@mitchelloharawild.com}
+}
 
 }
 \keyword{internal}

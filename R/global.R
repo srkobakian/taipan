@@ -14,11 +14,26 @@
 #   }
 # }
 
-imglist <- list_files_with_exts(file.path("../images"), c("jpg","jpeg", "png", "bmp"))
+imglist <- tools::list_files_with_exts(system.file("images", package="taipan"), c("jpg","jpeg", "png", "bmp"))
 
 
 ### produce the pixel size of the first image
 
 img1 <- imager::load.image(imglist[2])
-hwratio <- height(img1)/width(img1)
+hwratio <- imager::height(img1)/imager::width(img1)
+
+### create sample questions list
+
+sampleQuestions <- list(selection = list(Q1 = list(QuestionText = "My First Question",
+                                                   choices = c("a", "b", "c"),
+                                                   multipleAnswers = FALSE),
+                                         Q2 = list(QuestionText = "My Second Question",
+                                                   choices = c("1", "2", "3"),
+                                                   multipleAnswers = FALSE)),
+                       scene = list(Q1 = list(QuestionText = "My First Question",
+                                                    choices = c("a", "b", "c"),
+                                                    multipleAnswers = TRUE),
+                                          Q2 = list(QuestionText = "My Second Question",
+                                                    choices = c("1", "2", "3"),
+                                                    multipleAnswers = TRUE)))
 

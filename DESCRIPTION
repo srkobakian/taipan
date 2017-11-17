@@ -1,16 +1,17 @@
 Package: taipan
 Version: 0.1.0.9000
 Title: Taipan for R
-Description: Taipan is a tool for annotating images in preparation for analysis. 
-It allows users to annotate images in an interactive environment.
-Users can supply images, questions and the possible answers associated that relate to the image or defined areas within.
+Description: Taipan is a tool for annotating images in preparation for analysis. It allows users to annotate images in an interactive environment. Users can supply images, questions and the possible answers associated that relate to the image or defined areas within.
 Depends:
     R (>= 3.2.0)
 Imports:
     shiny,
     shinyjs,
     ggplot2,
-    dplyr
+    dplyr,
+    tools,
+    imager,
+    shinythemes
 Suggests: 
     testthat
 Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
