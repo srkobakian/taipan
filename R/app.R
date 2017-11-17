@@ -18,7 +18,6 @@ launchTaipan <- function(questions = sampleQuestions,
                    textOutput("imgInfo", shiny::h3),
                    actionButton("debug", "debug"),
                    fluidRow(uiOutput("plotUI")),
-                   actionButton("updateQs", "Update Questions"),
                    wellPanel(
                      fluidRow(
                        uiOutput("questionTabs")
@@ -132,25 +131,6 @@ launchTaipan <- function(questions = sampleQuestions,
     }
     )
 
-    #
-    #   observeEvent(input$updateQs, {
-    #
-    #     #Populate preview question sections
-    #     #turn this into a module
-    #     #take in temp file, build app around it
-    #
-    #       # tmp <- tempfile()
-    #       # write.csv(buildQuestionTable(v$img_questions), row.names = FALSE, tmp)
-    #
-    #      # Preview set of Questions, replace this with actual questions when created?
-    #       read_csv("questions.csv") %>%
-    #         mutate(inputID = paste(AreaType, InputType, Title,sep="_")) %>%
-    #         split(.$AreaType) %>%
-    #               map(~ .x %>% split(.$Title) %>%
-    #                     map(~ .x %>% buildQuestionOutputs(.))) -> qs
-    #
-    #   })
-    #
   }
   shinyApp(ui, server)
 }
