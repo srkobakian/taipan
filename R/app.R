@@ -12,7 +12,8 @@
 #' @importFrom purrr imap map2
 #' @export
 launchTaipan <- function(questions = sampleQuestions,
-                         images = list.files(system.file("images", package="taipan"), full.names = TRUE)) {
+                         images = list.files(system.file("images", package="taipan"), full.names = TRUE),
+                         answers = NULL) {
 
   ui <- fluidPage(title = "Tapian", theme = shinythemes::shinytheme("spacelab"),
                    textOutput("imgInfo", shiny::h3),
@@ -44,7 +45,9 @@ launchTaipan <- function(questions = sampleQuestions,
     })
 
     v <- reactiveValues(sArea = "Scene",
-                         imageNum = 1)
+                        imageNum = 1,
+                        ansOut = if(is.null(answers)) {data.frame()} else {answers}
+    )
 
 
     # add title above plot
@@ -104,12 +107,15 @@ launchTaipan <- function(questions = sampleQuestions,
     }
     )
 
+
+
+
+
     output$savei <- downloadHandler(
       filename = paste0("taipan-a.csv"),
 
       content = function(con) {
-        out <- buildQuestionTable(v$img_questions)
-        write.csv(out, con, row.names = FALSE)
+        write.csv(v$ansOut, con, row.names = FALSE)
       },
       contentType = "text/csv"
     )
