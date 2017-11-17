@@ -122,12 +122,12 @@ launchTaipan <- function(questions = sampleQuestions,
 
 
     observeEvent(input$imageNext, {
-      v$imageNum <- v$imageNum + 1
+      v$imageNum <- min(v$imageNum + 1, length(images))
     }
     )
 
     observeEvent(input$imagePrev, {
-      v$imageNum <- v$imageNum - 1
+      v$imageNum <- max(1, v$imageNum - 1)
     }
     )
 
