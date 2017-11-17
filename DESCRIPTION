@@ -11,7 +11,8 @@ Imports:
     dplyr,
     tools,
     imager,
-    shinythemes
+    shinythemes,
+    purrr
 Suggests: 
     testthat
 Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
