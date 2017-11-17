@@ -14,17 +14,17 @@
 #   }
 # }
 
-sampleQuestions <- list(selection = list(Q1 = list(qType = "check",
-                                                   label = "My First Question",
-                                                   choices = c("a", "b", "c")),
-                                         Q2 = list(qType = "radio",
-                                                   label = "My Second Question",
-                                                   choices = c("1", "2", "3"))),
-                       scene = list(Q1 = list(qType = "radio",
+sampleQuestions <- list(scene = list(Q1 = list(qType = "radio",
                                               label = "My First Question",
                                               choices = c("a", "b", "c")),
                                     Q2 = list(qType = "check",
                                               label = "My Second Question",
-                                              choices = c("1", "2", "3"))))
+                                              choices = c("1", "2", "3"))),
+                        selection = list(Q1 = list(qType = "check",
+                                                   label = "My First Question",
+                                                   choices = c("a", "b", "c")),
+                                         Q2 = list(qType = "radio",
+                                                   label = "My Second Question",
+                                                   choices = c("1", "2", "3"))))
 
 
