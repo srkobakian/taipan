@@ -52,22 +52,13 @@ launchTaipan <- function(questions = sampleQuestions,
       browser()
     })
 
-
-    # TODO: Increment image
-    # ### produce the pixel size of the first image
-    #
-    # img1 <- imager::load.image(imglist[2])
-    # hwratio <- imager::height(img1)/imager::width(img1)
-    #
-
     v <- reactiveValues(sArea = "Scene",
                          imageNum = 1)
 
 
-
     # add title above plot
     output$imgInfo <- renderText({
-      paste0("Image: ", " (", basename(imglist[1]), ")")
+      paste0("Image ", v$imageNum, " (", basename(images[v$imageNum]), ")")
     })
 
 
@@ -85,20 +76,30 @@ launchTaipan <- function(questions = sampleQuestions,
                         selected = v$sArea)})
 
 
-    output$plotUI <- renderUI({
-      plotOutput(
-        "plot",
-        click = "plot_click",
-        dblclick = "plot_dblclick",
-        hover = "plot_hover",
-        brush = "plot_brush",
-        #write a function to automatically find these depending on p ratio of the chosen image
-        width = "80vw", height = paste0(round((hwratio*100),0), "vw")
-      )
-    })
+    observeEvent(v$imageNum, {
+      ### produce the pixel size of the first image
+      curImage <- imager::load.image(images[v$imageNum])
+      hwratio <- imager::height(curImage)/imager::width(curImage)
 
-    output$plot <- renderPlot({
-      plot(img1)}, width="auto"
+
+      output$plotUI <- renderUI({
+        plotOutput(
+          "plot",
+          click = "plot_click",
+          dblclick = "plot_dblclick",
+          hover = "plot_hover",
+          brush = "plot_brush",
+          #write a function to automatically find these depending on p ratio of the chosen image
+          width = "80vw", height = paste0(round((hwratio*100),0), "vw")
+        )
+      })
+
+      output$plot <- renderPlot({
+          plot(curImage)
+        },
+        width="auto"
+      )
+    }
     )
 
 
@@ -117,6 +118,11 @@ launchTaipan <- function(questions = sampleQuestions,
       contentType = "text/csv"
     )
 
+
+    observeEvent(input$imageNext, {
+      v$imageNum <- v$imageNum + 1
+    }
+    )
 
     #
     #   observeEvent(input$updateQs, {
