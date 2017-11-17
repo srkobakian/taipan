@@ -3,6 +3,8 @@
 taipan
 ======
 
+[![Travis-CI Build Status](https://travis-ci.org/srkob1/taipan.svg?branch=master)](https://travis-ci.org/srkob1/taipan)
+
 The goal of taipan is to ...
 
 Installation
