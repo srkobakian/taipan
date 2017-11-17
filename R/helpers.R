@@ -6,15 +6,15 @@ buildQuestionTable <- function(QuestionSet){
 }
 
 # find how to give the options as a list for choices
- buildQuestionOutputs <- function(data){
-   #return a html question object
+buildQuestionOutputs <- function(data){
+  #return a html question object
 
-   switch(data$InputType[1],
-          "radio" = radioButtons(inputId = data$inputID[1],
-                                 label = data$Title[1],
-                                 choices = as.vector(data$Options)),
-          "check" = checkboxGroupInput(inputId = data$inputID[1],
-                                 label = data$Title[1],
-                                 choices = as.vector(data$Options)))
+  switch(data$InputType[1],
+         "radio" = radioButtons(inputId = data$inputID[1],
+                                label = data$Title[1],
+                                choices = as.vector(data$Options)),
+         "check" = checkboxGroupInput(inputId = data$inputID[1],
+                                      label = data$Title[1],
+                                      choices = as.vector(data$Options)))
 
- }
+}
