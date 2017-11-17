@@ -13,7 +13,7 @@
 launchTaipan <- function() {
 
   ui <- fluidPage(title = "Tapian", theme = shinythemes::shinytheme("spacelab"),
-                   verbatimTextOutput("imgInfo"),
+                   textOutput("imgInfo", shiny::h3),
                    actionButton("debug", "debug"),
                    fluidRow("Plot", uiOutput("plotUI")),
                    actionButton("updateQs", "Update Questions"),
@@ -59,7 +59,7 @@ launchTaipan <- function() {
 
     # add title above plot
     output$imgInfo <- renderText({
-      paste0("Image: ", " (", imglist[1], ")")
+      paste0("Image: ", " (", basename(imglist[1]), ")")
     })
 
 
