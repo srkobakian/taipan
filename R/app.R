@@ -12,7 +12,7 @@
 #' @importFrom purrr imap map2
 #' @export
 launchTaipan <- function(questions = sampleQuestions,
-                         images = list.files(system.file("images", package="taipan"))) {
+                         images = list.files(system.file("images", package="taipan"), full.names = TRUE)) {
 
   ui <- fluidPage(title = "Tapian", theme = shinythemes::shinytheme("spacelab"),
                    textOutput("imgInfo", shiny::h3),
