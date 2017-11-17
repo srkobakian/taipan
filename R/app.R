@@ -102,15 +102,7 @@ launchTaipan <- function(questions = sampleQuestions,
     )
 
 
-    observeEvent(input$scene_addq, {
-      insertUI("#scene_questions", ui = questionInputUI(paste0("question", input$scene_addq)))
-      v2$img_questions$scene[[paste0("question", input$scene_addq)]] <- callModule(questionInput, paste0("question", input$scene_addq))
-    })
 
-    observeEvent(input$selection_addq, {
-      insertUI("#selection_questions", ui = questionInputUI(paste0("selection", input$selection_addq)))
-      v2$img_questions$selection[[paste0("selection", input$selection_addq)]] <- callModule(questionInput, paste0("selection", input$selection_addq))
-    })
 
 
     output$saveq <- downloadHandler(
