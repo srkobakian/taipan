@@ -39,12 +39,15 @@ launchTaipan <- function(questions = sampleQuestions,
     #source("helpers.R")
     #source("global.R")
 
+    questionIDs <- sampleQuestions %>%
+      imap(~ paste0(.y, "_", names(.x)))
+
     #debug
     observeEvent(input$debug, {
       browser()
     })
 
-    v <- reactiveValues(sArea = "Scene",
+    v <- reactiveValues(sArea = "scene",
                         imageNum = 1,
                         ansOut = if(is.null(answers)) {data.frame()} else {answers}
     )
@@ -58,10 +61,10 @@ launchTaipan <- function(questions = sampleQuestions,
 
     # switch between question sets if an area is selected by the brush
     observeEvent(input$plot_click, {
-      v$sArea <- "Scene"
+      v$sArea <- "scene"
     })
     observeEvent(input$plot_brush, {
-      v$sArea <- "Selection"
+      v$sArea <- "selection"
     })
 
 
@@ -102,35 +105,33 @@ launchTaipan <- function(questions = sampleQuestions,
                  tabPanel(tolower(.y), .))
 
         names(tabs) <- NULL
+        tabs$id <- "areaQuestions"
         do.call(tabsetPanel, tabs)
       })
     }
     )
 
-
-
-
-
-    output$savei <- downloadHandler(
-      filename = paste0("taipan-a.csv"),
-
-      content = function(con) {
-        write.csv(v$ansOut, con, row.names = FALSE)
-      },
-      contentType = "text/csv"
-    )
-
-
     observeEvent(input$imageNext, {
+      v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
       v$imageNum <- min(v$imageNum + 1, length(images))
     }
     )
 
     observeEvent(input$imagePrev, {
+      v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
       v$imageNum <- max(1, v$imageNum - 1)
     }
     )
 
+    output$savei <- downloadHandler(
+      filename = paste0("taipan-a.csv"),
+
+      content = function(con) {
+        v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
+        write.csv(v$ansOut, con, row.names = FALSE)
+      },
+      contentType = "text/csv"
+    )
   }
   shinyApp(ui, server)
 }
