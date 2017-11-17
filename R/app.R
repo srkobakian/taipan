@@ -10,7 +10,8 @@
 
 #' @importFrom shinythemes shinytheme
 #' @export
-launchTaipan <- function() {
+launchTaipan <- function(questions = sampleQuestions,
+                         images = list.files(system.file("images", package="taipan"))) {
 
   ui <- fluidPage(title = "Tapian", theme = shinythemes::shinytheme("spacelab"),
                    textOutput("imgInfo", shiny::h3),
@@ -50,6 +51,13 @@ launchTaipan <- function() {
       browser()
     })
 
+
+    # TODO: Increment image
+    # ### produce the pixel size of the first image
+    #
+    # img1 <- imager::load.image(imglist[2])
+    # hwratio <- imager::height(img1)/imager::width(img1)
+    #
 
     v2 <- reactiveValues(img_questions = list(selection = list(),
                                               scene = list()),

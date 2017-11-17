@@ -13,17 +13,6 @@
 #     }
 #   }
 # }
-
-imglist <- tools::list_files_with_exts(system.file("images", package="taipan"), c("jpg","jpeg", "png", "bmp"))
-
-
-### produce the pixel size of the first image
-
-img1 <- imager::load.image(imglist[2])
-hwratio <- imager::height(img1)/imager::width(img1)
-
-### create sample questions list
-
 sampleQuestions <- list(selection = list(Q1 = list(QuestionText = "My First Question",
                                                    choices = c("a", "b", "c"),
                                                    multipleAnswers = FALSE),
