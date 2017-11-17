@@ -15,7 +15,7 @@ launchTaipan <- function() {
   ui <- fluidPage(title = "Tapian", theme = shinythemes::shinytheme("spacelab"),
                    textOutput("imgInfo", shiny::h3),
                    actionButton("debug", "debug"),
-                   fluidRow("Plot", uiOutput("plotUI")),
+                   fluidRow(uiOutput("plotUI")),
                    actionButton("updateQs", "Update Questions"),
                    wellPanel(
                      fluidRow(
