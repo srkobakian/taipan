@@ -9,6 +9,7 @@
 # library(imager)
 
 #' @importFrom shinythemes shinytheme
+#' @importFrom purrr imap map2
 #' @export
 launchTaipan <- function(questions = sampleQuestions,
                          images = list.files(system.file("images", package="taipan"))) {
@@ -59,9 +60,8 @@ launchTaipan <- function(questions = sampleQuestions,
     # hwratio <- imager::height(img1)/imager::width(img1)
     #
 
-    v2 <- reactiveValues(img_questions = list(selection = list(),
-                                              scene = list()),
-                         sArea = "Scene")
+    v <- reactiveValues(sArea = "Scene",
+                         imageNum = 1)
 
 
 
@@ -73,16 +73,16 @@ launchTaipan <- function(questions = sampleQuestions,
 
     # switch between question sets if an area is selected by the brush
     observeEvent(input$plot_click, {
-      v2$sArea <- "Scene"
+      v$sArea <- "Scene"
     })
     observeEvent(input$plot_brush, {
-      v2$sArea <- "Selection"
+      v$sArea <- "Selection"
     })
 
 
-    observeEvent(v2$sArea,  {
+    observeEvent(v$sArea,  {
       updateTabsetPanel(session, "areaQuestions",
-                        selected = v2$sArea)})
+                        selected = v$sArea)})
 
 
     output$plotUI <- renderUI({
@@ -119,7 +119,7 @@ launchTaipan <- function(questions = sampleQuestions,
 
       content = function(con) {
 
-        out <- buildQuestionTable(v2$img_questions)
+        out <- buildQuestionTable(v$img_questions)
         write.csv(out, con, row.names = FALSE)
       },
       contentType = "text/csv"
@@ -134,7 +134,7 @@ launchTaipan <- function(questions = sampleQuestions,
     #     #take in temp file, build app around it
     #
     #       # tmp <- tempfile()
-    #       # write.csv(buildQuestionTable(v2$img_questions), row.names = FALSE, tmp)
+    #       # write.csv(buildQuestionTable(v$img_questions), row.names = FALSE, tmp)
     #
     #      # Preview set of Questions, replace this with actual questions when created?
     #       read_csv("questions.csv") %>%
