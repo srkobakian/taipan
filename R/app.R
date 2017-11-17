@@ -124,6 +124,11 @@ launchTaipan <- function(questions = sampleQuestions,
     }
     )
 
+    observeEvent(input$imagePrev, {
+      v$imageNum <- v$imageNum - 1
+    }
+    )
+
     #
     #   observeEvent(input$updateQs, {
     #
