@@ -26,7 +26,7 @@ launchTaipan <- function(questions = sampleQuestions,
 
                    fluidRow(column(1),
                             column(6, actionButton("imagePrev", "Previous Image", icon("arrow-left"))),
-                            column(5, actionButton("savei", "Save Answers", icon("check")),
+                            column(5, downloadButton("savei", "Save Answers", icon("check")),
                                    actionButton("imageNext","Next Image",icon("arrow-right"))))
 
 
@@ -104,16 +104,10 @@ launchTaipan <- function(questions = sampleQuestions,
     }
     )
 
-
-
-
-
-    output$saveq <- downloadHandler(
-      filename =
-        paste0("taipan-qs.csv"),
+    output$savei <- downloadHandler(
+      filename = paste0("taipan-a.csv"),
 
       content = function(con) {
-
         out <- buildQuestionTable(v$img_questions)
         write.csv(out, con, row.names = FALSE)
       },
