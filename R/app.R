@@ -33,9 +33,9 @@ launchTaipan <- function(questions = sampleQuestions,
                        ))),
 
                    fluidRow(column(1),
-                            column(6, actionButton("imagel", "Previous Image", icon("arrow-left"))),
+                            column(6, actionButton("imagePrev", "Previous Image", icon("arrow-left"))),
                             column(5, actionButton("savei", "Save Answers", icon("check")),
-                                   actionButton("imager","Next Image",icon("arrow-right"))))
+                                   actionButton("imageNext","Next Image",icon("arrow-right"))))
 
 
   )
