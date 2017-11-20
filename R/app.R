@@ -1,16 +1,9 @@
 
-#
-# library(shiny)
-# library(shinythemes)
-# library(shinyWidgets)
-# not necessary if importing pipe function
-# library(tidyverse)
-# library(tools) #file extension
-# library(imager)
-
 #' @importFrom shinythemes shinytheme
 #' @importFrom purrr imap map2
 #' @export
+#'
+
 launchTaipan <- function(questions = sampleQuestions,
                          images = list.files(system.file("images", package="taipan"), full.names = TRUE),
                          answers = NULL) {
