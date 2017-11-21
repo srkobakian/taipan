@@ -7,15 +7,16 @@
 # find how to give the options as a list for choices
 
 buildQuestionOutputs <- function(args, id) {
-    # return a html question object
+  #return a html object for every individual question
 
-    inputFn <- switch(args$qType, radio = "radioButtons", check = "checkboxGroupInput",
-        args$qType)
+  inputFn <-
+    switch(args$qType, radio = "radioButtons", check = "checkboxGroupInput",
+           args$qType)
 
-    args$qType <- NULL
-    args$inputId <- id
+  args$qType <- NULL
+  args$inputId <- id
 
-    do.call(inputFn, args)
+  do.call(inputFn, args)
 }
 
 
@@ -24,10 +25,15 @@ updateAnswers <- function(ansDf, pathid, questionIDs, input) {
   #don't remove rows, check for changes and replace only if changed
   ansDf %>%
     #filter(UQE(as_quosure(sym("path"))) != (!(!quo(pathid)))) %>%
-    bind_rows(questionIDs %>%
-                imap_dfr(~.x %>%
-                           map_dfr(~tibble(question = .x, answers = ifelse(is.null(input[[.x]]), "NULL", input[[.x]]))) %>%
-                           mutate(tab = .y)) %>%
-                mutate(path = pathid) %>%
-                select("path", "tab", "question", "answers"))
+    bind_rows(
+      questionIDs %>%
+        imap_dfr( ~ .x %>%
+                    map_dfr( ~ tibble(
+                      question = .x,
+                      answers = ifelse(is.null(input[[.x]]), "NULL", input[[.x]])
+                    )) %>%
+                    mutate(tab = .y)) %>%
+        mutate(path = pathid) %>%
+        select("path", "tab", "question", "answers")
+    )
 }
