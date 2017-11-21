@@ -21,9 +21,13 @@ buildQuestionOutputs <- function(args, id) {
 
 #' @importFrom purrr imap_dfr map_dfr
 updateAnswers <- function(ansDf, pathid, questionIDs, input) {
-    ansDf %>% filter(UQE(as_quosure(sym("path"))) != (!(!quo(pathid)))) %>%
-        bind_rows(questionIDs %>% imap_dfr(~.x %>% map_dfr(~tibble(question = .x,
-            answers = ifelse(is.null(input[[.x]]), "NULL", input[[.x]]))) %>%
-            mutate(tab = .y)) %>% mutate(path = pathid) %>% select("path",
-            "tab", "question", "answers"))
+  #don't remove rows, check for changes and replace only if changed
+  ansDf %>%
+    #filter(UQE(as_quosure(sym("path"))) != (!(!quo(pathid)))) %>%
+    bind_rows(questionIDs %>%
+                imap_dfr(~.x %>%
+                           map_dfr(~tibble(question = .x, answers = ifelse(is.null(input[[.x]]), "NULL", input[[.x]]))) %>%
+                           mutate(tab = .y)) %>%
+                mutate(path = pathid) %>%
+                select("path", "tab", "question", "answers"))
 }
