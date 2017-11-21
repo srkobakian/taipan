@@ -7,8 +7,8 @@ dplyr::`%>%`
 
 #' @import shiny
 #' @import shinythemes
-#' @import ggplot2
 #' @import imager
 #' @import dplyr
+#' @import rlang
 #' @importFrom tools list_files_with_exts
 NULL
