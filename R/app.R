@@ -112,6 +112,7 @@ launchTaipan <- function(questions = sampleQuestions,
         width="auto"
       )
 
+
       output$questionTabs <- renderUI({
         tabs <- sampleQuestions %>%
           imap(~ map2(.x, paste0(.y, "_", names(.x)),
@@ -126,17 +127,19 @@ launchTaipan <- function(questions = sampleQuestions,
     }
     )
 
-    observeEvent(input$imageNext, {
-      v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
-      v$imageNum <- min(v$imageNum + 1, length(images))
-    }
-    )
 
-    observeEvent(input$imagePrev, {
-      v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
-      v$imageNum <- max(1, v$imageNum - 1)
-    }
-    )
+    # observeEvent(input$imageNext, {
+    #   v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
+    #   v$imageNum <- min(v$imageNum + 1, length(images))
+    #   browser()
+    # }
+    # )
+    #
+    # observeEvent(input$imagePrev, {
+    # v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
+    # v$imageNum <- max(1, v$imageNum - 1)
+    # }
+    # )
 
     output$savei <- downloadHandler(
       filename = paste0("taipan-a.csv"),
