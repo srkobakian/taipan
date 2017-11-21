@@ -6,7 +6,11 @@
 \alias{taipan-package}
 \title{taipan: Taipan for R}
 \description{
-Taipan is a tool for annotating images in preparation for analysis. It allows users to annotate images in an interactive environment. Users can supply images, questions and the possible answers associated that relate to the image or defined areas within.
+Taipan is a tool for annotating images in preparation for analysis.
+It allows users to annotate images in an interactive environment.
+Users supply images, questions and the possible answers.
+When Images are displayed, survey takers can select the appropriate responses.
+The answers are stored in a tidy format for analysis.
 }
 \seealso{
 Useful links:
