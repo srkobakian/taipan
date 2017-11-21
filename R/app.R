@@ -42,10 +42,15 @@ launchTaipan <- function(questions = sampleQuestions,
                        )
                      ),
 
-                   fluidRow(column(1),
-                            column(6, actionButton("imagePrev", "Previous Image", icon("arrow-left"))),
-                            column(5, downloadButton("savei", "Save Answers", icon("check")),
-                                   actionButton("imageNext","Next Image",icon("arrow-right"))))
+                   # fluidRow(column(1),
+                   #          column(6, actionButton("imagePrev", "Previous Image", icon("arrow-left"))),
+                   #          column(5, downloadButton("savei", "Save Answers", icon("check")),
+                   #                 actionButton("imageNext","Next Image",icon("arrow-right"))))
+                  fluidRow(
+                    column(6, offset = 3,
+                    sliderInput("slide", "Image Number", min = 1, max = length(images),
+                                step = 1, value=1, ticks = FALSE)
+                  ))
   )
 
 
@@ -73,6 +78,10 @@ launchTaipan <- function(questions = sampleQuestions,
       paste0("Image ", v$imageNum, " (", basename(images[v$imageNum]), ")")
     })
 
+    # change image
+    observeEvent(input$slide,{
+     v$imageNum <- input$slide
+    })
 
     # switch between question sets if an area is selected by the brush
     observeEvent(input$plot_click, {
