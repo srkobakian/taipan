@@ -1,9 +1,33 @@
-
+#' Launch Taipan
+#'
+#' This launches the app
+#'
+#' @param questions the questions
+#' @param images the image folder
+#' @param answers a dataset of previously created answers from the app
 #' @importFrom shinythemes shinytheme
 #' @importFrom purrr imap map2
-#' @export
 #'
-
+#' @examples
+#'
+#' \dontrun{
+#' sampleQuestions <- list(scene = list(Q1 = list(qType = "radio",
+#' label = "My First Question",
+#' choices = c("a", "b", "c")),
+#' Q2 = list(qType = "check",
+#'           label = "My Second Question",
+#'           choices = c("1", "2", "3"))),
+#' selection = list(Q1 = list(qType = "check",
+#'                            label = "My First Question",
+#'                            choices = c("a", "b", "c")),
+#'                  Q2 = list(qType = "radio",
+#'                            label = "My Second Question",
+#'                            choices = c("1", "2", "3"))))
+#'
+#' launchTaipan(sampleQuestions)
+#' }
+#'
+#' @export
 launchTaipan <- function(questions = sampleQuestions,
                          images = list.files(system.file("images", package="taipan"), full.names = TRUE),
                          answers = NULL) {
@@ -22,8 +46,6 @@ launchTaipan <- function(questions = sampleQuestions,
                             column(6, actionButton("imagePrev", "Previous Image", icon("arrow-left"))),
                             column(5, downloadButton("savei", "Save Answers", icon("check")),
                                    actionButton("imageNext","Next Image",icon("arrow-right"))))
-
-
   )
 
 
