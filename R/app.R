@@ -2,9 +2,9 @@
 #'
 #' This launches the app
 #'
-#' @param questions the questions
-#' @param images the image folder
-#' @param answers a dataset of previously created answers from the app
+#' @param questions A taipan list object containing the questions to be asked in the app.
+#' @param images The image folder.
+#' @param answers A dataset of previously created answers from the app
 #' @importFrom shinythemes shinytheme
 #' @importFrom purrr imap map2
 #'
