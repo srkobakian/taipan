@@ -46,11 +46,13 @@ launchTaipan <- function(questions = sampleQuestions,
                            column(6, actionButton("imagePrev", "Previous Image", icon("arrow-left"))),
                            column(5, downloadButton("savei", "Save Answers", icon("check")),
                                   actionButton("imageNext","Next Image",icon("arrow-right")))),
-                  fluidRow(
-                    column(6, offset = 3,
-                    sliderInput("slide", "Image Number", min = 1, max = length(images),
-                                step = 1, value=1, ticks = FALSE)
-                  ))
+
+                  #add progress bar
+                  # fluidRow(
+                  #   column(6, offset = 3,
+                  #   sliderInput("slide", "Image Number", min = 1, max = length(images),
+                  #               step = 1, value=1, ticks = FALSE)
+                  # ))
   )
 
 
@@ -59,7 +61,7 @@ launchTaipan <- function(questions = sampleQuestions,
     #source("helpers.R")
     #source("global.R")
 
-    questionIDs <- sampleQuestions %>%
+    questionIDs <- questions %>%
       imap(~ paste0(.y, "_", names(.x)))
 
     #debug
@@ -123,7 +125,7 @@ launchTaipan <- function(questions = sampleQuestions,
 
 
       output$questionTabs <- renderUI({
-        tabs <- sampleQuestions %>%
+        tabs <- questions %>%
           imap(~ map2(.x, paste0(.y, "_", names(.x)),
                       ~ buildQuestionOutputs(.x, .y)) %>%
                  wellPanel %>%
