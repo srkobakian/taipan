@@ -42,10 +42,10 @@ launchTaipan <- function(questions = sampleQuestions,
                        )
                      ),
 
-                   # fluidRow(column(1),
-                   #          column(6, actionButton("imagePrev", "Previous Image", icon("arrow-left"))),
-                   #          column(5, downloadButton("savei", "Save Answers", icon("check")),
-                   #                 actionButton("imageNext","Next Image",icon("arrow-right"))))
+                  fluidRow(column(1),
+                           column(6, actionButton("imagePrev", "Previous Image", icon("arrow-left"))),
+                           column(5, downloadButton("savei", "Save Answers", icon("check")),
+                                  actionButton("imageNext","Next Image",icon("arrow-right")))),
                   fluidRow(
                     column(6, offset = 3,
                     sliderInput("slide", "Image Number", min = 1, max = length(images),
@@ -137,18 +137,17 @@ launchTaipan <- function(questions = sampleQuestions,
     )
 
 
-    # observeEvent(input$imageNext, {
-    #   v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
-    #   v$imageNum <- min(v$imageNum + 1, length(images))
-    #   browser()
-    # }
-    # )
-    #
-    # observeEvent(input$imagePrev, {
-    # v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
-    # v$imageNum <- max(1, v$imageNum - 1)
-    # }
-    # )
+    observeEvent(input$imageNext, {
+      v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
+      v$imageNum <- min(v$imageNum + 1, length(images))
+    }
+    )
+
+    observeEvent(input$imagePrev, {
+    v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
+    v$imageNum <- max(1, v$imageNum - 1)
+    }
+    )
 
     output$savei <- downloadHandler(
       filename = paste0("taipan-a.csv"),
