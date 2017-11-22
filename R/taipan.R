@@ -11,4 +11,6 @@ dplyr::`%>%`
 #' @import dplyr
 #' @import rlang
 #' @importFrom tools list_files_with_exts
+#' @importFrom graphics plot
+#' @importFrom utils write.csv
 NULL

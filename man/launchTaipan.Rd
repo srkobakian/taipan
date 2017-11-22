@@ -9,11 +9,11 @@ launchTaipan(questions = sampleQuestions,
   TRUE), answers = NULL)
 }
 \arguments{
-\item{questions}{the questions}
+\item{questions}{A taipan list object containing the questions to be asked in the app.}
 
-\item{images}{the image folder}
+\item{images}{The image folder.}
 
-\item{answers}{a dataset of previously created answers from the app}
+\item{answers}{A dataset of previously created answers from the app}
 }
 \description{
 This launches the app
