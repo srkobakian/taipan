@@ -64,7 +64,8 @@ updateSelectionAnswers <- function(selAnsDf, pathId, selNum, questionIDs, input)
   inputAns <- questionIDs$selection %>%
                map_dfr(~ tibble(
                  question = .x,
-                 answers = ifelse(is.null(input[[.x]]), "NULL", input[[.x]])
+                 #write a function to check for null answers and still produce multiple responses for check boxes
+                 answers = as.vector(input[[.x]])
                )) %>%
                mutate(tab = "selection") %>%
     mutate(path = pathId,
