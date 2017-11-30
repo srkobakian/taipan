@@ -76,7 +76,7 @@ updateSelectionAnswers <- function(selAnsDf = v$selAnsDf,pathId = images[v$image
                map_dfr(~ tibble(
                  question = .x,
                  #write a function to check for null answers and still produce multiple responses for check boxes
-                 answers = answersVec()
+                 answers = answersVec(name = .x, input = input)
                )) %>%
                mutate(tab = "selection") %>%
     mutate(path = pathId,
