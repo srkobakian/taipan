@@ -159,11 +159,7 @@ launchTaipan <- function(questions = sampleQuestions,
 
     observeEvent(input$saveSelection, {
 
-      v$selAndDf <- updateSelectionAnswers(selAnsDf = v$selAnsDf,
-                             pathId = images[v$imageNum],
-                             questionIDs = questionIDs,
-                             selNum = v$selectionNum,
-                             input=input)
+      v$selAndDf <- updateSelectionAnswers(v$selAnsDf,images[v$imageNum],v$selectionNum, questionIDs,input)
 
       v$selectionNum <- v$selectionNum + 1
     })

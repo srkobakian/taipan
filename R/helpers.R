@@ -52,8 +52,7 @@ updateAnswers <- function(ansDf, pathid, questionIDs, input) {
 
 #' @importFrom tidyr spread
 
-updateSelectionAnswers <- function(selAnsDf, pathId, selNum, questionIDs, input) {
-
+updateSelectionAnswers <- function(selAnsDf = v$selAnsDf,pathId = images[v$imageNum], selNum = v$selectionNum, questionIDs = questionIDs, input = input) {
 
   if (is.null(input$plot_brush)){
     shiny::showNotification("No area selected", type="warning")
@@ -65,7 +64,7 @@ updateSelectionAnswers <- function(selAnsDf, pathId, selNum, questionIDs, input)
                map_dfr(~ tibble(
                  question = .x,
                  #write a function to check for null answers and still produce multiple responses for check boxes
-                 answers = as.vector(input[[.x]])
+                 answers = answersVec()
                )) %>%
                mutate(tab = "selection") %>%
     mutate(path = pathId,
@@ -75,7 +74,6 @@ updateSelectionAnswers <- function(selAnsDf, pathId, selNum, questionIDs, input)
            ymin = input$plot_brush$ymin,
            ymax = input$plot_brush$ymax) %>%
     select("path", "tab", "selectionNum", "question", "answers", "xmin", "xmax", "ymin", "ymax") %>%
-    tidyr::spread(question, answers, convert=TRUE) %>%
     as.data.frame
 
   # add data frame for new selection to previous selections
