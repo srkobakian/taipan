@@ -20,6 +20,18 @@ buildQuestionOutputs <- function(args, id) {
 }
 
 
+answersVec <- function(name, input = input){
+  ans <- c()
+  if (length(input[[name]])>0){
+  ans <- as.vector(input[[name]])
+  } else {
+    ans <- "NULL"
+  }
+
+  return(ans)
+}
+
+
 #' @importFrom purrr imap_dfr map_dfr
 updateAnswers <- function(ansDf, pathid, questionIDs, input) {
   #don't remove rows, check for changes and replace only if changed
