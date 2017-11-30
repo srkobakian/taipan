@@ -17,6 +17,7 @@ Imports:
     shiny,
     shinyjs,
     shinythemes,
+    tidyr,
     tools
 Suggests: 
     testthat

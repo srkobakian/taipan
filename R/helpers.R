@@ -49,3 +49,42 @@ updateAnswers <- function(ansDf, pathid, questionIDs, input) {
 
 
 }
+
+#' @importFrom tidyr spread
+
+updateSelectionAnswers <- function(selAnsDf, pathId, selNum, questionIDs, input) {
+
+
+  if (is.null(input$plot_brush)){
+    shiny::showNotification("No area selected", type="warning")
+  } else {
+
+    browser()
+    #data frame for individual selection
+  inputAns <- questionIDs$selection %>%
+               map_dfr(~ tibble(
+                 question = .x,
+                 answers = ifelse(is.null(input[[.x]]), "NULL", input[[.x]])
+               )) %>%
+               mutate(tab = "selection") %>%
+    mutate(path = pathId,
+           selectionNum = selNum,
+           xmin = input$plot_brush$xmin,
+           xmax = input$plot_brush$xmax,
+           ymin = input$plot_brush$ymin,
+           ymax = input$plot_brush$ymax) %>%
+    select("path", "tab", "selectionNum", "question", "answers", "xmin", "xmax", "ymin", "ymax") %>%
+    tidyr::spread(question, answers, convert=TRUE) %>%
+    as.data.frame
+
+  # add data frame for new selection to previous selections
+  selAnsDf <- selAnsDf %>%
+    bind_rows(inputAns)
+
+  return(selAnsDf)
+  }
+
+}
+
+
+

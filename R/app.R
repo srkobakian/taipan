@@ -42,10 +42,12 @@ launchTaipan <- function(questions = sampleQuestions,
                        )
                      ),
 
+                  fluidRow(column(3, offset=7, actionButton("saveSelection","Save Selection Answers"))),
+
                   fluidRow(column(1),
                            column(6, actionButton("imagePrev", "Previous Image", icon("arrow-left"))),
                            column(5, downloadButton("savei", "Save Answers", icon("check")),
-                                  actionButton("imageNext","Next Image",icon("arrow-right")))),
+                                  actionButton("imageNext","Next Image",icon("arrow-right"))))
 
                   #add progress bar
                   # fluidRow(
@@ -71,7 +73,9 @@ launchTaipan <- function(questions = sampleQuestions,
 
     v <- reactiveValues(sArea = "scene",
                         imageNum = 1,
-                        ansOut = if(is.null(answers)) {data.frame()} else {answers}
+                        ansOut = if(is.null(answers)) {data.frame()} else {answers},
+                        selectionNum = 1,
+                        selAnsDf = data.frame()
     )
 
 
@@ -142,14 +146,27 @@ launchTaipan <- function(questions = sampleQuestions,
     observeEvent(input$imageNext, {
       v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
       v$imageNum <- min(v$imageNum + 1, length(images))
+      v$selectionNum = 1
     }
     )
 
     observeEvent(input$imagePrev, {
     v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
     v$imageNum <- max(1, v$imageNum - 1)
+    v$selectionNum = 1
     }
     )
+
+    observeEvent(input$saveSelection, {
+
+      v$selAndDf <- updateSelectionAnswers(selAnsDf = v$selAnsDf,
+                             pathId = images[v$imageNum],
+                             questionIDs = questionIDs,
+                             selNum = v$selectionNum,
+                             input=input)
+
+      v$selectionNum <- v$selectionNum + 1
+    })
 
     output$savei <- downloadHandler(
       filename = paste0("taipan-a.csv"),
