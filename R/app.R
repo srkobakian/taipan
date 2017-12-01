@@ -106,7 +106,9 @@ launchTaipan <- function(questions = sampleQuestions,
     observeEvent(v$imageNum, {
       ### produce the pixel size of the first image
       curImage <- imager::load.image(images[v$imageNum])
-      hwratio <- imager::height(curImage)/imager::width(curImage)
+      imgHeight <- imager::height(curImage)
+      imgWidth <- imager::width(curImage)
+      hwratio <- imgHeight/imgWidth
 
 
       output$plotUI <- renderUI({
