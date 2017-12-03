@@ -119,12 +119,17 @@ launchTaipan <- function(questions = sampleQuestions,
           hover = "plot_hover",
           brush = "plot_brush",
           #write a function to automatically find these depending on p ratio of the chosen image
-          width = "80vw", height = paste0(round((hwratio*100),0), "vw")
+          width = "90vw", height = paste0(round((hwratio*100),0), "vw")
         )
       })
 
       output$plot <- renderPlot({
           plot(curImage)
+        boxes <- v$selAnsDf %>% filter(path==images[v$imageNum]) %>%
+          mutate(id = paste0(.$path, .$selectionNum)) %>% distinct(.$id, .keep_all = TRUE)
+        for(i in 1:NROW(boxes)){lines(c(rep(boxes[i,"xmin"], 2), rep(boxes[i,"xmax"], 2), boxes[i,"xmin"]),
+                c(boxes[i,"ymin"], rep(boxes[i,"ymax"], 2), rep(boxes[i,"ymin"],2)), col="green")
+        }
         },
         width="auto"
       )
