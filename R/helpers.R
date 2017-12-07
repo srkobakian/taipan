@@ -62,7 +62,7 @@ updateAnswers <- function(ansDf, pathid, questionIDs, input) {
 
 }
 
-#' @importFrom tidyr spread
+#' @importFrom tidyr spread nest
 
 updateSelectionAnswers <-
   function(selAnsDf = v$selAnsDf,
@@ -82,7 +82,7 @@ updateSelectionAnswers <-
           answers = answersVec(name = .x, input = input)
         )) %>%
         group_by(question) %>%
-        tidyr::nest() %>%
+        nest() %>%
         mutate(
           tab = "selection",
           path = pathId,
@@ -111,3 +111,9 @@ updateSelectionAnswers <-
     }
 
   }
+
+
+taipanWide <- function(data) {
+  data %>%
+    unnest()
+}
