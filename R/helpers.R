@@ -20,10 +20,10 @@ buildQuestionOutputs <- function(args, id) {
 }
 
 
-answersVec <- function(name, input = input){
+answersVec <- function(name, input = input) {
   ans <- c()
-  if (length(input[[name]])>0){
-  ans <- as.vector(input[[name]])
+  if (length(input[[name]]) > 0) {
+    ans <- as.vector(input[[name]])
   } else {
     ans <- "NULL"
   }
@@ -37,26 +37,26 @@ updateAnswers <- function(ansDf, pathid, questionIDs, input) {
   #don't remove rows, check for changes and replace only if changed
 
   inputAns <- questionIDs %>%
-    imap_dfr( ~ .x %>%
-                map_dfr( ~ tibble(
-                  question = .x,
-                  answers = ifelse(is.null(input[[.x]]), "NULL", input[[.x]])
-                )) %>%
-                mutate(tab = .y)) %>%
+    imap_dfr(~ .x %>%
+               map_dfr(~ tibble(
+                 question = .x,
+                 answers = ifelse(is.null(input[[.x]]), "NULL", input[[.x]])
+               )) %>%
+               mutate(tab = .y)) %>%
     mutate(path = pathid) %>%
     select("path", "tab", "question", "answers") %>%
     as.data.frame
 
-  if(identical(ansDf %>% filter(UQE(as_quosure(sym("path"))) == !!quo(pathid)),
-               inputAns)){
+  if (identical(ansDf %>% filter(UQE(as_quosure(sym(
+    "path"
+  ))) == !!quo(pathid)),
+  inputAns)) {
     ansDf
   }
   else{
     ansDf %>%
       filter(UQE(as_quosure(sym("path"))) != !!quo(pathid)) %>%
-      bind_rows(
-        inputAns
-      )
+      bind_rows(inputAns)
   }
 
 
@@ -64,40 +64,50 @@ updateAnswers <- function(ansDf, pathid, questionIDs, input) {
 
 #' @importFrom tidyr spread
 
-updateSelectionAnswers <- function(selAnsDf = v$selAnsDf,pathId = images[v$imageNum], selNum = v$selectionNum, questionIDs = questionIDs, input = input) {
+updateSelectionAnswers <-
+  function(selAnsDf = v$selAnsDf,
+           pathId = images[v$imageNum],
+           selNum = v$selectionNum,
+           questionIDs = questionIDs,
+           input = input) {
+    if (is.null(input$plot_brush)) {
+      shiny::showNotification("No area selected", type = "warning")
+    } else {
+      browser()
+      #data frame for individual selection
+      inputAns <- questionIDs$selection %>%
+        map_dfr( ~ tibble(
+          question = .x,
+          #write a function to check for null answers and still produce multiple responses for check boxes
+          answers = answersVec(name = .x, input = input)
+        )) %>%
+        group_by(question) %>%
+        tidyr::nest() %>%
+        mutate(
+          tab = "selection",
+          path = pathId,
+          selectionNum = selNum,
+          xmin = input$plot_brush$xmin,
+          xmax = input$plot_brush$xmax,
+          ymin = input$plot_brush$ymin,
+          ymax = input$plot_brush$ymax
+        ) %>%
+        select("path",
+               "tab",
+               "selectionNum",
+               "question",
+               "data",
+               "xmin",
+               "xmax",
+               "ymin",
+               "ymax") %>%
+        as.data.frame
 
-  if (is.null(input$plot_brush)){
-    shiny::showNotification("No area selected", type="warning")
-  } else {
+      # add data frame for new selection to previous selections
+      selAnsDf <- selAnsDf %>%
+        bind_rows(inputAns)
 
-    browser()
-    #data frame for individual selection
-  inputAns <- questionIDs$selection %>%
-               map_dfr(~ tibble(
-                 question = .x,
-                 #write a function to check for null answers and still produce multiple responses for check boxes
-                 answers = answersVec(name = .x, input = input)
-               )) %>%
-    group_by(question) %>%
-    tidyr::nest() %>%
-               mutate(tab = "selection",
-                      path = pathId,
-           selectionNum = selNum,
-           xmin = input$plot_brush$xmin,
-           xmax = input$plot_brush$xmax,
-           ymin = input$plot_brush$ymin,
-           ymax = input$plot_brush$ymax) %>%
-    select("path", "tab", "selectionNum", "question", "data", "xmin", "xmax", "ymin", "ymax") %>%
-    as.data.frame
+      return(selAnsDf)
+    }
 
-  # add data frame for new selection to previous selections
-  selAnsDf <- selAnsDf %>%
-    bind_rows(inputAns)
-
-  return(selAnsDf)
   }
-
-}
-
-
-
