@@ -78,14 +78,16 @@ updateSelectionAnswers <- function(selAnsDf = v$selAnsDf,pathId = images[v$image
                  #write a function to check for null answers and still produce multiple responses for check boxes
                  answers = answersVec(name = .x, input = input)
                )) %>%
-               mutate(tab = "selection") %>%
-    mutate(path = pathId,
+    group_by(question) %>%
+    tidyr::nest() %>%
+               mutate(tab = "selection",
+                      path = pathId,
            selectionNum = selNum,
            xmin = input$plot_brush$xmin,
            xmax = input$plot_brush$xmax,
            ymin = input$plot_brush$ymin,
            ymax = input$plot_brush$ymax) %>%
-    select("path", "tab", "selectionNum", "question", "answers", "xmin", "xmax", "ymin", "ymax") %>%
+    select("path", "tab", "selectionNum", "question", "data", "xmin", "xmax", "ymin", "ymax") %>%
     as.data.frame
 
   # add data frame for new selection to previous selections
