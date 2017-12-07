@@ -33,18 +33,23 @@ answersVec <- function(name, input = input) {
 
 
 #' @importFrom purrr imap_dfr map_dfr
-updateAnswers <- function(ansDf, pathid, questionIDs, input) {
+updateAnswers <- function(ansDf = v$ansDf,
+                          pathId = images[v$imageNum],
+                          questionIDs = questionIDs,
+                          input = input) {
   #don't remove rows, check for changes and replace only if changed
-
-  inputAns <- questionIDs %>%
-    imap_dfr(~ .x %>%
-               map_dfr(~ tibble(
-                 question = .x,
-                 answers = ifelse(is.null(input[[.x]]), "NULL", input[[.x]])
-               )) %>%
-               mutate(tab = .y)) %>%
-    mutate(path = pathid) %>%
-    select("path", "tab", "question", "answers") %>%
+  browser()
+  inputAns <- questionIDs$scene %>%
+    map_dfr(~ tibble(
+      question = .x,
+      #write a function to check for null answers and still produce multiple responses for check boxes
+      answers = answersVec(name = .x, input = input)
+    )) %>%
+    group_by(question) %>%
+    nest() %>%
+    mutate(tab = "selection",
+           path = pathId) %>%
+    select("path", "tab", "question", "data") %>%
     as.data.frame
 
   if (identical(ansDf %>% filter(UQE(as_quosure(sym(
@@ -59,7 +64,6 @@ updateAnswers <- function(ansDf, pathid, questionIDs, input) {
       bind_rows(inputAns)
   }
 
-
 }
 
 #' @importFrom tidyr spread nest
@@ -73,7 +77,7 @@ updateSelectionAnswers <-
     if (is.null(input$plot_brush)) {
       shiny::showNotification("No area selected", type = "warning")
     } else {
-      browser()
+      #browser()
       #data frame for individual selection
       inputAns <- questionIDs$selection %>%
         map_dfr( ~ tibble(
@@ -112,8 +116,3 @@ updateSelectionAnswers <-
 
   }
 
-
-taipanWide <- function(data) {
-  data %>%
-    unnest()
-}
