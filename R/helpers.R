@@ -47,9 +47,8 @@ updateAnswers <- function(ansDf = v$ansDf,
     )) %>%
     group_by(question) %>%
     nest() %>%
-    mutate(tab = "selection",
-           path = pathId) %>%
-    select("path", "tab", "question", "data") %>%
+    mutate(path = pathId) %>%
+    select("path", "question", "data") %>%
     as.data.frame
 
   if (identical(ansDf %>% filter(UQE(as_quosure(sym(
@@ -88,7 +87,6 @@ updateSelectionAnswers <-
         group_by(question) %>%
         nest() %>%
         mutate(
-          tab = "selection",
           path = pathId,
           selectionNum = selNum,
           xmin = input$plot_brush$xmin,
@@ -97,7 +95,6 @@ updateSelectionAnswers <-
           ymax = input$plot_brush$ymax
         ) %>%
         select("path",
-               "tab",
                "selectionNum",
                "question",
                "data",
