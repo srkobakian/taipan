@@ -116,3 +116,11 @@ updateSelectionAnswers <-
 
   }
 
+combineData <- function(selAnsDf = v$selAnsDf, ansOut = v$ansOut) {
+
+  ansOut %>% spread(question, data) -> scenes
+  selAnsDf %>% spread(question, data) -> selections
+  allData <- full_join(scenes, selections, by = "path", all=TRUE)
+
+}
+
