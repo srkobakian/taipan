@@ -6,7 +6,7 @@
 
 # find how to give the options as a list for choices
 
-buildQuestionOutputs <- function(args, id) {
+build_question_outputs <- function(args, id) {
   #return a html object for every individual question
 
   inputFn <-
@@ -20,7 +20,7 @@ buildQuestionOutputs <- function(args, id) {
 }
 
 
-answersVec <- function(name, input = input) {
+answers_vec <- function(name, input = input) {
   ans <- c()
   if (length(input[[name]]) > 0) {
     ans <- as.vector(input[[name]])
@@ -33,7 +33,7 @@ answersVec <- function(name, input = input) {
 
 
 #' @importFrom purrr imap_dfr map_dfr
-updateAnswers <- function(ansDf = v$ansDf,
+update_answers <- function(ansDf = v$ansDf,
                           pathId = images[v$imageNum],
                           questionIDs = questionIDs,
                           input = input) {
@@ -43,7 +43,7 @@ updateAnswers <- function(ansDf = v$ansDf,
     map_dfr(~ tibble(
       question = .x,
       #write a function to check for null answers and still produce multiple responses for check boxes
-      answers = answersVec(name = .x, input = input)
+      answers = answers_vec(name = .x, input = input)
     )) %>%
     group_by(question) %>%
     nest() %>%
@@ -67,7 +67,7 @@ updateAnswers <- function(ansDf = v$ansDf,
 
 #' @importFrom tidyr spread nest
 
-updateSelectionAnswers <-
+update_selection_answers <-
   function(selAnsDf = v$selAnsDf,
            pathId = images[v$imageNum],
            selNum = v$selectionNum,
@@ -82,7 +82,7 @@ updateSelectionAnswers <-
         map_dfr( ~ tibble(
           question = .x,
           #write a function to check for null answers and still produce multiple responses for check boxes
-          answers = answersVec(name = .x, input = input)
+          answers = answers_vec(name = .x, input = input)
         )) %>%
         group_by(question) %>%
         nest() %>%
@@ -113,11 +113,12 @@ updateSelectionAnswers <-
 
   }
 
-combineData <- function(selAnsDf = v$selAnsDf, ansOut = v$ansOut) {
+combine_data <- function(selAnsDf = v$selAnsDf, ansOut = v$ansOut) {
 
   ansOut %>% spread(question, data) -> scenes
   selAnsDf %>% spread(question, data) -> selections
   allData <- full_join(scenes, selections, by = "path", all=TRUE)
 
+  return(allData)
 }
 

@@ -138,7 +138,7 @@ launchTaipan <- function(questions = sampleQuestions,
       output$questionTabs <- renderUI({
         tabs <- questions %>%
           imap(~ map2(.x, paste0(.y, "_", names(.x)),
-                      ~ buildQuestionOutputs(.x, .y)) %>%
+                      ~ build_question_outputs(.x, .y)) %>%
                  wellPanel %>%
                  tabPanel(tolower(.y), .))
 
@@ -151,14 +151,14 @@ launchTaipan <- function(questions = sampleQuestions,
 
 
     observeEvent(input$imageNext, {
-      v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
+      v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
       v$imageNum <- min(v$imageNum + 1, length(images))
       v$selectionNum = 1
     }
     )
 
     observeEvent(input$imagePrev, {
-    v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
+    v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
     v$imageNum <- max(1, v$imageNum - 1)
     v$selectionNum = 1
     }
@@ -166,17 +166,17 @@ launchTaipan <- function(questions = sampleQuestions,
 
     observeEvent(input$saveSelection, {
 
-      v$selAnsDf <- updateSelectionAnswers(v$selAnsDf,images[v$imageNum],v$selectionNum, questionIDs,input)
+      v$selAnsDf <- update_selection_answers(v$selAnsDf,images[v$imageNum],v$selectionNum, questionIDs,input)
 
       v$selectionNum <- v$selectionNum + 1
     })
 
     output$savei <- downloadHandler(
-      filename = paste0("taipan-a.csv"),
+      filename = paste0("taipanCombinedData.csv"),
 
       content = function(con) {
-        v$ansOut <- updateAnswers(v$ansOut, images[v$imageNum], questionIDs, input)
-        write.csv(v$ansOut, con, row.names = FALSE)
+        fullData <- combine_data()
+        write.csv(fullData, con, row.names = FALSE)
       },
       contentType = "text/csv"
     )
