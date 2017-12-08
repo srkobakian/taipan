@@ -54,13 +54,13 @@ updateAnswers <- function(ansDf = v$ansDf,
 
   if (identical(ansDf %>% filter(UQE(as_quosure(sym(
     "path"
-  ))) == !!quo(pathid)),
+  ))) == !!quo(pathId)),
   inputAns)) {
     ansDf
   }
   else{
     ansDf %>%
-      filter(UQE(as_quosure(sym("path"))) != !!quo(pathid)) %>%
+      filter(UQE(as_quosure(sym("path"))) != !!quo(pathId)) %>%
       bind_rows(inputAns)
   }
 
