@@ -75,7 +75,8 @@ launchTaipan <- function(questions = sampleQuestions,
                         imageNum = 1,
                         ansOut = if(is.null(answers)) {data.frame()} else {answers},
                         selectionNum = 1,
-                        selAnsDf = data.frame()
+                        selAnsDf = data.frame(),
+                        editSel = list(x=0, y=0)
     )
 
 
@@ -97,6 +98,25 @@ launchTaipan <- function(questions = sampleQuestions,
       v$sArea <- "selection"
     })
 
+    observeEvent(input$plot_dblclick, {
+      v$editSel$x <- input$plot_dblclick$x
+      v$editSel$y <- input$plot_dblclick$y
+
+      v$selAnsDf %>%
+        filter(path == images[v$imageNum]) %>%
+        filter(v$editSel$x > xmin & v$editSel$x < xmax) %>%
+        filter(v$editSel$y > ymin & v$editSel$y < ymax) %>%
+        distinct(selectionNum) -> v$selectionNum
+
+          })
+
+    observeEvent(v$selectionNum, {
+
+      v$selAnsDf %>%
+        filter(path == images[v$imageNum]) %>%
+        .$selectionNum -> imgSelections
+
+    })
 
     observeEvent(v$sArea,  {
       updateTabsetPanel(session, "areaQuestions",
@@ -168,7 +188,8 @@ launchTaipan <- function(questions = sampleQuestions,
 
       v$selAnsDf <- update_selection_answers(v$selAnsDf,images[v$imageNum],v$selectionNum, questionIDs,input)
 
-      v$selectionNum <- v$selectionNum + 1
+      v$selectionNum <-  v$selAnsDf %>%
+        filter(path == images[v$imageNum]) %>% distinct(.$selectionNum) %>% max() + 1
     })
 
     output$savei <- downloadHandler(
