@@ -14,6 +14,9 @@
 #   }
 # }
 
+utils::globalVariables(c("v", "question", "data", ".",
+  "path","xmin","xmax","ymin","ymax","selectionNum"))
+
 tennisQuestions <- list(scene = list(graphic = list(qType = "radio",
                                               label = "Is it a graphic or image of live play?",
                                               choices = c("Live Image", "2d Grpahic")),
