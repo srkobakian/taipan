@@ -98,21 +98,22 @@ launchTaipan <- function(questions = sampleQuestions,
     })
 
     observeEvent(input$plot_dblclick, {
-      v$selAnsDf %>%
+      clickedFaces <- v$selAnsDf %>%
         filter(path == images[v$imageNum]) %>%
         filter(input$plot_dblclick$x > xmin & input$plot_dblclick$x < xmax) %>%
         filter(input$plot_dblclick$y > ymin & input$plot_dblclick$y < ymax) %>%
-        distinct(selectionNum) -> v$selectionNum
+        pull(selectionNum) %>%
+        unique
 
+      if(length(clickedFaces) > 1){
+        showNotification("More than one face exists here, to edit, select a region with only one face.", type = "warning")
+      }
+      else if(length(clickedFaces) == 1){
+        v$selectionNum <- clickedFaces
+        output$questionTabs <- update_questions(questions, v$selAnsDf %>% filter(path == images[v$imageNum]) %>% filter(selectionNum == clickedFaces))
+        v$sArea <- "selection"
+      }
       })
-
-    observeEvent(v$selectionNum, {
-
-      v$selAnsDf %>%
-        filter(path == images[v$imageNum]) %>%
-        .$selectionNum -> imgSelections
-
-    })
 
     observeEvent(v$sArea,  {
       updateTabsetPanel(session, "areaQuestions",
@@ -158,23 +159,21 @@ launchTaipan <- function(questions = sampleQuestions,
     observeEvent(input$imageNext, {
       v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
       v$imageNum <- min(v$imageNum + 1, length(images))
-      v$selectionNum = 1
     }
     )
 
     observeEvent(input$imagePrev, {
     v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
     v$imageNum <- max(1, v$imageNum - 1)
-    v$selectionNum = 1
     }
     )
 
     observeEvent(input$saveSelection, {
-
-      v$selAnsDf <- update_selection_answers(v$selAnsDf,images[v$imageNum],v$selectionNum, questionIDs,input)
-
-      v$selectionNum <-  v$selAnsDf %>%
-        filter(path == images[v$imageNum]) %>% distinct(.$selectionNum) %>% max() + 1
+      if(!is.null(input$plot_brush)){
+        v$selectionNum <- as.numeric(input$saveSelection)
+      }
+      v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
+      v$selAnsDf <- update_selection_answers(v$selAnsDf, images[v$imageNum], v$selectionNum, questionIDs,input)
     })
 
     output$savei <- downloadHandler(
