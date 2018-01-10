@@ -98,9 +98,6 @@ launchTaipan <- function(questions = sampleQuestions,
     })
 
     observeEvent(input$plot_dblclick, {
-      input$plot_dblclick$x <- input$plot_dblclick$x
-      input$plot_dblclick$y <- input$plot_dblclick$y
-
       v$selAnsDf %>%
         filter(path == images[v$imageNum]) %>%
         filter(input$plot_dblclick$x > xmin & input$plot_dblclick$x < xmax) %>%
