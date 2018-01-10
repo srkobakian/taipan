@@ -6,7 +6,24 @@
 
 # find how to give the options as a list for choices
 
+update_questions <- function(questions, imgData){
+  renderUI({
+    tabs <- questions %>%
+      imap(~ map2(.x, paste0(.y, "_", names(.x)),
+                  ~ build_question_outputs(.x, .y, possibly(~ imgData %>%
+                                                              filter(question == !!quo(.x)) %>%
+                                                              pull(data) %>%
+                                                              unlist, NULL)(.y)
+                  )
+      ) %>%
+        wellPanel %>%
+        tabPanel(tolower(.y), .))
 
+    names(tabs) <- NULL
+    tabs$id <- "areaQuestions"
+    do.call(tabsetPanel, tabs)
+  })
+}
 
 build_question_outputs <- function(args, id, prevInput = NULL) {
   #return a html object for every individual question
