@@ -153,12 +153,21 @@ launchTaipan <- function(questions = sampleQuestions,
         },
         width="auto"
       )
-
+    }
+    )
+    observeEvent(c(v$imageNum, input$saveSelection), {
+      imgData <- v$ansOut %>%
+        filter(path == images[v$imageNum])
 
       output$questionTabs <- renderUI({
         tabs <- questions %>%
           imap(~ map2(.x, paste0(.y, "_", names(.x)),
-                      ~ build_question_outputs(.x, .y)) %>%
+                      ~ build_question_outputs(.x, .y, possibly(~ imgData %>%
+                                                                  filter(question == !!quo(.x)) %>%
+                                                                  pull(data) %>%
+                                                                  unlist, NULL)(.y)
+                      )
+                      ) %>%
                  wellPanel %>%
                  tabPanel(tolower(.y), .))
 
@@ -166,9 +175,7 @@ launchTaipan <- function(questions = sampleQuestions,
         tabs$id <- "areaQuestions"
         do.call(tabsetPanel, tabs)
       })
-    }
-    )
-
+    })
 
     observeEvent(input$imageNext, {
       v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)

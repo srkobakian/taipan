@@ -6,15 +6,20 @@
 
 # find how to give the options as a list for choices
 
-build_question_outputs <- function(args, id) {
-  #return a html object for every individual question
 
+
+build_question_outputs <- function(args, id, prevInput = NULL) {
+  #return a html object for every individual question
   inputFn <-
     switch(args$qType, radio = "radioButtons", check = "checkboxGroupInput",
            args$qType)
 
   args$qType <- NULL
   args$inputId <- id
+
+  if(!is.null(prevInput)){
+    args[[names(formals(inputFn))[na.omit(match(c("selected", "value"), names(formals(inputFn))))]]] <- prevInput
+  }
 
   do.call(inputFn, args)
 }
