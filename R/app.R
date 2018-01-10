@@ -75,8 +75,7 @@ launchTaipan <- function(questions = sampleQuestions,
                         imageNum = 1,
                         ansOut = if(is.null(answers)) {data.frame()} else {answers},
                         selectionNum = 1,
-                        selAnsDf = data.frame(),
-                        editSel = list(x=0, y=0)
+                        selAnsDf = data.frame()
     )
 
 
@@ -99,16 +98,16 @@ launchTaipan <- function(questions = sampleQuestions,
     })
 
     observeEvent(input$plot_dblclick, {
-      v$editSel$x <- input$plot_dblclick$x
-      v$editSel$y <- input$plot_dblclick$y
+      input$plot_dblclick$x <- input$plot_dblclick$x
+      input$plot_dblclick$y <- input$plot_dblclick$y
 
       v$selAnsDf %>%
         filter(path == images[v$imageNum]) %>%
-        filter(v$editSel$x > xmin & v$editSel$x < xmax) %>%
-        filter(v$editSel$y > ymin & v$editSel$y < ymax) %>%
+        filter(input$plot_dblclick$x > xmin & input$plot_dblclick$x < xmax) %>%
+        filter(input$plot_dblclick$y > ymin & input$plot_dblclick$y < ymax) %>%
         distinct(selectionNum) -> v$selectionNum
 
-          })
+      })
 
     observeEvent(v$selectionNum, {
 
