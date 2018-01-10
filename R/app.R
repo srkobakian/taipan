@@ -137,7 +137,7 @@ launchTaipan <- function(questions = sampleQuestions,
           click = "plot_click",
           dblclick = "plot_dblclick",
           hover = "plot_hover",
-          brush = "plot_brush",
+          brush = brushOpts("plot_brush", delay = 1e10, delayType = "debounce", clip = TRUE, resetOnNew = TRUE),
           #write a function to automatically find these depending on p ratio of the chosen image
           width = "90vw", height = paste0(round((hwratio*100),0), "vw")
         )
