@@ -43,7 +43,6 @@ update_answers <- function(ansDf = v$ansDf,
                           questionIDs = questionIDs,
                           input = input) {
   #don't remove rows, check for changes and replace only if changed
-  browser()
   inputAns <- questionIDs$scene %>%
     map_dfr(~ tibble(
       question = .x,
@@ -56,15 +55,13 @@ update_answers <- function(ansDf = v$ansDf,
     select("path", "question", "data") %>%
     as.data.frame
 
-  if (identical(ansDf %>% filter(UQE(as_quosure(sym(
-    "path"
-  ))) == !!quo(pathId)),
+  if (identical(ansDf %>% filter(path == !!quo(pathId)),
   inputAns)) {
     ansDf
   }
   else{
     ansDf %>%
-      filter(UQE(as_quosure(sym("path"))) != !!quo(pathId)) %>%
+      filter(path != !!quo(pathId)) %>%
       bind_rows(inputAns)
   }
 
