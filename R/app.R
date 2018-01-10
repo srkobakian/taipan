@@ -6,7 +6,7 @@
 #' @param images The image folder.
 #' @param answers A dataset of previously created answers from the app
 #' @importFrom shinythemes shinytheme
-#' @importFrom purrr imap map2
+#' @importFrom purrr imap map2 possibly
 #'
 #' @examples
 #'
