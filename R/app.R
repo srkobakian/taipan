@@ -89,13 +89,28 @@ launchTaipan <- function(questions = sampleQuestions,
      v$imageNum <- input$slide
     })
 
-    # switch between question sets if an area is selected by the brush
-    observeEvent(input$plot_click, {
-      v$sArea <- "scene"
+    # # switch between question sets if an area is selected by the brush
+    # observeEvent(input$plot_click, {
+    #   v$sArea <- "scene"
+    # })
+    # observeEvent(input$plot_brush, {
+    #   v$sArea <- "selection"
+    # })
+
+
+    observeEvent(c(v$sArea, input$plot_brush, input$plot_click),  {
+      if (!is.null(input$plot_brush)) {
+        v$sArea <- "selection"
+        updateTabsetPanel(session, "areaQuestions",
+                          selected = v$sArea)}
+      if (is.null(input$plot_brush)) {
+        v$sArea <- "scene"
+        updateTabsetPanel(session, "areaQuestions",
+                          selected = v$sArea)}
+
     })
-    observeEvent(input$plot_brush, {
-      v$sArea <- "selection"
-    })
+
+
 
     observeEvent(input$plot_dblclick, {
       input$plot_dblclick$x <- input$plot_dblclick$x
@@ -116,11 +131,6 @@ launchTaipan <- function(questions = sampleQuestions,
         .$selectionNum -> imgSelections
 
     })
-
-    observeEvent(v$sArea,  {
-      updateTabsetPanel(session, "areaQuestions",
-                        selected = v$sArea)})
-
 
     observeEvent(v$imageNum, {
       ### produce the pixel size of the first image
@@ -155,6 +165,7 @@ launchTaipan <- function(questions = sampleQuestions,
     }
     )
     observeEvent(c(v$imageNum, input$saveSelection), {
+      browser()
       output$questionTabs <- update_questions(questions, v$ansOut %>% filter(path == images[v$imageNum]))
     })
 
@@ -162,15 +173,13 @@ launchTaipan <- function(questions = sampleQuestions,
       v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
       v$imageNum <- min(v$imageNum + 1, length(images))
       v$selectionNum = 1
-    }
-    )
+    })
 
     observeEvent(input$imagePrev, {
     v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
     v$imageNum <- max(1, v$imageNum - 1)
     v$selectionNum = 1
-    }
-    )
+    })
 
     observeEvent(input$saveSelection, {
 
