@@ -75,7 +75,8 @@ launchTaipan <- function(questions = sampleQuestions,
                         imageNum = 1,
                         ansOut = if(is.null(answers)) {data.frame()} else {answers},
                         selectionNum = 1,
-                        selAnsDf = data.frame()
+                        selAnsDf = data.frame(),
+                        editing = FALSE
     )
 
 
@@ -89,21 +90,13 @@ launchTaipan <- function(questions = sampleQuestions,
      v$imageNum <- input$slide
     })
 
-    # # switch between question sets if an area is selected by the brush
-    # observeEvent(input$plot_click, {
-    #   v$sArea <- "scene"
-    # })
-    # observeEvent(input$plot_brush, {
-    #   v$sArea <- "selection"
-    # })
-
 
     observeEvent(c(v$sArea, input$plot_brush, input$plot_click),  {
       if (!is.null(input$plot_brush)) {
         v$sArea <- "selection"
         updateTabsetPanel(session, "areaQuestions",
                           selected = v$sArea)}
-      if (is.null(input$plot_brush)) {
+      if (is.null(input$plot_brush) & v$editing == FALSE) {
         v$sArea <- "scene"
         updateTabsetPanel(session, "areaQuestions",
                           selected = v$sArea)}
@@ -127,7 +120,11 @@ launchTaipan <- function(questions = sampleQuestions,
         v$selectionNum <- clickedFaces
         output$questionTabs <- update_questions(questions, v$selAnsDf %>% filter(path == images[v$imageNum]) %>% filter(selectionNum == clickedFaces))
         v$sArea <- "selection"
+        v$editing <- TRUE
+      } else if(length(clickedFaces) == 0){
+        v$editing <- FALSE
       }
+
       })
 
 
@@ -175,12 +172,13 @@ launchTaipan <- function(questions = sampleQuestions,
         },
         width="auto"
       )
-    }
-    )
-    observeEvent(c(v$imageNum, input$saveSelection), {
-      browser()
-      output$questionTabs <- update_questions(questions, v$ansOut %>% filter(path == images[v$imageNum]))
     })
+
+    observeEvent(c(v$imageNum, input$saveSelection), {
+      output$questionTabs <- update_questions(questions, v$ansOut %>% filter(path == images[v$imageNum]))
+      v$editing <- FALSE
+      v$sArea <- "scene"
+      })
 
     observeEvent(input$imageNext, {
       v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
@@ -189,8 +187,6 @@ launchTaipan <- function(questions = sampleQuestions,
       v$selectionNum = 1
     })
 
-    }
-    )
 
 
     observeEvent(input$imagePrev, {
@@ -199,9 +195,6 @@ launchTaipan <- function(questions = sampleQuestions,
 
     v$selectionNum = 1
     })
-
-    }
-    )
 
 
     observeEvent(input$saveSelection, {
