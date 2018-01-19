@@ -91,50 +91,55 @@ update_selection_answers <-
            pathId = images[v$imageNum],
            selNum = v$selectionNum,
            questionIDs = questionIDs,
-           input = input) {
-    if(selNum%in%selAnsDf$selectionNum){
-      ## Overwrite answers for selNum
-    }
-    else{
-      if (is.null(input$plot_brush)) {
-        shiny::showNotification("No area selected", type = "warning")
-      } else {
-        #browser()
-        #data frame for individual selection
-        inputAns <- questionIDs$selection %>%
-          map_dfr( ~ tibble(
-            question = .x,
-            #write a function to check for null answers and still produce multiple responses for check boxes
-            answers = answers_vec(name = .x, input = input)
-          )) %>%
-          group_by(question) %>%
-          nest() %>%
-          mutate(
-            path = pathId,
-            selectionNum = selNum,
-            xmin = input$plot_brush$xmin,
-            xmax = input$plot_brush$xmax,
-            ymin = input$plot_brush$ymin,
-            ymax = input$plot_brush$ymax
-          ) %>%
-          select("path",
-                 "selectionNum",
-                 "question",
-                 "data",
-                 "xmin",
-                 "xmax",
-                 "ymin",
-                 "ymax") %>%
-          as.data.frame
+           input = input,
+           editing = v$editing,
+           range = areaSelected()) {
 
-        # add data frame for new selection to previous selections
-        selAnsDf <- selAnsDf %>%
-          bind_rows(inputAns)
+    if (is.null(input$plot_brush) & editing) {
+      shiny::showNotification("No area selected", type = "warning")
+    } else {
+      #data frame for individual selection
+      inputAns <- questionIDs$selection %>%
+        map_dfr(~ tibble(
+          question = .x,
+          answers = answers_vec(name = .x, input = input)
+        )) %>%
+        group_by(question) %>%
+        nest() %>%
+        mutate(
+          path = pathId,
+          selectionNum = selNum,
+          xmin = range$xmin,
+          xmax = range$xmax,
+          ymin = range$ymin,
+          ymax = range$ymax
+        ) %>%
+        select("path",
+               "selectionNum",
+               "question",
+               "data",
+               "xmin",
+               "xmax",
+               "ymin",
+               "ymax") %>%
+        as.data.frame
+
+      if (selNum %in% selAnsDf$selectionNum) {
+        #remove previous answers
+        browser()
+        selAnsDf <- selAnsDf %>% filter(!(path == pathId &
+                                          selectionNum == selNum))
       }
+
+
+      # add data frame for new selection to previous selections
+
+      selAnsDf <- selAnsDf %>%
+        bind_rows(inputAns)
     }
 
     return(selAnsDf)
-  }
+}
 
 combine_data <- function(selAnsDf = v$selAnsDf, ansOut = v$ansOut) {
 

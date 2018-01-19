@@ -105,6 +105,29 @@ launchTaipan <- function(questions = sampleQuestions,
 
 
 
+    areaSelected <- reactive({
+      if(!is.null(input$plot_brush)){
+        return(list(xmin = input$plot_brush$xmin,
+                    xmax = input$plot_brush$xmax,
+                    ymin = input$plot_brush$ymin,
+                    ymax = input$plot_brush$ymax))
+      }
+      else{
+        range <- v$selAnsDf %>%
+          filter(path == images[v$imageNum] & selectionNum == v$selectionNum) %>%
+          select("xmin",
+                 "xmax",
+                 "ymin",
+                 "ymax") %>% distinct()
+
+        return(list(xmin = range$xmin,
+                    xmax = range$xmax,
+                    ymin = range$ymin,
+                    ymax = range$ymax))
+      }
+    })
+
+
     observeEvent(input$plot_dblclick, {
       clickedFaces <- v$selAnsDf %>%
         filter(path == images[v$imageNum]) %>%
@@ -115,13 +138,12 @@ launchTaipan <- function(questions = sampleQuestions,
 
       if(length(clickedFaces) > 1){
         showNotification("More than one face exists here, to edit, select a region with only one face.", type = "warning")
-      }
-      else if(length(clickedFaces) == 1){
+      }     else if(length(clickedFaces) == 1){
         v$selectionNum <- clickedFaces
         output$questionTabs <- update_questions(questions, v$selAnsDf %>% filter(path == images[v$imageNum]) %>% filter(selectionNum == clickedFaces))
         v$sArea <- "selection"
         v$editing <- TRUE
-      } else if(length(clickedFaces) == 0){
+      }      else if(length(clickedFaces) == 0){
         v$editing <- FALSE
       }
 
@@ -209,7 +231,7 @@ launchTaipan <- function(questions = sampleQuestions,
         v$selectionNum <- as.numeric(input$saveSelection)
       }
       v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
-      v$selAnsDf <- update_selection_answers(v$selAnsDf, images[v$imageNum], v$selectionNum, questionIDs,input)
+      v$selAnsDf <- update_selection_answers(v$selAnsDf, images[v$imageNum], v$selectionNum, questionIDs,input, v$editing,                                            range = areaSelected())
     })
 
     output$savei <- downloadHandler(
