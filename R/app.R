@@ -11,20 +11,31 @@
 #' @examples
 #'
 #' \dontrun{
-#' sampleQuestions <- list(scene = list(Q1 = list(qType = "radio",
-#' label = "My First Question",
-#' choices = c("a", "b", "c")),
-#' Q2 = list(qType = "check",
-#'           label = "My Second Question",
-#'           choices = c("1", "2", "3"))),
-#' selection = list(Q1 = list(qType = "check",
-#'                            label = "My First Question",
-#'                            choices = c("a", "b", "c")),
-#'                  Q2 = list(qType = "radio",
-#'                            label = "My Second Question",
-#'                            choices = c("1", "2", "3"))))
+#' tennisQuestions <- list(scene = list(
 #'
-#' launchTaipan(sampleQuestions)
+#'bg = list(qType = "radio",
+#'          label = "What is the background?",
+#'          choices = c("Crowd", "Court", "Logo wall", "Not applicable")),
+#'shotangle = list(qType = "radio",
+#'                 label = "What angle was the image taken from?",
+#'                 choices = c("Level with players","Birds eye", "Upward angle")),
+#'situation = list(qType = "radio",
+#'                 label = "What is the siutation occurring?",
+#'                 choices = c("Court in play", "Court player close-up","Court close-up not player",
+#'                             "Crowd", "Off court close up of player","Transition"))),
+#'
+#'selection = list(detect = list(qType = "radio",
+#'                               label = "Who is the person selected?",
+#'                               choices = c("Player","Other staff on court", "Fan")),
+#'                 glasses = list(qType = "radio",
+#'                                label = "Is the person wearing glasses?",
+#'                                choices = c("No", "Yes")),
+#'                 visorhat = list(qType = "radio",
+#'                                 label = "Is the person wearing a visor or hat?",
+#'                                 choices = c("No", "Yes"))))
+#'
+#'
+#' launchTaipan(tennisQuestions)
 #' }
 #'
 #' @export
@@ -35,7 +46,7 @@ launchTaipan <- function(questions = sampleQuestions,
   ui <- fluidPage(title = "Taipan", theme = shinythemes::shinytheme("spacelab"),
                    textOutput("imgInfo", shiny::h3),
                    #actionButton("debug", "debug"),
-                   fluidRow(uiOutput("plotUI")),
+                  fluidRow(uiOutput("plotUI")),
                    wellPanel(
                      fluidRow(
                        uiOutput("questionTabs")
