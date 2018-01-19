@@ -34,7 +34,7 @@ launchTaipan <- function(questions = sampleQuestions,
 
   ui <- fluidPage(title = "Taipan", theme = shinythemes::shinytheme("spacelab"),
                    textOutput("imgInfo", shiny::h3),
-                   actionButton("debug", "debug"),
+                   #actionButton("debug", "debug"),
                    fluidRow(uiOutput("plotUI")),
                    wellPanel(
                      fluidRow(
@@ -46,7 +46,7 @@ launchTaipan <- function(questions = sampleQuestions,
 
                   fluidRow(column(1),
                            column(6, actionButton("imagePrev", "Previous Image", icon("arrow-left"))),
-                           column(5, downloadButton("savei", "Save Answers", icon("check")),
+                           column(5, actionButton("saveData", "Save All Answers", icon("check")),
                                   actionButton("imageNext","Next Image",icon("arrow-right"))))
 
                   #add progress bar
@@ -63,21 +63,25 @@ launchTaipan <- function(questions = sampleQuestions,
     #source("helpers.R")
     #source("global.R")
 
+    if("cache.Rdata" %in% list.files()){
+      load("cache.Rdata")
+    }
+    else {
+      v <- reactiveValues(sArea = "scene",
+                          imageNum = 1,
+                          ansOut = data.frame(),
+                          selectionNum = 1,
+                          selAnsDf = data.frame(),
+                          editing = FALSE)
+    }
+
     questionIDs <- questions %>%
       imap(~ paste0(.y, "_", names(.x)))
 
-    #debug
+    #
     # observeEvent(input$debug, {
     #   browser()
     # })
-
-    v <- reactiveValues(sArea = "scene",
-                        imageNum = 1,
-                        ansOut = if(is.null(answers)) {data.frame()} else {answers},
-                        selectionNum = 1,
-                        selAnsDf = data.frame(),
-                        editing = FALSE
-    )
 
 
     # add title above plot
@@ -230,19 +234,35 @@ launchTaipan <- function(questions = sampleQuestions,
       if(!is.null(input$plot_brush)){
         v$selectionNum <- as.numeric(input$saveSelection)
       }
-      v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
-      v$selAnsDf <- update_selection_answers(v$selAnsDf, images[v$imageNum], v$selectionNum, questionIDs,input, v$editing,                                            range = areaSelected())
+      v$ansOut <<- update_answers(isolate(v$ansOut), images[v$imageNum], questionIDs, input)
+      v$selAnsDf <<- update_selection_answers(isolate(v$selAnsDf), images[v$imageNum], v$selectionNum, questionIDs,input, v$editing,                                            range = areaSelected())
+
     })
 
-    output$savei <- downloadHandler(
-      filename = paste0("taipanCombinedData.csv"),
 
-      content = function(con) {
-        fullData <- combine_data()
-        write.csv(fullData, con, row.names = FALSE)
-      },
-      contentType = "text/csv"
-    )
-  }
+    onStop(function(){
+      save(v, file = "cache.Rdata")
+    })
+
+
+    observeEvent(input$saveData, {
+      combine_data(selAnsDf = v$selAnsDf, ansOut = v$ansOut) %>% as_tibble %>%
+        write.csv("temp.csv", row.names = FALSE)
+      showNotification("Saved at 'temp.csv'")
+    })
+
+    #
+    # output$savei <- downloadHandler(
+    #   filename = paste0("taipanCombinedData.csv"),
+    #
+    #   content = function(con) {
+    #     combine_data(selAnsDf = v$selAnsDf, ansOut = v$ansOut) %>%
+    #     write.csv("temp.csv", row.names = FALSE)
+    #
+    #     file.copy("temp.csv", con)
+    #   }
+    # )
+
+    }
   shinyApp(ui, server)
 }
