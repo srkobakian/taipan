@@ -173,6 +173,8 @@ launchTaipan <- function(questions = sampleQuestions,
         if (v$editing) {
         lines(c(rep(2, 2), rep(798, 2), 2),
               c(2, rep(448, 2), rep(2,2)), col="red")
+          lines(c(rep(boxes[v$selectionNum,"xmin"], 2), rep(boxes[v$selectionNum,"xmax"], 2), boxes[v$selectionNum,"xmin"]),
+                c(boxes[v$selectionNum,"ymin"], rep(boxes[v$selectionNum,"ymax"], 2), rep(boxes[v$selectionNum,"ymin"],2)), col="red")
         }
         },
         width="auto"
