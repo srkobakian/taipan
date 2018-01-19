@@ -32,7 +32,7 @@ launchTaipan <- function(questions = sampleQuestions,
                          images = list.files(system.file("images", package="taipan"), full.names = TRUE),
                          answers = NULL) {
 
-  ui <- fluidPage(title = "Tapian", theme = shinythemes::shinytheme("spacelab"),
+  ui <- fluidPage(title = "Taipan", theme = shinythemes::shinytheme("spacelab"),
                    textOutput("imgInfo", shiny::h3),
                    actionButton("debug", "debug"),
                    fluidRow(uiOutput("plotUI")),
