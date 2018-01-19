@@ -45,7 +45,7 @@ build_question_outputs <- function(args, id, prevInput = NULL) {
 answers_vec <- function(name, input = input) {
   ans <- c()
   if (length(input[[name]]) > 0) {
-    ans <- as.vector(input[[name]])
+    ans <- as.vector(input[[name]]) %>% paste(collapse = ",")
   } else {
     ans <- "NULL"
   }
@@ -66,10 +66,10 @@ update_answers <- function(ansDf = v$ansDf,
       #write a function to check for null answers and still produce multiple responses for check boxes
       answers = answers_vec(name = .x, input = input)
     )) %>%
-    group_by(question) %>%
-    nest() %>%
+    #group_by(question) %>%
+    #nest() %>%
     mutate(path = pathId) %>%
-    select("path", "question", "data") %>%
+    select("path", "question", "answers") %>%
     as.data.frame
 
   if (identical(ansDf %>% filter(path == !!quo(pathId)),
@@ -104,8 +104,8 @@ update_selection_answers <-
           question = .x,
           answers = answers_vec(name = .x, input = input)
         )) %>%
-        group_by(question) %>%
-        nest() %>%
+        #group_by(question) %>%
+        #nest() %>%
         mutate(
           path = pathId,
           selectionNum = selNum,
@@ -117,7 +117,7 @@ update_selection_answers <-
         select("path",
                "selectionNum",
                "question",
-               "data",
+               "answers",
                "xmin",
                "xmax",
                "ymin",
@@ -126,6 +126,7 @@ update_selection_answers <-
 
       if (selNum %in% selAnsDf$selectionNum) {
         #remove previous answers
+
         selAnsDf <- selAnsDf %>% filter(!(path == pathId &
                                           selectionNum == selNum))
       }
@@ -142,8 +143,8 @@ update_selection_answers <-
 
 combine_data <- function(selAnsDf = v$selAnsDf, ansOut = v$ansOut) {
 
-  ansOut %>% spread(question, data) -> scenes
-  selAnsDf %>% spread(question, data) -> selections
+  ansOut %>% spread(question, answers) -> scenes
+  selAnsDf %>% spread(question, answers) -> selections
   allData <- full_join(scenes, selections, by = "path", all=TRUE)
 
   return(allData)
