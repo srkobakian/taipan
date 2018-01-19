@@ -126,7 +126,6 @@ update_selection_answers <-
 
       if (selNum %in% selAnsDf$selectionNum) {
         #remove previous answers
-        browser()
         selAnsDf <- selAnsDf %>% filter(!(path == pathId &
                                           selectionNum == selNum))
       }

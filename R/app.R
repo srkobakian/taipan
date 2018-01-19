@@ -67,9 +67,9 @@ launchTaipan <- function(questions = sampleQuestions,
       imap(~ paste0(.y, "_", names(.x)))
 
     #debug
-    observeEvent(input$debug, {
-      browser()
-    })
+    # observeEvent(input$debug, {
+    #   browser()
+    # })
 
     v <- reactiveValues(sArea = "scene",
                         imageNum = 1,
