@@ -1,0 +1,54 @@
+---
+title: "Taipan Vignette"
+author: "Stephanie Kobakian"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Necessary Pieces 
+ - MUST have local access
+
+### Providing Images
+
+### Creating Questions
+
+To use the package two sets of questions have been provided.
+
+## Launch the shiny app
+
+
+## Image Information
+
+ - When it pops up
+ - How it saves
+ - Where it saves
+ 
+### Answering image questions
+
+ - types of answers, responses
+
+
+### Selection Information
+
+ - brush tool
+ - auto switch between tabs
+ - When it pops up
+ - How it saves
+ - Where it saves
+ 
+ 
+## Finishing up
+
+
+
