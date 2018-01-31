@@ -39,7 +39,7 @@
 #' }
 #'
 #' @export
-launchTaipan <- function(questions = sampleQuestions,
+launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
                          images = list.files(system.file("images", package="taipan"), full.names = TRUE),
                          answers = NULL) {
 
@@ -74,7 +74,7 @@ launchTaipan <- function(questions = sampleQuestions,
     #source("helpers.R")
     #source("global.R")
 
-    if("cache.Rdata" %in% list.files()){
+    if(loadCache == T & "cache.Rdata" %in% list.files()){
       load("cache.Rdata")
     }
     else {
@@ -246,8 +246,7 @@ launchTaipan <- function(questions = sampleQuestions,
         v$selectionNum <- as.numeric(input$saveSelection)
       }
       v$ansOut <<- update_answers(isolate(v$ansOut), images[v$imageNum], questionIDs, input)
-      v$selAnsDf <<- update_selection_answers(isolate(v$selAnsDf), images[v$imageNum], v$selectionNum, questionIDs,input, v$editing,                                            range = areaSelected())
-
+      v$selAnsDf <<- update_selection_answers(isolate(v$selAnsDf), images[v$imageNum], v$selectionNum, questionIDs,input, v$editing, range = areaSelected())
     })
 
 
@@ -259,6 +258,10 @@ launchTaipan <- function(questions = sampleQuestions,
     observeEvent(input$saveData, {
       combine_data(selAnsDf = v$selAnsDf, ansOut = v$ansOut) %>% as_tibble %>%
         write.csv("temp.csv", row.names = FALSE)
+      SceneAnswers <<- isolate(v$ansOut)
+      #save(SceneAnswers, file = "SceneAnswers.Rdata")
+      SelectionAnswers <<- isolate(v$selAnsDf)
+      #save(SelectionAnswers, file = "SelectionAnswers.Rdata")
       showNotification("Saved at 'temp.csv'")
     })
 
