@@ -12,8 +12,10 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
-)
+  comment = "#>",
+  cache = TRUE)
+library(readr)
+library(tidyverse)
 ```
 
 ## Set up
@@ -78,10 +80,33 @@ To edit selection information, double click within a green outlined square. This
  
 
 ![Taipan application editing previously annotated face, highlighted by red box on face and around image.](Taipan4editings.png)
-## Finishing up
+
+## Accessing Data
 
 The cache allows all information to be accessible at the close of the app, when it is intentional or not.
 The tidy format data frames can now be used for analysis.
 
+The `SceneAnswers` data frame is arranged such that every row contains a single answer to a question regarding one of the images considered.
+The questions are named according to the nested list they belong to, followed by an underscore and the name of the list item for the question. The following answers were given for the image considered in the figures above:
 
 
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+SceneAnswers <- read_csv("SceneAnswers.csv")
+SelectionAnswers <- read_csv("SelectionAnswers.csv")
+```
+
+```{r, echo=FALSE}
+SceneAnswers[1:3,-1] %>% as.data.frame()
+```
+
+These can be rearranged to a wide form data set using the following function:
+
+```{r}
+SceneAnswers %>% spread(question, answers) %>% as.data.frame()
+```
+
+A similar approach may be taken with the `SelectionAnswers`
+
+```{r}
+SelectionAnswers %>% spread(question, answers) %>% as.data.frame()
+```
