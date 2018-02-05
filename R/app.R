@@ -2,9 +2,9 @@
 #'
 #' This launches the app
 #'
-#' @param questions A taipan list object containing the questions to be asked in the app.
-#' @param images The image folder.
-#' @param answers A dataset of previously created answers from the app
+#' @param questions A taipan structured list object containing the questions to be asked in the app, see the global environment object sampleQuestions.
+#' @param loadCache If a cache.Rdata object is found in the working directory and loadCache = TRUE, data from previous use of the app will be made avaiable. if there is no object the app will proceed from the beinnning of the image set. The default for this is FALSE.
+#' @param images The list of images located within the image folder.
 #' @importFrom shinythemes shinytheme
 #' @importFrom purrr imap map2 possibly
 #'
@@ -40,8 +40,7 @@
 #'
 #' @export
 launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
-                         images = list.files(system.file("images", package="taipan"), full.names = TRUE),
-                         answers = NULL) {
+                         images = list.files(system.file("images", package="taipan"), full.names = TRUE)) {
 
   ui <- fluidPage(title = "Taipan", theme = shinythemes::shinytheme("spacelab"),
                    textOutput("imgInfo", shiny::h3),

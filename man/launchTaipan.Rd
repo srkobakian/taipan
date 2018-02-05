@@ -4,16 +4,16 @@
 \alias{launchTaipan}
 \title{Launch Taipan}
 \usage{
-launchTaipan(questions = sampleQuestions,
+launchTaipan(questions = sampleQuestions, loadCache = FALSE,
   images = list.files(system.file("images", package = "taipan"), full.names =
-  TRUE), answers = NULL)
+  TRUE))
 }
 \arguments{
-\item{questions}{A taipan list object containing the questions to be asked in the app.}
+\item{questions}{A taipan structured list object containing the questions to be asked in the app, see the global environment object sampleQuestions.}
 
-\item{images}{The image folder.}
+\item{loadCache}{If a cache.Rdata object is found in the working directory and loadCache = TRUE, data from previous use of the app will be made avaiable. if there is no object the app will proceed from the beinnning of the image set. The default for this is FALSE.}
 
-\item{answers}{A dataset of previously created answers from the app}
+\item{images}{The list of images located within the image folder.}
 }
 \description{
 This launches the app
@@ -21,20 +21,31 @@ This launches the app
 \examples{
 
 \dontrun{
-sampleQuestions <- list(scene = list(Q1 = list(qType = "radio",
-label = "My First Question",
-choices = c("a", "b", "c")),
-Q2 = list(qType = "check",
-          label = "My Second Question",
-          choices = c("1", "2", "3"))),
-selection = list(Q1 = list(qType = "check",
-                           label = "My First Question",
-                           choices = c("a", "b", "c")),
-                 Q2 = list(qType = "radio",
-                           label = "My Second Question",
-                           choices = c("1", "2", "3"))))
+tennisQuestions <- list(scene = list(
 
-launchTaipan(sampleQuestions)
+bg = list(qType = "radio",
+         label = "What is the background?",
+         choices = c("Crowd", "Court", "Logo wall", "Not applicable")),
+shotangle = list(qType = "radio",
+                label = "What angle was the image taken from?",
+                choices = c("Level with players","Birds eye", "Upward angle")),
+situation = list(qType = "radio",
+                label = "What is the siutation occurring?",
+                choices = c("Court in play", "Court player close-up","Court close-up not player",
+                            "Crowd", "Off court close up of player","Transition"))),
+
+selection = list(detect = list(qType = "radio",
+                              label = "Who is the person selected?",
+                              choices = c("Player","Other staff on court", "Fan")),
+                glasses = list(qType = "radio",
+                               label = "Is the person wearing glasses?",
+                               choices = c("No", "Yes")),
+                visorhat = list(qType = "radio",
+                                label = "Is the person wearing a visor or hat?",
+                                choices = c("No", "Yes"))))
+
+
+launchTaipan(tennisQuestions)
 }
 
 }
