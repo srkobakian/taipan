@@ -16,39 +16,72 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Necessary Pieces 
- - MUST have local access
+## Set up
+The Taipan app has been designed to run locally with images stored within the working directory.
+
 
 ### Providing Images
+ To provide images for the users to annotate, allocate all images to a folder called `images` in the working directory. A sample of images have been provided, these were provided by Tennis Australia, they depict scenes from the Channel 7 broadcast of the Australian Open 2016.
 
-### Creating Questions
+### Providing Questions
+ The question lists should be provided in the style of the sample question list. This is explained in the question list Vingette.
 
-To use the package two sets of questions have been provided.
+## Launch the Shiny App
+The taipan Shiny App is integrated into the taipan pacakge, it can be deployed locally using the following command:
 
-## Launch the shiny app
+```{r, echo=TRUE, eval=FALSE}
+require(taipan)
+launchTaipan()
+```
+
+Note that the function call is empty, it can be run with no arguments provided.
+
+The `questions` argument is used when the question list has been provided in the global environment, for example `questions = tennisQuestions` will result in the app displaying questions regarding the faces and scenes of the tennis broadcast images.
+
+When the app is first run the `loadCache = FALSE` argument is appropriate. If annotations have already been attempted and you would like to return to the next image in the folder that has not been considered `loadCache = TRUE`should be used in the function call.
+This requires a `cache.Rdata` object to be found in the working directory, if there is no object the app will proceed from the beginning of the image set.
+The `cache.Rdata` object will be saved and accessible in the working directory after any use of the app. This can be provided to other users if desired. (?)
+
+The `images` argument does not need to be accessed manually. The object is automatically created as a list of the names of all images provided in the images folder.
 
 
 ## Image Information
 
- - When it pops up
- - How it saves
- - Where it saves
- 
-### Answering image questions
+The questions for the images appear when a new image is shown.
+The answers selected are saved when either the `Previous Image` or `Next Image` or `Save All Answers` buttons are clicked.
 
- - types of answers, responses
+![Taipan application initial display.](Taipan1imageInformation.png)
 
+The answers will now be available in the `SceneAnswers` data frame in the global package environment, or also available in the cache file if the app or R session is terminated.
 
 ### Selection Information
 
- - brush tool
- - auto switch between tabs
- - When it pops up
- - How it saves
- - Where it saves
+The brush tool is used to highlight areas of interest, in the tennis example the areas selected contained faces.
+
+When a new area is selected the question set changes to show the questions that relate to faces.
+
+![Taipan application selection questions displayed when area is selected by brush.](Taipan2selectionInformation.png)
+
+To save the answers for the specific faces, click the `Save Selection Answers` button.
+When saved, the image will reload and the face now saved will be outlined in green. 
+
+![Taipan application previously annotated face highlighted by green box.](Taipan3selectionInformation.png)
+
+When a selection is made, and another area of the image is clicked before saving the answers will not be saved.
+
+The answers to all questions for all faces will now be available in the `SelectionAnswers` data frame in the global package environment.
+
+### Editing
+To edit scene information simply return to the desired image, change the previously selected answers to the intended answers and click either the `Previous Image` or `Next Image` or `Save All Answers` buttons.
+
+To edit selection information, double click within a green outlined square. This will turn the square red, and indicate the answers now chosen will be saved for the selected area.
  
- 
+
+![Taipan application editing previously annotated face, highlighted by red box on face and around image.](Taipan4editings.png)
 ## Finishing up
+
+The cache allows all information to be accessible at the close of the app, when it is intentional or not.
+The tidy format data frames can now be used for analysis.
 
 
 
