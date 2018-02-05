@@ -19,8 +19,10 @@ Imports:
     shinythemes,
     tidyr,
     tools
-Suggests: 
-    testthat
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown
 Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
              person("Mitchell", "O'Hara-Wild", email = "mail@mitchelloharawild.com", role = c("aut")))
 URL: https://github.com/srkob1/taipan
@@ -30,3 +32,4 @@ Encoding: UTF-8
 LazyData: true
 ByteCompile: true
 RoxygenNote: 6.0.1.9000
+VignetteBuilder: knitr
