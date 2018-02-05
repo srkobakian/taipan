@@ -1,0 +1,59 @@
+---
+title: "Question List Vignette"
+author: "Stephanie Kobakian"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Question List Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+### Creating Questions
+
+To use the package two sets of questions have been provided. The tennis questions list contain some of the questions asked about the Australian Open scenes provided.
+The question lists have a specific format:
+
+```{r, echo=TRUE, eval=FALSE}
+sampleQuestions <- list(scene = list(Q1 = list(qType = "radio",
+                                               label = "My First Question",
+                                               choices = c("a", "b", "c"),
+                                               selected = c("b")),
+                                     Q2 = list(qType = "check",
+                                               label = "My Second Question",
+                                               choices = c("1", "2", "3"))),
+                        selection = list(Q1 = list(qType = "check",
+                                                   label = "My First Question",
+                                                   choices = c("a", "b", "c")),
+                                         Q2 = list(qType = "radio",
+                                                   label = "My Second Question",
+                                                   choices = c("1", "2", "3"))))
+
+
+```
+
+
+
+The first object in the outer list, `scene`, contains a list of questions to be asked about the entire image.
+It is recommended the objects within this list are named for identification and analysis, they will become the column names in the exported data sets, for example the first question will be identified as the column named `scene_Q1`.
+
+The second object in the outer list is the `selection` list. It is recommended these names are not changed, as the selection list refers to the questions asked about the smaller areas located within an image. The answers given may, and are expected to, differ for each selected area within an image. There is no limit to how many selections can be found within each image or `scene`.
+
+The list for each individual question should at least contain the following named objects: `qType, label, choices`. The character string provided for `qType` should be the function name of the shiny question object to be produced. The functions `radioButtons()` and `checkboxGroupInput()` have been specified to be accessed using only the strings `"radio"` and `"check"`. (Add a link to helper function where others can be specified?)
+
+The second named list object for each question is `label`, this refers to the question that will be displayed to those answering. This should contain one character string.
+
+Choices should contain one or more options. Noting that some question types will require an answer.
+It should be provided as a vector containing character strings for each possible choice for the question. For example `choices = c("1", "2", "3")` will give the user three options to be selected.
+
+The optional argument, `selected`, applies when a particular answer should be a default for users. This may be appropriate if the expected default is not desired, for example the first option provided to a radio buttons question is shown as the default, or there is no check box initially selected and the question should not have a null result. To provide a default answer, provide the list object `selected` followed by a vector containing a character string, `= c("b"))` will make the default answer "b".
+
