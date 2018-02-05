@@ -11,7 +11,7 @@
 #' @examples
 #'
 #' \dontrun{
-#' tennisQuestions <- list(scene = list(
+#' tennisQuestionsSmall <- list(scene = list(
 #'
 #'bg = list(qType = "radio",
 #'          label = "What is the background?",
