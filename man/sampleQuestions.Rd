@@ -3,6 +3,8 @@
 \docType{data}
 \name{sampleQuestions}
 \alias{sampleQuestions}
+\alias{sampleQuestions}
+\alias{tennisQuestionsSmall}
 \title{Nested list of a sample of Questions}
 \format{A nested list with two lists, both containing information for
 questions to be displayed:
@@ -21,8 +23,13 @@ questions to be displayed:
 }}
 \usage{
 sampleQuestions
+
+tennisQuestionsSmall
 }
 \description{
+A nested list containing two sets of questions and the information needed
+to create shiny objects for each question.
+
 A nested list containing two sets of questions and the information needed
 to create shiny objects for each question.
 }
