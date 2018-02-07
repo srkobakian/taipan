@@ -13,6 +13,7 @@ Imports:
     ggplot2,
     imager,
     purrr,
+    readr,
     rlang,
     shiny,
     shinyjs,

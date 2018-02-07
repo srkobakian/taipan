@@ -4,7 +4,7 @@ author: "Stephanie Kobakian"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Taipan Vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,7 +18,15 @@ library(readr)
 library(tidyverse)
 ```
 
-## Set up
+## Installation
+
+You can install the development version from Github using:
+
+```{r, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("srkob1/taipan")
+```
+
 The Taipan app has been designed to run locally with images stored within the working directory.
 
 
@@ -28,7 +36,10 @@ The Taipan app has been designed to run locally with images stored within the wo
 ### Providing Questions
  The question lists should be provided in the style of the sample question list. This is explained in the question list Vingette.
 
-## Launch the Shiny App
+## Usage
+
+### Launch the Shiny App
+
 The taipan Shiny App is integrated into the taipan pacakge, it can be deployed locally using the following command:
 
 ```{r, echo=TRUE, eval=FALSE}
