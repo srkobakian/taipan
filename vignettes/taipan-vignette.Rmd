@@ -52,7 +52,9 @@ The `images` argument does not need to be accessed manually. The object is autom
 The questions for the images appear when a new image is shown.
 The answers selected are saved when either the `Previous Image` or `Next Image` or `Save All Answers` buttons are clicked.
 
-![Taipan application initial display.](Taipan1imageInformation.png)
+<img src="Taipan1imageInformation.png" width="500px">
+
+
 
 The answers will now be available in the `SceneAnswers` data frame in the global package environment, or also available in the cache file if the app or R session is terminated.
 
