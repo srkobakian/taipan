@@ -11,6 +11,7 @@
 #' @examples
 #'
 #' \dontrun{
+#' library(taipan)
 #' tennisQuestionsSmall <- list(scene = list(
 #'
 #'bg = list(qType = "radio",
@@ -35,7 +36,7 @@
 #'                                 choices = c("No", "Yes"))))
 #'
 #'
-#' launchTaipan(tennisQuestions)
+#' launchTaipan(tennisQuestionsSmall)
 #' }
 #'
 #' @export
@@ -74,7 +75,7 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
     #source("global.R")
 
     if(loadCache == T & "cache.Rdata" %in% list.files()){
-      load("cache.Rdata")
+      load("data/cache.Rdata")
     }
     else {
       v <- reactiveValues(sArea = "scene",
@@ -250,7 +251,7 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 
 
     onStop(function(){
-      save(v, file = "cache.Rdata")
+      save(v, file = "data/cache.Rdata")
     })
 
 

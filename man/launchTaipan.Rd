@@ -21,6 +21,7 @@ This launches the app
 \examples{
 
 \dontrun{
+library(taipan)
 tennisQuestionsSmall <- list(scene = list(
 
 bg = list(qType = "radio",
@@ -45,7 +46,7 @@ selection = list(detect = list(qType = "radio",
                                 choices = c("No", "Yes"))))
 
 
-launchTaipan(tennisQuestions)
+launchTaipan(tennisQuestionsSmall)
 }
 
 }
