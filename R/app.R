@@ -74,8 +74,16 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
     #source("helpers.R")
     #source("global.R")
 
-    if(loadCache == T & "cache.Rdata" %in% list.files()){
-      load("data/cache.Rdata")
+    if(loadCache == T & "SceneAnswers.csv" %in% list.files("data")){
+      SceneAnswers <- read.csv("data/SceneAnswers.csv")
+      SelectionAnswers <- read.csv("data/SelectionAnswers.csv")
+      imageNum <- sum(images %in% SceneAnswers$path)+1
+      v <- reactiveValues(sArea = "scene",
+                          imageNum = imageNum,
+                          ansOut = SceneAnswers,
+                          selectionNum = 1,
+                          selAnsDf = SelectionAnswers,
+                          editing = FALSE)
     }
     else {
       v <- reactiveValues(sArea = "scene",
@@ -89,7 +97,7 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
     questionIDs <- questions %>%
       imap(~ paste0(.y, "_", names(.x)))
 
-    #
+
     # observeEvent(input$debug, {
     #   browser()
     # })
@@ -98,11 +106,6 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
     # add title above plot
     output$imgInfo <- renderText({
       paste0("Image ", v$imageNum, " (", basename(images[v$imageNum]), ")")
-    })
-
-    # change image
-    observeEvent(input$slide,{
-     v$imageNum <- input$slide
     })
 
 
@@ -251,7 +254,8 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 
 
     onStop(function(){
-      save(v, file = "data/cache.Rdata")
+      write.csv(SceneAnswers, file = "data/SceneAnswers.csv")
+      write.csv(SelectionAnswers, file = "data/SelectionAnswers.csv")
     })
 
 
@@ -259,10 +263,10 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
       combine_data(selAnsDf = v$selAnsDf, ansOut = v$ansOut) %>% as_tibble %>%
         write.csv("temp.csv", row.names = FALSE)
       SceneAnswers <<- isolate(v$ansOut)
-      #save(SceneAnswers, file = "SceneAnswers.Rdata")
+      write.csv(SceneAnswers, file = "data/SceneAnswers.csv")
       SelectionAnswers <<- isolate(v$selAnsDf)
-      #save(SelectionAnswers, file = "SelectionAnswers.Rdata")
-      showNotification("Saved at 'temp.csv'")
+      write.csv(SelectionAnswers, file = "data/SelectionAnswers.csv")
+      showNotification("Saved at 'SceneAnswers.csv' and 'SelectionAnswers.csv'")
     })
 
     #
