@@ -151,6 +151,20 @@ A similar approach may be taken with the `SelectionAnswers`
 SelectionAnswers %>% spread(question, answers)
 ```
 
+### Plotting data
+
+
+```{r}
+SelectionAnswers %>% spread(question,answers) -> faces
+
+ggplot(data=faces) +
+   geom_bar(aes(x=selection_visorhat, fill = selection_detect)) + 
+  coord_flip() +
+  guides(fill = guide_legend(title="Person Captured")) +
+  labs(caption="") +
+  ylab("Proportion of faces") + xlab("Hat or Visor worn on face")
+```
+
 
 ## Something new
 
