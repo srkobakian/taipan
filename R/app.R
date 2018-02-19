@@ -70,22 +70,18 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 
 
   server <- function(input, output, session) {
-    #source("modules.R")
-    #source("helpers.R")
-    #source("global.R")
 
-    if(loadCache == T & "SceneAnswers.csv" %in% list.files("data")){
+    if(!("images" %in% dir("inst"))){
+      stop("Could not find folder called 'images'")
+    }
+    v <- try({
       SceneAnswers <- read.csv("data/SceneAnswers.csv")
       SelectionAnswers <- read.csv("data/SelectionAnswers.csv")
       imageNum <- sum(images %in% SceneAnswers$path)+1
-      v <- reactiveValues(sArea = "scene",
-                          imageNum = imageNum,
-                          ansOut = SceneAnswers,
-                          selectionNum = 1,
-                          selAnsDf = SelectionAnswers,
-                          editing = FALSE)
-    }
-    else {
+      })
+
+    if(class(v) == "try-error"){
+      message("WARNING: Previously classified images not found.")
       v <- reactiveValues(sArea = "scene",
                           imageNum = 1,
                           ansOut = data.frame(),
@@ -93,14 +89,22 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
                           selAnsDf = data.frame(),
                           editing = FALSE)
     }
+    else {
+      v <- reactiveValues(sArea = "scene",
+                          imageNum = imageNum,
+                          ansOut = SceneAnswers,
+                          selectionNum = 1,
+                          selAnsDf = SelectionAnswers,
+                          editing = FALSE)
+    }
 
     questionIDs <- questions %>%
       imap(~ paste0(.y, "_", names(.x)))
 
 
-    # observeEvent(input$debug, {
-    #   browser()
-    # })
+    observeEvent(input$debug, {
+      browser()
+    })
 
 
     # add title above plot
@@ -254,8 +258,8 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 
 
     onStop(function(){
-      write.csv(SceneAnswers, file = "data/SceneAnswers.csv")
-      write.csv(SelectionAnswers, file = "data/SelectionAnswers.csv")
+      write.csv(SceneAnswers, file = "data/SceneAnswers.csv", row.names = F)
+      write.csv(SelectionAnswers, file = "data/SelectionAnswers.csv", row.names = F)
     })
 
 
@@ -263,9 +267,9 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
       combine_data(selAnsDf = v$selAnsDf, ansOut = v$ansOut) %>% as_tibble %>%
         write.csv("temp.csv", row.names = FALSE)
       SceneAnswers <<- isolate(v$ansOut)
-      write.csv(SceneAnswers, file = "data/SceneAnswers.csv")
+      write.csv(SceneAnswers, file = "data/SceneAnswers.csv", row.names = F)
       SelectionAnswers <<- isolate(v$selAnsDf)
-      write.csv(SelectionAnswers, file = "data/SelectionAnswers.csv")
+      write.csv(SelectionAnswers, file = "data/SelectionAnswers.csv", row.names = F)
       showNotification("Saved at 'SceneAnswers.csv' and 'SelectionAnswers.csv'")
     })
 
