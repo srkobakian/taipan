@@ -12,10 +12,10 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  cache = TRUE)
+  comment = "#>")
 library(readr)
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
 ```
 
 The taipan web application was created to streamline the process of manually tagging images to create a training set. It results in a tidy data structure that is ready to use for analysis.
@@ -117,16 +117,16 @@ knitr::include_graphics("Taipan4editings.png")
 
 ## Accessing Data
 
-The cache allows all information to be accessible at the close of the app.
+All information recorded in the app is accessible after the app is exited.
 The tidy format data frames can now be used for analysis.
 
 The `scene_answers` data frame is arranged so that every row contains a single answer to a question regarding one of the images considered.
-The question column is created such that each row is named according to the nested list the question belongs to, followed by an underscore and the name of the list item for the question. The following answers were given for the image considered in the figures above:
+The question column is created such that each row is named according to the nested list the question belongs to, followed by an underscore and the name of the list item for the question. The following code loads previously recorded annotations for the Australian Open tennis images.
 
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-scene_answers <- read_csv("Scene Answers.csv")
-selection_answers <- read_csv("Selection Answers.csv")
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+scene_answers <- read_csv("scene_answers.csv")
+selection_answers <- read_csv("selection_answers.csv")
 ```
 
 ```{r, echo=FALSE}
