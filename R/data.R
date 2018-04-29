@@ -20,9 +20,9 @@
 #'    default selection.}
 #' }
 #'
-NULL
+"sampleQuestions"
 
-#' Nested list of questions for manual annotation of Australian Open images
+#' Nested list of all questions used to manually annotate Australian Open images
 #'
 #' A nested list structure containing questions regarding the images
 #' provided by Tennis Australia of the Australian Open 2016:
@@ -44,4 +44,30 @@ NULL
 #'    default selection.}
 #' }
 #'
-NULL
+"tennisQuestions"
+
+
+
+#' Nested list of some questions used to manually annotate Australian Open images
+#'
+#' A nested list structure containing questions regarding the images
+#' provided by Tennis Australia of the Australian Open 2016:
+#'
+#' @docType data
+#' @name tennisQuestionsSmall
+#' @format
+#' \itemize{
+#'   \item{scene: A list of questions regarding the background, angle of the
+#'   shot and the situation occuring.}
+#'   \item{selection: A list of questions regarding the face captured. Whether
+#'   it is completely visible, the angle of the face, how the face is lit, and
+#'   the accessories being worn.}
+#'   \item{qType: A character string of the function name of the shiny question
+#'    object to be produced.}
+#'    \item{label: The question that will be displayed in the shiny app.}
+#'    \item{choices: A character vector of options to be chosen.}
+#'    \item{selected: An option argument, when a particular answer should be a
+#'    default selection.}
+#' }
+#'
+"tennisQuestionsSmall"
