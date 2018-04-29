@@ -12,5 +12,6 @@ dplyr::`%>%`
 #' @import rlang
 #' @importFrom tools list_files_with_exts
 #' @importFrom graphics plot lines
-#' @importFrom utils write.csv
+#' @importFrom utils write.csv read.csv
+#' @importFrom stats na.omit
 NULL
