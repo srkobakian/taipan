@@ -1,7 +1,11 @@
 
 utils::globalVariables(c("v", "question", "data", ".",
-                         "path","xmin","xmax","ymin","ymax","selectionNum"))
+                         "path","xmin","xmax","ymin","ymax","selectionNum",
+                         "images", "answers"))
 
-load("data/sampleQuestions.Rdata")
-load("data/tennisQuestionsSmall.Rdata")
-load("data/tennisQuestions.Rdata")
+# Reactive Variables
+areaSelected <- function() NULL
+
+# load("data/sampleQuestions.Rda")
+# load("data/tennisQuestionsSmall.Rda")
+# load("data/tennisQuestions.Rda")

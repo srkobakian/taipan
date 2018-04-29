@@ -16,7 +16,11 @@
    \item{selected: An optional argument, when a particular answer should be a
    default selection.}
 }}
+\usage{
+sampleQuestions
+}
 \description{
 A nested list containing two sets of questions and the information needed
 to create shiny objects for each question.
 }
+\keyword{datasets}

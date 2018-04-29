@@ -3,7 +3,7 @@
 \docType{data}
 \name{tennisQuestions}
 \alias{tennisQuestions}
-\title{Nested list of questions for manual annotation of Australian Open images}
+\title{Nested list of all questions used to manually annotate Australian Open images}
 \format{\itemize{
   \item{scene: A list of questions regarding the background, angle of the
   shot and the situation occuring.}
@@ -17,7 +17,11 @@
    \item{selected: An option argument, when a particular answer should be a
    default selection.}
 }}
+\usage{
+tennisQuestions
+}
 \description{
 A nested list structure containing questions regarding the images
 provided by Tennis Australia of the Australian Open 2016:
 }
+\keyword{datasets}
