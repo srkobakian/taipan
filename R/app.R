@@ -3,7 +3,7 @@
 #' This launches the app
 #'
 #' @param questions A taipan structured list object containing the questions to be asked in the app, see the global environment object sampleQuestions.
-#' @param loadCache If a cache.Rdata object is found in the working directory and loadCache = TRUE, data from previous use of the app will be made avaiable. if there is no object the app will proceed from the beinnning of the image set. The default for this is FALSE.
+#' @param loadCache If a cache.Rda object is found in the working directory and loadCache = TRUE, data from previous use of the app will be made avaiable. if there is no object the app will proceed from the beinnning of the image set. The default for this is FALSE.
 #' @param images The list of images located within the image folder.
 #' @importFrom shinythemes shinytheme
 #' @importFrom purrr imap map2 possibly
@@ -75,9 +75,9 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
       stop("Could not find folder called 'images'")
     }
     v <- try({
-      SceneAnswers <- read.csv("data/SceneAnswers.csv")
-      SelectionAnswers <- read.csv("data/SelectionAnswers.csv")
-      imageNum <- sum(images %in% SceneAnswers$path)+1
+      scene_answers <- read.csv("data/scene_answers.csv")
+      selection_answers <- read.csv("data/selection_answers.csv")
+      imageNum <- sum(images %in% scene_answers$path)+1
       })
 
     if(class(v) == "try-error"){
@@ -92,9 +92,9 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
     else {
       v <- reactiveValues(sArea = "scene",
                           imageNum = imageNum,
-                          ansOut = SceneAnswers,
+                          ansOut = scene_answers,
                           selectionNum = 1,
-                          selAnsDf = SelectionAnswers,
+                          selAnsDf = selection_answers,
                           editing = FALSE)
     }
 
@@ -102,9 +102,9 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
       imap(~ paste0(.y, "_", names(.x)))
 
 
-    observeEvent(input$debug, {
-      browser()
-    })
+    # observeEvent(input$debug, {
+    #   browser()
+    # })
 
 
     # add title above plot
@@ -258,19 +258,19 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 
 
     onStop(function(){
-      write.csv(SceneAnswers, file = "data/SceneAnswers.csv", row.names = F)
-      write.csv(SelectionAnswers, file = "data/SelectionAnswers.csv", row.names = F)
+      write.csv(scene_answers, file = "data/scene_answers.csv", row.names = F)
+      write.csv(selection_answers, file = "data/selection_answers.csv", row.names = F)
     })
 
 
     observeEvent(input$saveData, {
       combine_data(selAnsDf = v$selAnsDf, ansOut = v$ansOut) %>% as_tibble %>%
-        write.csv("temp.csv", row.names = FALSE)
-      SceneAnswers <<- isolate(v$ansOut)
-      write.csv(SceneAnswers, file = "data/SceneAnswers.csv", row.names = F)
-      SelectionAnswers <<- isolate(v$selAnsDf)
-      write.csv(SelectionAnswers, file = "data/SelectionAnswers.csv", row.names = F)
-      showNotification("Saved at 'SceneAnswers.csv' and 'SelectionAnswers.csv'")
+        write.csv("data/temp.csv", row.names = FALSE)
+      scene_answers <<- isolate(v$ansOut)
+      write.csv(scene_answers, file = "data/scene_answers.csv", row.names = F)
+      selection_answers <<- isolate(v$selAnsDf)
+      write.csv(selection_answers, file = "data/selection_answers.csv", row.names = F)
+      showNotification("Saved at 'scene_answers.csv' and 'selection_answers.csv'")
     })
 
     #
