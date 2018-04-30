@@ -5,6 +5,14 @@
 #' @export
 dplyr::`%>%`
 
+#' @importFrom readr read_csv
+#' @export
+readr::read_csv
+
+#' @importFrom tidyr spread
+#' @export
+tidyr::spread
+
 #' @import shiny
 #' @import shinythemes
 #' @import imager
