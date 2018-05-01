@@ -4,7 +4,7 @@
 \name{taipan-package}
 \alias{taipan}
 \alias{taipan-package}
-\title{taipan: Taipan for R}
+\title{taipan: Taipan For R}
 \description{
 Taipan is a tool for annotating images in preparation for analysis.
 It allows users to annotate images in an interactive environment.

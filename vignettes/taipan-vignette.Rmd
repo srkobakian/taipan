@@ -13,9 +13,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>")
-library(readr)
-library(dplyr)
-library(ggplot2)
+library(taipan)
 ```
 
 The taipan web application was created to streamline the process of manually tagging images to create a training set. It results in a tidy data structure that is ready to use for analysis.
@@ -151,13 +149,13 @@ selection_answers %>% spread(question, answers)
 ```{r, echo = FALSE, fig.width = 7, fig.height = 4}
 selection_answers %>% spread(question,answers) -> faces
 
-ggplot(data=faces) +
-   geom_bar(aes(x=selection_visorhat, fill = selection_detect)) + 
-  coord_flip() +
-  guides(fill = guide_legend(title="Person Captured")) +
-  theme(legend.position="bottom") +
-  labs(caption="") +
-  ylab("Amount of Faces") + xlab("Hat or Visor worn on face")
+# ggplot(data=faces) +
+#    geom_bar(aes(x=selection_visorhat, fill = selection_detect)) + 
+#   coord_flip() +
+#   guides(fill = guide_legend(title="Person Captured")) +
+#   theme(legend.position="bottom") +
+#   labs(caption="") +
+#   ylab("Amount of Faces") + xlab("Hat or Visor worn on face")
 ```
 
 
