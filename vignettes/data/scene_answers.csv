@@ -1,16 +1,16 @@
-path,question,answers
-C:/Users/steff/Documents/taipan/inst/images/2016_CT6_R01_CGarcia_FRA_vs_BStrycova_CZE_WS145_clip.0015.png,scene_bg,Logo wall
-C:/Users/steff/Documents/taipan/inst/images/2016_CT6_R01_CGarcia_FRA_vs_BStrycova_CZE_WS145_clip.0015.png,scene_shotangle,Level with players
-C:/Users/steff/Documents/taipan/inst/images/2016_CT6_R01_CGarcia_FRA_vs_BStrycova_CZE_WS145_clip.0015.png,scene_situation,Court in play
-C:/Users/steff/Documents/taipan/inst/images/2016_CT6_R01_EKulichkova_RUS_vs_APetkovic_GER_WS128_clip.0080.png,scene_bg,Logo wall
-C:/Users/steff/Documents/taipan/inst/images/2016_CT6_R01_EKulichkova_RUS_vs_APetkovic_GER_WS128_clip.0080.png,scene_shotangle,Level with players
-C:/Users/steff/Documents/taipan/inst/images/2016_CT6_R01_EKulichkova_RUS_vs_APetkovic_GER_WS128_clip.0080.png,scene_situation,Court in play
-C:/Users/steff/Documents/taipan/inst/images/2016_CT6_R01_JMillman_AUS_vs_DSchwartzman_ARG_MS159_clip.0013.png,scene_bg,Logo wall
-C:/Users/steff/Documents/taipan/inst/images/2016_CT6_R01_JMillman_AUS_vs_DSchwartzman_ARG_MS159_clip.0013.png,scene_shotangle,Level with players
-C:/Users/steff/Documents/taipan/inst/images/2016_CT6_R01_JMillman_AUS_vs_DSchwartzman_ARG_MS159_clip.0013.png,scene_situation,Court player close-up
-C:/Users/steff/Documents/taipan/inst/images/2016_CT6_R02_ABeck_GER_vs_TBacsinszky_SUI_WS220_clip.0017.png,scene_bg,Crowd
-C:/Users/steff/Documents/taipan/inst/images/2016_CT6_R02_ABeck_GER_vs_TBacsinszky_SUI_WS220_clip.0017.png,scene_shotangle,Level with players
-C:/Users/steff/Documents/taipan/inst/images/2016_CT6_R02_ABeck_GER_vs_TBacsinszky_SUI_WS220_clip.0017.png,scene_situation,Court in play
-C:/Users/steff/Documents/taipan/inst/images/2016_HSA_R01_BTomic_AUS_vs_DIstomin_UZB_MS157_clip.0013.png,scene_bg,Crowd
-C:/Users/steff/Documents/taipan/inst/images/2016_HSA_R01_BTomic_AUS_vs_DIstomin_UZB_MS157_clip.0013.png,scene_shotangle,Level with players
-C:/Users/steff/Documents/taipan/inst/images/2016_HSA_R01_BTomic_AUS_vs_DIstomin_UZB_MS157_clip.0013.png,scene_situation,Court in play
+"path","question","answers"
+"2016_CT6_R01_CGarcia_FRA_vs_BStrycova_CZE_WS145_clip.0015.png","scene_bg","Logo wall"
+"2016_CT6_R01_CGarcia_FRA_vs_BStrycova_CZE_WS145_clip.0015.png","scene_shotangle","Level with players"
+"2016_CT6_R01_CGarcia_FRA_vs_BStrycova_CZE_WS145_clip.0015.png","scene_situation","Court in play"
+"2016_CT6_R01_EKulichkova_RUS_vs_APetkovic_GER_WS128_clip.0080.png","scene_bg","Logo wall"
+"2016_CT6_R01_EKulichkova_RUS_vs_APetkovic_GER_WS128_clip.0080.png","scene_shotangle","Level with players"
+"2016_CT6_R01_EKulichkova_RUS_vs_APetkovic_GER_WS128_clip.0080.png","scene_situation","Court in play"
+"2016_CT6_R01_JMillman_AUS_vs_DSchwartzman_ARG_MS159_clip.0013.png","scene_bg","Logo wall"
+"2016_CT6_R01_JMillman_AUS_vs_DSchwartzman_ARG_MS159_clip.0013.png","scene_shotangle","Level with players"
+"2016_CT6_R01_JMillman_AUS_vs_DSchwartzman_ARG_MS159_clip.0013.png","scene_situation","Court player close-up"
+"2016_CT6_R02_ABeck_GER_vs_TBacsinszky_SUI_WS220_clip.0017.png","scene_bg","Crowd"
+"2016_CT6_R02_ABeck_GER_vs_TBacsinszky_SUI_WS220_clip.0017.png","scene_shotangle","Level with players"
+"2016_CT6_R02_ABeck_GER_vs_TBacsinszky_SUI_WS220_clip.0017.png","scene_situation","Court in play"
+"2016_HSA_R01_BTomic_AUS_vs_DIstomin_UZB_MS157_clip.0013.png","scene_bg","Crowd"
+"2016_HSA_R01_BTomic_AUS_vs_DIstomin_UZB_MS157_clip.0013.png","scene_shotangle","Level with players"
+"2016_HSA_R01_BTomic_AUS_vs_DIstomin_UZB_MS157_clip.0013.png","scene_situation","Court in play"
