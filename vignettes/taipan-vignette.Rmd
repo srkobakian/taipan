@@ -5,14 +5,17 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Taipan Vignette}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>")
+  comment = "#>",
+  fig.align = "centre")
 library(taipan)
 ```
 
@@ -35,11 +38,11 @@ The Taipan app has been designed to run locally with images stored within the wo
 ## Usage
 
 
-### Images
- To provide images for the users to annotate, create a directory called `images`. An example directory has been provided, it contains a sample of images provided by Tennis Australia, they depict scenes from the Channel 7 broadcast of the Australian Open 2016.
+### Example Images
+ A folder has been provided in this packaged called `images`. It contains a sample of images provided by Tennis Australia, they depict scenes from the Channel 7 broadcast of the Australian Open 2016. To use your own images you must create a directory called `images` in the current project. When running the app it will default to the example image directory in the package if an images folder cannot be found in the project. Your image set may contain PNG, JPEG and/or BMP files, these should be located in the `images` folder.
 
-### Questions
- The question lists should be provided in the style of the sample question list. Each question requires the choices available, the question type and whether there should be a specific default answer.
+### Example Questions
+ The question lists should be provided in the style of the sample question list. For each question users are expected to answer, you must provide the choices available, the question type and whether there should be a specific default answer. The style of the question list is explored further in the Question List section below.
 
 
 ### Launch the Shiny App
@@ -123,8 +126,8 @@ The question column is created such that each row is named according to the nest
 
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-scene_answers <- read_csv("scene_answers.csv")
-selection_answers <- read_csv("selection_answers.csv")
+scene_answers <- read_csv("data/scene_answers.csv")
+selection_answers <- read_csv("data/selection_answers.csv")
 ```
 
 ```{r, echo=FALSE}
@@ -146,28 +149,25 @@ selection_answers %>% spread(question, answers)
 ### Plotting data
 
 
-```{r, echo = FALSE, fig.width = 7, fig.height = 4}
+```{r, echo = FALSE, dpi=180}
 selection_answers %>% spread(question,answers) -> faces
 
+# library(ggplot2)
 # ggplot(data=faces) +
-#    geom_bar(aes(x=selection_visorhat, fill = selection_detect)) + 
+#    geom_bar(aes(x=selection_visorhat, fill = selection_detect)) +
 #   coord_flip() +
 #   guides(fill = guide_legend(title="Person Captured")) +
 #   theme(legend.position="bottom") +
 #   labs(caption="") +
 #   ylab("Amount of Faces") + xlab("Hat or Visor worn on face")
+
+knitr::include_graphics("Taipan5plotting.png")
 ```
 
 
-## Something new
+### Question Lists
 
-### Images
-
-Replace the example image set with your images by adding PNG, JPEG and BMP files to the `inst/images` folder in the taipan directory.
-
-### Questions
-
-To use the package two sets of questions have been provided.
+Two sets of questions have been provided in the package.
 The question lists have a specific format:
 
 ```{r, echo=TRUE, eval=FALSE}
