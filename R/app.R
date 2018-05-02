@@ -41,7 +41,7 @@
 #'
 #' @export
 launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
-                         images = list.files(system.file("images", package="taipan"), full.names = TRUE)) {
+                         images = list.files(system.file("images", package="taipan"))) {
 
   ui <- fluidPage(title = "Taipan", theme = shinythemes::shinytheme("spacelab"),
                    textOutput("imgInfo", shiny::h3),
@@ -174,7 +174,7 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 
     observeEvent(c(v$imageNum, v$editing), {
       ### produce the pixel size of the first image
-      curImage <- imager::load.image(images[v$imageNum])
+      curImage <- imager::load.image(cat(system.file("images", package="taipan"), "/", images[v$imageNum], sep = ""))
       imgHeight <- imager::height(curImage)
       imgWidth <- imager::width(curImage)
       hwratio <- imgHeight/imgWidth
