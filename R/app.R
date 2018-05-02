@@ -45,7 +45,6 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 
   ui <- fluidPage(title = "Taipan", theme = shinythemes::shinytheme("spacelab"),
                    textOutput("imgInfo", shiny::h3),
-                   #actionButton("debug", "debug"),
                   fluidRow(uiOutput("plotUI")),
                    wellPanel(
                      fluidRow(
@@ -59,13 +58,6 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
                            column(6, actionButton("imagePrev", "Previous Image", icon("arrow-left"))),
                            column(5, actionButton("saveData", "Save All Answers", icon("check")),
                                   actionButton("imageNext","Next Image",icon("arrow-right"))))
-
-                  #add progress bar
-                  # fluidRow(
-                  #   column(6, offset = 3,
-                  #   sliderInput("slide", "Image Number", min = 1, max = length(images),
-                  #               step = 1, value=1, ticks = FALSE)
-                  # ))
   )
 
 
@@ -100,12 +92,6 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 
     questionIDs <- questions %>%
       imap(~ paste0(.y, "_", names(.x)))
-
-
-    # observeEvent(input$debug, {
-    #   browser()
-    # })
-
 
     # add title above plot
     output$imgInfo <- renderText({
@@ -272,18 +258,6 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
       write.csv(selection_answers, file = "data/selection_answers.csv", row.names = F)
       showNotification("Saved at 'scene_answers.csv' and 'selection_answers.csv'")
     })
-
-    #
-    # output$savei <- downloadHandler(
-    #   filename = paste0("taipanCombinedData.csv"),
-    #
-    #   content = function(con) {
-    #     combine_data(selAnsDf = v$selAnsDf, ansOut = v$ansOut) %>%
-    #     write.csv("temp.csv", row.names = FALSE)
-    #
-    #     file.copy("temp.csv", con)
-    #   }
-    # )
 
     }
   shinyApp(ui, server)
