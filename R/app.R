@@ -63,30 +63,32 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 
   server <- function(input, output, session) {
 
-    if(!("images" %in% dir("inst"))){
+    if (!(file.exists("images"))) {
       stop("Could not find folder called 'images'")
     }
-    v <- try({
-      scene_answers <- read.csv("data/scene_answers.csv")
-      selection_answers <- read.csv("data/selection_answers.csv")
+    # If we have already processed some images these files should exist
+    if (file.exists("data/scene_answers.csv")) {
+    #v <- try({
+      scene_answers <- read_csv("data/scene_answers.csv")
+      selection_answers <- read_csv("data/selection_answers.csv")
+      # How many have we completed
       imageNum <- sum(images %in% scene_answers$path)+1
-      })
-
-    if(class(v) == "try-error"){
-      message("WARNING: Previously classified images not found.")
-      v <- reactiveValues(sArea = "scene",
-                          imageNum = 1,
-                          ansOut = data.frame(),
-                          selectionNum = 1,
-                          selAnsDf = data.frame(),
-                          editing = FALSE)
-    }
-    else {
+      #})
       v <- reactiveValues(sArea = "scene",
                           imageNum = imageNum,
                           ansOut = scene_answers,
                           selectionNum = 1,
                           selAnsDf = selection_answers,
+                          editing = FALSE)
+    }
+    else {
+    #if(class(v) == "try-error"){
+    #  message("WARNING: Previously classified images not found.")
+      v <- reactiveValues(sArea = "scene",
+                          imageNum = 1,
+                          ansOut = data.frame(),
+                          selectionNum = 1,
+                          selAnsDf = data.frame(),
                           editing = FALSE)
     }
 
