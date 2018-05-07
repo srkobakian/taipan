@@ -176,8 +176,8 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 
     observeEvent(c(v$imageNum, v$editing), {
       ### produce the pixel size of the first image
-      #browser()
-      curImage <- imager::load.image(paste(here(),"/images/", images[v$imageNum], sep=""))
+      img_path <- paste(img_folder, images[v$imageNum], sep="")
+      curImage <- imager::load.image(img_path)
       imgHeight <- imager::height(curImage)
       imgWidth <- imager::width(curImage)
       hwratio <- imgHeight/imgWidth
