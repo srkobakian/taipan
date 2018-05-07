@@ -69,7 +69,7 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
     }
     # If we have already processed some images these files should exist
     if (file.exists("scene_answers.csv")) {
-    #v <- try({
+      #v <- try({
       scene_answers <- read_csv("scene_answers.csv")
       selection_answers <- read_csv("selection_answers.csv")
       # How many have we completed
@@ -83,8 +83,8 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
                           editing = FALSE)
     }
     else {
-    #if(class(v) == "try-error"){
-    #  message("WARNING: Previously classified images not found.")
+      #if(class(v) == "try-error"){
+      #  message("WARNING: Previously classified images not found.")
       v <- reactiveValues(sArea = "scene",
                           imageNum = 1,
                           ansOut = data.frame(),
@@ -158,7 +158,7 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
         v$editing <- FALSE
       }
 
-      })
+    })
 
 
     observeEvent(v$selectionNum, {
@@ -195,7 +195,7 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
       })
 
       output$plot <- renderPlot({
-          plot(curImage)
+        plot(curImage)
         boxes <- v$selAnsDf %>% filter(path==images[v$imageNum]) %>%
           mutate(id = paste0(.$path, .$selectionNum)) %>% distinct(.$id, .keep_all = TRUE)
         for(i in 1:NROW(boxes)){
@@ -203,13 +203,13 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
                 c(boxes[i,"ymin"], rep(boxes[i,"ymax"], 2), rep(boxes[i,"ymin"],2)), col="green")
         }
         if (v$editing) {
-        lines(c(rep(2, 2), rep(798, 2), 2),
-              c(2, rep(448, 2), rep(2,2)), col="red")
+          lines(c(rep(2, 2), rep(798, 2), 2),
+                c(2, rep(448, 2), rep(2,2)), col="red")
           lines(c(rep(boxes[v$selectionNum,"xmin"], 2), rep(boxes[v$selectionNum,"xmax"], 2), boxes[v$selectionNum,"xmin"]),
                 c(boxes[v$selectionNum,"ymin"], rep(boxes[v$selectionNum,"ymax"], 2), rep(boxes[v$selectionNum,"ymin"],2)), col="red")
         }
-        },
-        width="auto"
+      },
+      width="auto"
       )
     })
 
@@ -217,7 +217,7 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
       output$questionTabs <- update_questions(questions, v$ansOut %>% filter(path == images[v$imageNum]))
       v$editing <- FALSE
       v$sArea <- "scene"
-      })
+    })
 
     observeEvent(input$imageNext, {
       v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
