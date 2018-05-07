@@ -229,25 +229,29 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 
 
     observeEvent(input$imagePrev, {
-    v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
-    v$imageNum <- max(1, v$imageNum - 1)
+      v$ansOut <- update_answers(v$ansOut, images[v$imageNum], questionIDs, input)
+      v$imageNum <- max(1, v$imageNum - 1)
 
-    v$selectionNum = 1
+      v$selectionNum = 1
     })
 
 
     observeEvent(input$saveSelection, {
       if(!is.null(input$plot_brush)){
         v$selectionNum <- as.numeric(input$saveSelection)
+        v$ansOut <<- update_answers(isolate(v$ansOut), images[v$imageNum], questionIDs, input)
+        v$selAnsDf <<- update_selection_answers(isolate(v$selAnsDf), images[v$imageNum], v$selectionNum, questionIDs,input, v$editing, range = areaSelected())
       }
-      v$ansOut <<- update_answers(isolate(v$ansOut), images[v$imageNum], questionIDs, input)
-      v$selAnsDf <<- update_selection_answers(isolate(v$selAnsDf), images[v$imageNum], v$selectionNum, questionIDs,input, v$editing, range = areaSelected())
+      if(is.null(input$plot_brush)){
+        showNotification("No area is currently selected.")
+      }
     })
 
 
     observeEvent(input$saveData, {
       combine_data(selAnsDf = v$selAnsDf, ansOut = v$ansOut) %>% as_tibble %>%
         write_csv("temp.csv")
+      v$ansOut <<- update_answers(isolate(v$ansOut), images[v$imageNum], questionIDs, input)
       scene_answers <<- isolate(v$ansOut)
       write_csv(scene_answers, path ="scene_answers.csv")
       selection_answers <<- isolate(v$selAnsDf)
@@ -256,11 +260,20 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
     })
 
     onStop(function(){
-      write_csv(scene_answers, path ="scene_answers.csv")
-      write_csv(selection_answers, path ="selection_answers.csv")
+      # final save
+      scene_answers <<- isolate(v$ansOut)
+      selection_answers <<- isolate(v$selAnsDf)
+
+      if (exists('scene_answers')) {
+        write_csv(scene_answers, path ="scene_answers.csv")
+        write_csv(selection_answers, path ="selection_answers.csv")
+      } else {
+        message("No outputs saved.")
+      }
+
     })
 
 
-    }
+  }
   shinyApp(ui, server)
 }
