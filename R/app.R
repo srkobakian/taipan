@@ -7,6 +7,7 @@
 #' @param images The list of images located within the image folder.
 #' @importFrom shinythemes shinytheme
 #' @importFrom purrr imap map2 possibly
+#' @importFrom here here
 #'
 #' @examples
 #'
@@ -41,16 +42,16 @@
 #'
 #' @export
 launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
-                         images = list.files(system.file("images", package="taipan"))) {
+                         images = list.files("images")) {
 
   ui <- fluidPage(title = "Taipan", theme = shinythemes::shinytheme("spacelab"),
-                   textOutput("imgInfo", shiny::h3),
+                  textOutput("imgInfo", shiny::h3),
                   fluidRow(uiOutput("plotUI")),
-                   wellPanel(
-                     fluidRow(
-                       uiOutput("questionTabs")
-                       )
-                     ),
+                  wellPanel(
+                    fluidRow(
+                      uiOutput("questionTabs")
+                    )
+                  ),
 
                   fluidRow(column(3, offset=7, actionButton("saveSelection","Save Selection Answers"))),
 
@@ -173,14 +174,13 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
                         selected = v$sArea)})
 
 
-
     observeEvent(c(v$imageNum, v$editing), {
       ### produce the pixel size of the first image
-      curImage <- imager::load.image(cat(system.file("images", package="taipan"), "/", images[v$imageNum], sep = ""))
+      #browser()
+      curImage <- imager::load.image(paste(here(),"/images/", images[v$imageNum], sep=""))
       imgHeight <- imager::height(curImage)
       imgWidth <- imager::width(curImage)
       hwratio <- imgHeight/imgWidth
-
 
       output$plotUI <- renderUI({
         plotOutput(
