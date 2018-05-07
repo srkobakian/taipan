@@ -9,6 +9,10 @@ dplyr::`%>%`
 #' @export
 readr::read_csv
 
+#' @importFrom readr write_csv
+#' @export
+readr::write_csv
+
 #' @importFrom tidyr spread
 #' @export
 tidyr::spread

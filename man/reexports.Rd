@@ -7,6 +7,8 @@
 \alias{reexports}
 \alias{read_csv}
 \alias{reexports}
+\alias{write_csv}
+\alias{reexports}
 \alias{spread}
 \title{Objects exported from other packages}
 \keyword{internal}
@@ -17,7 +19,7 @@ below to see their documentation.
 \describe{
   \item{dplyr}{\code{\link[dplyr]{\%>\%}}}
 
-  \item{readr}{\code{\link[readr]{read_csv}}}
+  \item{readr}{\code{\link[readr]{read_csv}}, \code{\link[readr]{write_csv}}}
 
   \item{tidyr}{\code{\link[tidyr]{spread}}}
 }}

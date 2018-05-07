@@ -5,3 +5,7 @@ utils::globalVariables(c("v", "question", "data", ".",
 
 # Reactive Variables
 areaSelected <- function() NULL
+
+data("sampleQuestions")
+data("tennisQuestions")
+data("tennisQuestionsSmall")

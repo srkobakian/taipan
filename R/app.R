@@ -68,10 +68,10 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
       stop("Could not find folder called 'images'")
     }
     # If we have already processed some images these files should exist
-    if (file.exists("data/scene_answers.csv")) {
+    if (file.exists("scene_answers.csv")) {
     #v <- try({
-      scene_answers <- read_csv("data/scene_answers.csv")
-      selection_answers <- read_csv("data/selection_answers.csv")
+      scene_answers <- read_csv("scene_answers.csv")
+      selection_answers <- read_csv("selection_answers.csv")
       # How many have we completed
       imageNum <- sum(images %in% scene_answers$path)+1
       #})
@@ -245,21 +245,21 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
     })
 
 
-    onStop(function(){
-      write.csv(scene_answers, file = "data/scene_answers.csv", row.names = F)
-      write.csv(selection_answers, file = "data/selection_answers.csv", row.names = F)
-    })
-
-
     observeEvent(input$saveData, {
       combine_data(selAnsDf = v$selAnsDf, ansOut = v$ansOut) %>% as_tibble %>%
-        write.csv("data/temp.csv", row.names = FALSE)
+        write_csv("temp.csv")
       scene_answers <<- isolate(v$ansOut)
-      write.csv(scene_answers, file = "data/scene_answers.csv", row.names = F)
+      write_csv(scene_answers, path ="scene_answers.csv")
       selection_answers <<- isolate(v$selAnsDf)
-      write.csv(selection_answers, file = "data/selection_answers.csv", row.names = F)
+      write_csv(selection_answers, path ="selection_answers.csv")
       showNotification("Saved at 'scene_answers.csv' and 'selection_answers.csv'")
     })
+
+    onStop(function(){
+      write_csv(scene_answers, path ="scene_answers.csv")
+      write_csv(selection_answers, path ="selection_answers.csv")
+    })
+
 
     }
   shinyApp(ui, server)
