@@ -1,38 +1,28 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
-```
-
-# Taipan
+Taipan
+======
 
 [![Travis-CI Build Status](https://travis-ci.org/srkob1/taipan.svg?branch=master)](https://travis-ci.org/srkob1/taipan)
 
-Taipan is a Tool for Annotating Images in Preparation for ANalysis.
-It functions as a Shiny web app which allows image surveys to be created from a list of questions and folder of images. 
+Taipan is a Tool for Annotating Images in Preparation for ANalysis. It functions as a Shiny web app which allows image surveys to be created from a list of questions and folder of images.
 
-## Installation
+Installation
+------------
 
 You can install taipan from github with:
 
-```{r gh-installation, eval = FALSE}
+``` r
 # install.packages("devtools")
 devtools::install_github("srkob1/taipan")
 ```
 
-## Example
+Example
+-------
 
 This code displays several questions regarding images captured from the Channel 7 broadcast of the 2016 Australian Open.
 
-```{r example, eval=FALSE}
+``` r
 library(taipan)
 
 tennisQuestionsSmall <- list(
