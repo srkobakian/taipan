@@ -8,8 +8,8 @@
 <title>Taipan For R • taipan</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Taipan For R">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script><meta property="og:title" content="Taipan For R">
 <meta property="og:description" content="Taipan is a tool for annotating images in preparation for analysis. 
     It allows users to annotate images in an interactive environment. 
     Users supply images, questions and the possible answers.
@@ -86,9 +86,9 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="taipan" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#taipan" class="anchor"></a>taipan</h1></div>
+<a href="#taipan" class="anchor"></a>Taipan</h1></div>
 
-<p>The goal of taipan is to …</p>
+<p>Taipan is a Tool for Annotating Images in Preparation for ANalysis. It functions as a Shiny web app which allows image surveys to be created from a list of questions and folder of images.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -99,8 +99,30 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## basic example code</code></pre></div>
+<p>This code displays several questions regarding images captured from the Channel 7 broadcast of the 2016 Australian Open.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(taipan)
+
+tennisQuestionsSmall &lt;-<span class="st"> </span><span class="kw">list</span>(
+  <span class="dt">scene =</span> <span class="kw">list</span>(<span class="dt">bg =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
+                         <span class="dt">label =</span> <span class="st">"What is the background?"</span>,
+                         <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"Crowd"</span>, <span class="st">"Court"</span>, <span class="st">"Logo wall"</span>, <span class="st">"Not applicable"</span>)),
+               <span class="dt">shotangle =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
+                                <span class="dt">label =</span> <span class="st">"What angle was the image taken from?"</span>,
+                                <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"Level with players"</span>,<span class="st">"Birds eye"</span>, <span class="st">"Upward angle"</span>)),
+               <span class="dt">situation =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
+                                <span class="dt">label =</span> <span class="st">"What is the siutation occurring?"</span>,
+                                <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"Court in play"</span>, <span class="st">"Court player close-up"</span>,<span class="st">"Court close-up not player"</span>,<span class="st">"Crowd"</span>, <span class="st">"Off court close up of player"</span>,<span class="st">"Transition"</span>))),
+  <span class="dt">selection =</span> <span class="kw">list</span>(<span class="dt">detect =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
+                               <span class="dt">label =</span> <span class="st">"Who is the person selected?"</span>,
+                               <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"Player"</span>,<span class="st">"Other staff on court"</span>, <span class="st">"Fan"</span>)),
+                   <span class="dt">glasses =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
+                                <span class="dt">label =</span> <span class="st">"Is the person wearing glasses?"</span>,
+                                <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)),
+                   <span class="dt">visorhat =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
+                                 <span class="dt">label =</span> <span class="st">"Is the person wearing a visor or hat?"</span>,
+                                 <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>))))
+
+ <span class="kw"><a href="reference/launchTaipan.html">launchTaipan</a></span>(tennisQuestionsSmall)</code></pre></div>
 </div>
 </div>
   </div>
@@ -118,7 +140,8 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 <div class="developers">
