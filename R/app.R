@@ -62,10 +62,14 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
   )
 
 
-  server <- function(input, output, session) {
+server <- function(input, output, session) {
 
     if (!(file.exists("images"))) {
+      download.file('http://www.stats.ox.ac.uk/pub/datasets/csb/ch11b.dat',
+                    "images/Image1")
+      browser()
       stop("Could not find folder called 'images'")
+
     }
     # If we have already processed some images these files should exist
     if (file.exists("scene_answers.csv")) {

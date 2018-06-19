@@ -28,7 +28,7 @@ Suggests:
     knitr,
     rmarkdown,
     tidyverse
-URL: https://github.com/srkob1/taipan
+URL: https://github.com/srkob1/taipan, https://github.com/srkob1/taipan/tree/master/inst/images
 BugReports: https://github.com/srkob1/taipan/issues
 License: MIT + file LICENSE
 Encoding: UTF-8

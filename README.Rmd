@@ -28,6 +28,11 @@ You can install taipan from github with:
 devtools::install_github("srkob1/taipan")
 ```
 
+##
+
+As this tool is for image analysis it requires images to be available in a folder in the working directory. 
+A set of example images can be found.
+
 ## Example
 
 This code displays several questions regarding images captured from the Channel 7 broadcast of the 2016 Australian Open.
