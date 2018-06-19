@@ -65,9 +65,6 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 server <- function(input, output, session) {
 
     if (!(file.exists("images"))) {
-      download.file('http://www.stats.ox.ac.uk/pub/datasets/csb/ch11b.dat',
-                    "images/Image1")
-      browser()
       stop("Could not find folder called 'images'")
 
     }
@@ -180,8 +177,8 @@ server <- function(input, output, session) {
 
     observeEvent(c(v$imageNum, v$editing), {
       ### produce the pixel size of the first image
-      img_path <- paste(img_folder, images[v$imageNum], sep="")
-      curImage <- imager::load.image(img_path)
+      #browser()
+      curImage <- imager::load.image(paste(here(),"/images/", images[v$imageNum], sep=""))
       imgHeight <- imager::height(curImage)
       imgWidth <- imager::width(curImage)
       hwratio <- imgHeight/imgWidth
