@@ -40,21 +40,21 @@ launchTaipan <- function(questions = taipan::sampleQuestions, loadCache = FALSE,
   )
 
 
-server <- function(input, output, session) {
+  server <- function(input, output, session) {
 
     if (!(file.exists("images"))) {
       stop("Could not find folder called 'images'")
     }
 
-  observeEvent(input$imageNext, {
-    output$congrat <- renderUI({
-      if (length(images) < v$imageNum){
-        return(wellPanel(
-          h4("Congratulation, you have completed all images!")
-        ))
-      }
+    observeEvent(input$imageNext, {
+      output$congrat <- renderUI({
+        if (length(images) < v$imageNum){
+          return(wellPanel(
+            h4("Congratulation, you have completed all images!")
+          ))
+        }
+      })
     })
-  })
 
     # If we have already processed some images these files should exist
     if (file.exists("scene_answers.csv")) {
@@ -270,8 +270,6 @@ server <- function(input, output, session) {
       }
 
     })
-
-
   }
   shinyApp(ui, server)
 }

@@ -56,9 +56,9 @@ answers_vec <- function(name, input = input) {
 
 #' @importFrom purrr imap_dfr map_dfr
 update_answers <- function(ansDf = v$ansDf,
-                          pathId = images[v$imageNum],
-                          questionIDs = questionIDs,
-                          input = input) {
+                           pathId = images[v$imageNum],
+                           questionIDs = questionIDs,
+                           input = input) {
   #don't remove rows, check for changes and replace only if changed
   inputAns <- questionIDs$scene %>%
     map_dfr(~ tibble(
@@ -73,7 +73,7 @@ update_answers <- function(ansDf = v$ansDf,
     as.data.frame
 
   if (identical(ansDf %>% filter(path == !!quo(pathId)),
-  inputAns)) {
+                inputAns)) {
     ansDf
   }
   else{
@@ -128,7 +128,7 @@ update_selection_answers <-
         #remove previous answers
 
         selAnsDf <- selAnsDf %>% filter(!(path == pathId &
-                                          selectionNum == selNum))
+                                            selectionNum == selNum))
       }
 
 
@@ -139,7 +139,7 @@ update_selection_answers <-
     }
 
     return(selAnsDf)
-}
+  }
 
 combine_data <- function(selAnsDf = v$selAnsDf, ansOut = v$ansOut) {
 
