@@ -20,11 +20,9 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
   file.copy(file.path(system.file(package="taipan"), "app", app_files), appdir, recursive = TRUE)
 
   # SAVE QUESTIONS
-  dir.create(file.path(appdir, "data"))
   saveRDS(questions, file = file.path(appdir, "data", "questions.rds"))
 
   # CONSTRUCT IMAGE DIR
-  dir.create(file.path(appdir, "www", "app_images"), recursive = TRUE)
   file.copy(images, file.path(appdir, "www", "app_images", basename(images)))
 
   # LAUNCH APP
