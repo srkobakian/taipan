@@ -88,9 +88,18 @@ server <- function(input, output, session) {
       #  message("WARNING: Previously classified images not found.")
       v <- reactiveValues(sArea = "scene",
                           imageNum = 1,
-                          ansOut = data.frame(),
+                          ansOut = data.frame(path=character(),
+                                              question=character(),
+                                              answers=character()),
                           selectionNum = 1,
-                          selAnsDf = data.frame(),
+                          selAnsDf = data.frame(path=character(),
+                                                selectionNum=numeric(),
+                                                question=character(),
+                                                answers=character(),
+                                                xmin=numeric(),
+                                                xmax=numeric(),
+                                                ymin=numeric(),
+                                                ymax=numeric()),
                           editing = FALSE)
     }
 
