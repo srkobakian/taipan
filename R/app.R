@@ -7,6 +7,7 @@
 #' @param images The list of images located within the image folder.
 #' @importFrom shinythemes shinytheme
 #' @importFrom purrr imap map2 possibly
+#' @importFrom readr read_csv cols col_double
 #' @importFrom here here
 #'
 #' @examples
@@ -57,7 +58,14 @@ launchTaipan <- function(questions = taipan::sampleQuestions, loadCache = FALSE,
     if (file.exists("scene_answers.csv")) {
       #v <- try({
       scene_answers <- read_csv("scene_answers.csv")
-      selection_answers <- read_csv("selection_answers.csv")
+      selection_answers <- read_csv("selection_answers.csv",
+                                    col_types = cols(
+                                      selectionNum = col_double(),
+                                      xmin = col_double(),
+                                      xmax = col_double(),
+                                      ymin = col_double(),
+                                      ymax = col_double()
+                                    ))
       # How many have we completed
       imageNum <- sum(images %in% scene_answers$path)+1
       #})

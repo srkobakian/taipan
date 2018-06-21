@@ -5,7 +5,7 @@
 \title{Launch Taipan}
 \usage{
 launchTaipan(questions = taipan::sampleQuestions, loadCache = FALSE,
-  images = list.files("images"))
+  images = list.files("images", full.names = TRUE))
 }
 \arguments{
 \item{questions}{A taipan structured list object containing the questions to be asked in the app, see the global environment object sampleQuestions.}
