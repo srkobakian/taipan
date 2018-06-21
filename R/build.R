@@ -16,7 +16,7 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE){
   saveRDS(questions, file = file.path(appdir, "data", "questions.rds"))
 
   # CONSTRUCT IMAGE DIR
-  file.copy(images, file.path(appdir, "www", "images", basename(images)))
+  file.copy(images, file.path(appdir, "www", "app_images", basename(images)))
 
   # LAUNCH APP
   if(launch){
