@@ -1,10 +1,14 @@
 library(shiny)
+library(ggplot2)
 
 getInputID <- function(input){
   if(!inherits(input, "shiny.tag")){
     return()
   }
-  c(input$attribs$id, do.call("c", sapply(input$children, getInputID)))
+  c(
+    if(!is.null(input$attribs$id)){list(list(id=input$attribs$id, type = input$name))}else{NULL},
+    do.call("c", lapply(input$children, getInputID))
+  )
 }
 
 shinyServer(
@@ -24,6 +28,33 @@ shinyServer(
     current_sel <- reactive({
       v$current_sel
     })
+    current_area <- reactive({
+      if(!is.null(input$img_brush)){
+        input$img_brush[c("xmin", "xmax", "ymin", "ymax")]
+      }
+      else if(!is.null(current_sel())){
+        sel_val <- v$responses[[basename(current_img())]][["selection"]][[current_sel()]]
+        list(
+          xmin = sel_val$pos$xmin,
+          xmax = sel_val$pos$xmax,
+          ymin = sel_val$pos$ymin,
+          ymax = sel_val$pos$ymax
+        )
+      }
+      else{
+        NULL
+      }
+    })
+
+    output$out_img_overlay <- renderPlot({
+      browser()
+      v$responses[[basename(current_img())]][["selection"]]
+      ggplot(NULL, aes(x=c(0,0,400,400,0), y=c(0,400, 400,0,0))) +
+        scale_x_continuous(expand=c(0,0)) +
+        scale_y_continuous(expand=c(0,0)) +
+        geom_line() +
+        theme_void()
+    }, bg="transparent")
 
     output$out_img <- renderImage({
       list(src = current_img())
@@ -39,14 +70,18 @@ shinyServer(
     selectionInputs <- getInputID(questions$selection)
 
     scene_vals <- reactive({
-      lapply(sceneInputs, function(id){input[[id]]})
+      vals <- lapply(sceneInputs, function(id){input[[id$id]]})
+      names(vals) <- vapply(sceneInputs, function(x) x$id, character(1L))
+      vals
     })
     selection_vals <- reactive({
-      lapply(selectionInputs, function(id){input[[id]]})
+      vals <- lapply(selectionInputs, function(id){input[[id$id]]})
+      names(vals) <- vapply(selectionInputs, function(x) x$id, character(1L))
+      vals
     })
 
     output$ui_questions <- renderUI({
-      if(!is.null(input$img_brush)){
+      if(!is.null(current_sel())){
         box(
           title = "Selection",
           questions$selection,
@@ -67,7 +102,7 @@ shinyServer(
     })
 
     output$ui_saveSelection <- renderUI({
-      if(!is.null(input$img_brush)){
+      if(!is.null(current_sel())){
         actionLink(
           "btn_saveSelection",
           box(
@@ -90,20 +125,41 @@ shinyServer(
       }
     })
 
+    # Additional test for removing brush
+    observeEvent(input$img_click, {
+      if(is.null(input$img_brush)){
+        v$current_sel <- NULL
+      }
+    })
+
     observeEvent(input$img_dblclick, {
       xpos <- input$img_dblclick$x
       ypos <- input$img_dblclick$y
-      match <- vapply(v$responses[[current_img()]][["selection"]],
+      match <- vapply(v$responses[[basename(current_img())]][["selection"]],
              function(sel){
-               (xpos >= sel$xmin) &&
-               (xpos <= sel$xmax) &&
-               (ypos >= sel$ymin) &&
-               (ypos <= sel$ymax)
+               (xpos >= sel$pos$xmin) &&
+               (xpos <= sel$pos$xmax) &&
+               (ypos >= sel$pos$ymin) &&
+               (ypos <= sel$pos$ymax)
              }, logical(1L)
       )
       sel_match <- which(match)
       if(length(sel_match) == 1){
         v$current_sel <- sel_match
+
+        # Update inputs
+        lapply(selectionInputs,
+           function(io){
+             val <- v$responses[[basename(current_img())]][["selection"]][[sel_match]][["inputs"]][[io$id]]
+             session$sendInputMessage(
+               io$id,
+               list(
+                 value = val,
+                 selected = val
+               )
+             )
+           }
+        )
       }
       else{
         showNotification(h3("Could not find matching selection, please select a unique area of a square."),
@@ -112,7 +168,7 @@ shinyServer(
     })
 
     observeEvent(scene_vals(), {
-      v$responses[[basename(current_img())]]["scene"] <- scene_vals()
+      v$responses[[basename(current_img())]][["scene"]] <- scene_vals()
     })
 
     observeEvent(input$btn_prev, {
@@ -125,10 +181,7 @@ shinyServer(
     })
     observeEvent(input$btn_saveSelection, {
       v$responses[[basename(current_img())]][["selection"]][[current_sel()]] <-
-        list(xmin = input$img_brush$xmin,
-             ymin = input$img_brush$ymin,
-             xmax = input$img_brush$xmax,
-             ymax = input$img_brush$ymax,
+        list(pos = current_area(),
              inputs = selection_vals()
         )
       session$resetBrush("img_brush")

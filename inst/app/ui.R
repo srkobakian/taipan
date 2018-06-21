@@ -16,6 +16,10 @@ shinyUI(
                     click = clickOpts(id = "img_click"),
                     dblclick = dblclickOpts(id = "img_dblclick"),
                     brush = brushOpts(id = "img_brush")),
+        imageOutput("out_img_overlay",
+                    click = clickOpts(id = "img_click"),
+                    dblclick = dblclickOpts(id = "img_dblclick"),
+                    brush = brushOpts(id = "img_brush")),
         width = 6,
         status = "primary",
         collapsible = TRUE
