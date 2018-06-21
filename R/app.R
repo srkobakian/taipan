@@ -19,8 +19,10 @@
 #'
 #' @export
 launchTaipan <- function(questions = taipan::sampleQuestions, loadCache = FALSE,
-                         images = list.files("images")) {
-
+                         images = list.files("images", full.names = TRUE)) {
+  if (length(images) == 0) {
+    stop("No images provided.")
+  }
   ui <- fluidPage(title = "Taipan", theme = shinythemes::shinytheme("spacelab"),
                   textOutput("imgInfo", shiny::h3),
                   uiOutput("congratsUI"),
@@ -41,11 +43,6 @@ launchTaipan <- function(questions = taipan::sampleQuestions, loadCache = FALSE,
 
 
   server <- function(input, output, session) {
-
-    if (!(file.exists("images"))) {
-      stop("Could not find folder called 'images'")
-    }
-
     observeEvent(input$imageNext, {
       output$congrat <- renderUI({
         if (length(images) < v$imageNum){
@@ -174,8 +171,7 @@ launchTaipan <- function(questions = taipan::sampleQuestions, loadCache = FALSE,
 
     observeEvent(c(v$imageNum, v$editing), {
       ### produce the pixel size of the first image
-      #browser()
-      curImage <- imager::load.image(paste(here(),"/images/", images[v$imageNum], sep=""))
+      curImage <- imager::load.image(images[v$imageNum])
       imgHeight <- imager::height(curImage)
       imgWidth <- imager::width(curImage)
       hwratio <- imgHeight/imgWidth
