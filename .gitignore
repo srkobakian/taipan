@@ -3,7 +3,6 @@
 symbols.rds
 .Rhistory
 .Rproj.user
-.Rbuildignore
 .travis.yml
 revdep
 tests/testthat/Rplots.pdf
