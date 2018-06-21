@@ -13,35 +13,12 @@
 #'
 #' \dontrun{
 #' library(taipan)
-#' tennisQuestionsSmall <- list(scene = list(
 #'
-#'bg = list(qType = "radio",
-#'          label = "What is the background?",
-#'          choices = c("Crowd", "Court", "Logo wall", "Not applicable")),
-#'shotangle = list(qType = "radio",
-#'                 label = "What angle was the image taken from?",
-#'                 choices = c("Level with players","Birds eye", "Upward angle")),
-#'situation = list(qType = "radio",
-#'                 label = "What is the siutation occurring?",
-#'                 choices = c("Court in play", "Court player close-up","Court close-up not player",
-#'                             "Crowd", "Off court close up of player","Transition"))),
-#'
-#'selection = list(detect = list(qType = "radio",
-#'                               label = "Who is the person selected?",
-#'                               choices = c("Player","Other staff on court", "Fan")),
-#'                 glasses = list(qType = "radio",
-#'                                label = "Is the person wearing glasses?",
-#'                                choices = c("No", "Yes")),
-#'                 visorhat = list(qType = "radio",
-#'                                 label = "Is the person wearing a visor or hat?",
-#'                                 choices = c("No", "Yes"))))
-#'
-#'
-#' launchTaipan(tennisQuestionsSmall)
+#' launchTaipan(taipan::tennisQuestionsSmall)
 #' }
 #'
 #' @export
-launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
+launchTaipan <- function(questions = taipan::sampleQuestions, loadCache = FALSE,
                          images = list.files("images")) {
 
   ui <- fluidPage(title = "Taipan", theme = shinythemes::shinytheme("spacelab"),
