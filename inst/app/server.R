@@ -1,26 +1,36 @@
 library(shiny)
-library(tidyverse)
-library(purrr)
-library(rlang)
 
 shinyServer(
   function(input, output, session) {
+    questions <- readRDS("data/questions.rds")
     image_list <- list.files("www/app_images", full.names = TRUE)
     output$out_img <- renderImage({
       list(src = image_list[1])
     }, deleteFile = FALSE)
 
     output$ui_questions <- renderUI({
-      tabBox(
-        id = "qbox",
-        width = 12,
-        tabPanel("Q1"),
-        tabPanel("Q2")
-      )
+      if(!is.null(input$img_brush)){
+        box(
+          title = "Selection",
+          questions$selection,
+          width = 12,
+          status = "primary",
+          collapsible = TRUE
+        )
+      }
+      else{
+        box(
+          title = "Scene",
+          questions$scene,
+          width = 12,
+          status = "primary",
+          collapsible = TRUE
+        )
+      }
     })
 
     output$ui_saveSelection <- renderUI({
-      if(TRUE){
+      if(!is.null(input$img_brush)){
         actionLink(
           "btn_saveSelection",
           box(
@@ -33,7 +43,5 @@ shinyServer(
         column(4)
       }
     })
-
-    updateTabsetPanel(session, "qbox", "Q2")
   }
 )
