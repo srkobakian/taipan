@@ -11,7 +11,7 @@ shinyUI(
     ),
     dashboardBody(
       box(
-        title = "Image",
+        title = textOutput("out_img_info"),
         imageOutput("out_img",
                     click = clickOpts(id = "img_click"),
                     dblclick = dblclickOpts(id = "img_dblclick"),
