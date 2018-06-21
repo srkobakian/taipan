@@ -47,13 +47,24 @@ shinyServer(
     })
 
     output$out_img_overlay <- renderPlot({
-      browser()
-      v$responses[[basename(current_img())]][["selection"]]
-      ggplot(NULL, aes(x=c(0,0,400,400,0), y=c(0,400, 400,0,0))) +
+      selection_data <- do.call("rbind",
+                                c(list(data.frame(xmin=numeric(), xmax=numeric(), ymin=numeric(), ymax=numeric())),
+                                  lapply(v$responses[[basename(current_img())]][["selection"]],
+                                         function(x) as.data.frame(x$pos))
+                                )
+      )
+      selection_data <- transform(selection_data, current = seq_len(NROW(selection_data)) %in% current_sel())
+      ggplot(selection_data, aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax)) +
         scale_x_continuous(expand=c(0,0)) +
         scale_y_continuous(expand=c(0,0)) +
-        geom_line() +
-        theme_void()
+        geom_rect(fill="transparent") +
+        theme_void()+
+        theme(
+          panel.background = element_rect(fill = "transparent") # bg of the panel
+          , plot.background = element_rect(fill = "transparent", colour = NA) # bg of the plot
+          , legend.background = element_rect(fill = "transparent") # get rid of legend bg
+          , legend.box.background = element_rect(fill = "transparent") # get rid of legend panel bg
+        )
     }, bg="transparent")
 
     output$out_img <- renderImage({
