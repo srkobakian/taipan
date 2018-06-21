@@ -46,6 +46,7 @@ launchTaipan <- function(questions = sampleQuestions, loadCache = FALSE,
 
   ui <- fluidPage(title = "Taipan", theme = shinythemes::shinytheme("spacelab"),
                   textOutput("imgInfo", shiny::h3),
+                  uiOutput("congratsUI"),
                   fluidRow(uiOutput("plotUI")),
                   wellPanel(
                     fluidRow(
@@ -66,8 +67,18 @@ server <- function(input, output, session) {
 
     if (!(file.exists("images"))) {
       stop("Could not find folder called 'images'")
-
     }
+
+  observeEvent(input$imageNext, {
+    output$congrat <- renderUI({
+      if (length(images) < v$imageNum){
+        return(wellPanel(
+          h4("Congratulation, you have completed all images!")
+        ))
+      }
+    })
+  })
+
     # If we have already processed some images these files should exist
     if (file.exists("scene_answers.csv")) {
       #v <- try({

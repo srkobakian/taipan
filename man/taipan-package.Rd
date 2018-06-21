@@ -16,7 +16,6 @@ The answers are stored in a tidy format for analysis.
 Useful links:
 \itemize{
   \item \url{https://github.com/srkob1/taipan}
-  \item \url{https://github.com/srkob1/taipan/tree/master/inst/images}
   \item Report bugs at \url{https://github.com/srkob1/taipan/issues}
 }
 
