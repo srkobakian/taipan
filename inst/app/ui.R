@@ -5,7 +5,8 @@ shinyUI(
   dashboardPage(
     dashboardHeader(
       title = "taipan",
-      tags$li(class = "dropdown", a(href="https://github.com/srkob1/taipan", target="_blank", icon("github", class="fa-2x")))
+      tags$li(class = "dropdown", actionLink("btn_export", span(icon("download"), " Export Responses"))),
+      tags$li(class = "dropdown", a(href="https://github.com/srkob1/taipan", target="_blank", span(icon("github"), " GitHub")))
     ),
     dashboardSidebar(
       disable = TRUE

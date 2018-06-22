@@ -5,4 +5,9 @@
   position:absolute;
   top:0;
   left:0;
+  z-index: 1;
+}
+
+.nav > li > a {
+  font-size:19px;
 }
