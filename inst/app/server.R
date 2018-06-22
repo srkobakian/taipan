@@ -174,7 +174,7 @@ shinyServer(
       if(length(sel_match) == 1){
         v$current_sel <- sel_match
 
-        # Update inputs
+        # Update selection inputs
         lapply(selectionInputs,
            function(io){
              val <- v$responses[[basename(current_img())]][["selection"]][[sel_match]][["inputs"]][[io$id]]
@@ -192,6 +192,30 @@ shinyServer(
         showNotification(h3("Could not find matching selection, please select a unique area of a square."),
                          type = "error")
       }
+    })
+
+    # Update the scene values when images change
+    observeEvent(current_img(), {
+      lapply(sceneInputs,
+             function(io){
+               # Update scene inputs
+               val <- v$responses[[basename(current_img())]][["scene"]][[io$id]]
+               if(!is.null(val)){
+                 session$sendInputMessage(
+                   io$id,
+                   list(
+                     value = val,
+                     selected = val
+                   )
+                 )
+               }
+               else{
+                 # Trigger re-build of UI
+                 v$current_sel <- 1
+                 v$current_sel <- NULL
+               }
+             }
+      )
     })
 
     observeEvent(scene_vals(), {
