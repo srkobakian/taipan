@@ -46,7 +46,20 @@ shinyServer(
       }
     })
 
-    output$out_img_overlay <- renderPlot({
+    output$out_img_overlay <- renderImage({
+      session$sendCustomMessage("get_dim","taipan_current_img")
+      if(is.null(input$taipan_img_dim)){
+        out_width <- 1
+        out_height <- 1
+        xlim <- NULL
+        ylim <- NULL
+      }
+      else{
+        out_width <- input$taipan_img_dim[1]
+        out_height <- input$taipan_img_dim[2]
+        xlim <- c(0, out_width)
+        ylim <- c(0, out_height)
+      }
       selection_data <- do.call("rbind",
                                 c(list(data.frame(xmin=numeric(), xmax=numeric(), ymin=numeric(), ymax=numeric())),
                                   lapply(v$responses[[basename(current_img())]][["selection"]],
@@ -54,9 +67,9 @@ shinyServer(
                                 )
       )
       selection_data <- transform(selection_data, current = seq_len(NROW(selection_data)) %in% current_sel())
-      ggplot(selection_data, aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax)) +
-        scale_x_continuous(expand=c(0,0)) +
-        scale_y_continuous(expand=c(0,0)) +
+      p <- ggplot(selection_data, aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax)) +
+        scale_x_continuous(limits = xlim, expand=c(0,0)) +
+        scale_y_continuous(limits = ylim, expand=c(0,0)) +
         geom_rect(fill="transparent") +
         theme_void()+
         theme(
@@ -65,10 +78,12 @@ shinyServer(
           , legend.background = element_rect(fill = "transparent") # get rid of legend bg
           , legend.box.background = element_rect(fill = "transparent") # get rid of legend panel bg
         )
-    }, bg="transparent")
+      ggsave(overlay_img <- tempfile(), p, png, width = out_width, height = out_height, limitsize = FALSE, bg = "transparent")
+      list(src = overlay_img)
+    })
 
     output$out_img <- renderImage({
-      list(src = current_img())
+      list(src = current_img(), id = "taipan_current_img")
     }, deleteFile = FALSE)
     output$out_img_info <- renderText({
       sprintf("Image: %s (%i/%i)",
