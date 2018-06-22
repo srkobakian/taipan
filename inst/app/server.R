@@ -58,7 +58,7 @@ shinyServer(
         out_width <- input$taipan_img_dim[1]
         out_height <- input$taipan_img_dim[2]
         xlim <- c(0, out_width)
-        ylim <- c(0, out_height)
+        ylim <- c(-out_height, 0)
       }
       selection_data <- do.call("rbind",
                                 c(list(data.frame(xmin=numeric(), xmax=numeric(), ymin=numeric(), ymax=numeric())),
@@ -67,7 +67,7 @@ shinyServer(
                                 )
       )
       selection_data <- transform(selection_data, current = seq_len(NROW(selection_data)) %in% current_sel())
-      p <- ggplot(selection_data, aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax)) +
+      p <- ggplot(selection_data, aes(xmin=xmin, xmax=xmax, ymin=-ymax, ymax=-ymin, colour = current)) +
         scale_x_continuous(limits = xlim, expand=c(0,0)) +
         scale_y_continuous(limits = ylim, expand=c(0,0)) +
         geom_rect(fill="transparent") +
@@ -77,7 +77,8 @@ shinyServer(
           , plot.background = element_rect(fill = "transparent", colour = NA) # bg of the plot
           , legend.background = element_rect(fill = "transparent") # get rid of legend bg
           , legend.box.background = element_rect(fill = "transparent") # get rid of legend panel bg
-        )
+        ) +
+        guides(colour = "none")
       ggsave(overlay_img <- tempfile(), p, png, width = out_width, height = out_height, limitsize = FALSE, bg = "transparent")
       list(src = overlay_img)
     })
