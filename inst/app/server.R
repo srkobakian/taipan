@@ -201,16 +201,19 @@ shinyServer(
     observeEvent(input$btn_prev, {
       v$imageNum <- pmax(1, v$imageNum - 1)
       session$resetBrush("img_brush")
+      v$current_sel <- NULL
     })
     observeEvent(input$btn_next, {
       v$imageNum <- pmin(length(image_list), v$imageNum + 1)
       session$resetBrush("img_brush")
+      v$current_sel <- NULL
     })
     observeEvent(input$btn_saveSelection, {
       v$responses[[basename(current_img())]][["selection"]][[current_sel()]] <-
         list(pos = current_area(),
              inputs = selection_vals()
         )
+      v$current_sel <- NULL
       session$resetBrush("img_brush")
     })
   }
