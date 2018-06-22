@@ -4,7 +4,8 @@ library(shinydashboard)
 shinyUI(
   dashboardPage(
     dashboardHeader(
-      title = "taipan"
+      title = "taipan",
+      tags$li(class = "dropdown", a(href="https://github.com/srkob1/taipan", target="_blank", icon("github", class="fa-2x")))
     ),
     dashboardSidebar(
       disable = TRUE
