@@ -1,5 +1,6 @@
 library(shiny)
 library(ggplot2)
+library(purrr)
 
 getInputID <- function(input){
   if(!inherits(input, "shiny.tag")){
@@ -7,7 +8,7 @@ getInputID <- function(input){
   }
   c(
     if(!is.null(input$attribs$id)){list(list(id=input$attribs$id, type = input$name))}else{NULL},
-    do.call("c", lapply(input$children, getInputID))
+    do.call("c", map(input$children, getInputID))
   )
 }
 
@@ -62,7 +63,7 @@ shinyServer(
       }
       selection_data <- do.call("rbind",
                                 c(list(data.frame(xmin=numeric(), xmax=numeric(), ymin=numeric(), ymax=numeric())),
-                                  lapply(v$responses[[basename(current_img())]][["selection"]],
+                                  map(v$responses[[basename(current_img())]][["selection"]],
                                          function(x) as.data.frame(x$pos))
                                 )
       )
@@ -97,13 +98,13 @@ shinyServer(
     selectionInputs <- getInputID(questions$selection)
 
     scene_vals <- reactive({
-      vals <- lapply(sceneInputs, function(id){input[[id$id]]})
-      names(vals) <- vapply(sceneInputs, function(x) x$id, character(1L))
+      vals <- map(sceneInputs, function(id){input[[id$id]]})
+      names(vals) <- map_chr(sceneInputs, "id")
       vals
     })
     selection_vals <- reactive({
-      vals <- lapply(selectionInputs, function(id){input[[id$id]]})
-      names(vals) <- vapply(selectionInputs, function(x) x$id, character(1L))
+      vals <- map(selectionInputs, function(id){input[[id$id]]})
+      names(vals) <- map_chr(selectionInputs, "id")
       vals
     })
 
@@ -162,20 +163,20 @@ shinyServer(
     observeEvent(input$img_dblclick, {
       xpos <- input$img_dblclick$x
       ypos <- input$img_dblclick$y
-      match <- vapply(v$responses[[basename(current_img())]][["selection"]],
+      match <- map_lgl(v$responses[[basename(current_img())]][["selection"]],
              function(sel){
                (xpos >= sel$pos$xmin) &&
                (xpos <= sel$pos$xmax) &&
                (ypos >= sel$pos$ymin) &&
                (ypos <= sel$pos$ymax)
-             }, logical(1L)
+             }
       )
       sel_match <- which(match)
       if(length(sel_match) == 1){
         v$current_sel <- sel_match
 
         # Update selection inputs
-        lapply(selectionInputs,
+        map(selectionInputs,
            function(io){
              val <- v$responses[[basename(current_img())]][["selection"]][[sel_match]][["inputs"]][[io$id]]
              session$sendInputMessage(
@@ -196,7 +197,7 @@ shinyServer(
 
     # Update the scene values when images change
     observeEvent(current_img(), {
-      lapply(sceneInputs,
+      map(sceneInputs,
              function(io){
                # Update scene inputs
                val <- v$responses[[basename(current_img())]][["scene"]][[io$id]]
@@ -239,6 +240,9 @@ shinyServer(
         )
       session$resetBrush("img_brush")
       v$current_sel <- NULL
+    })
+
+    observeEvent(input$btn_export, {
     })
   }
 )
