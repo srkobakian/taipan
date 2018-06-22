@@ -102,6 +102,7 @@ shinyServer(
       names(vals) <- map_chr(sceneInputs, "id")
       vals
     })
+
     selection_vals <- reactive({
       vals <- map(selectionInputs, function(id){input[[id$id]]})
       names(vals) <- map_chr(selectionInputs, "id")
@@ -224,11 +225,13 @@ shinyServer(
     })
 
     observeEvent(input$btn_prev, {
+      v$responses[[basename(current_img())]][["scene"]] <- scene_vals()
       session$resetBrush("img_brush")
       v$current_sel <- NULL
       v$imageNum <- pmax(1, v$imageNum - 1)
     })
     observeEvent(input$btn_next, {
+      v$responses[[basename(current_img())]][["scene"]] <- scene_vals()
       session$resetBrush("img_brush")
       v$current_sel <- NULL
       v$imageNum <- pmin(length(image_list), v$imageNum + 1)
@@ -247,6 +250,7 @@ shinyServer(
         paste('taipan-export-', Sys.Date(), '.csv', sep='')
       },
       content = function(con){
+        v$responses[[basename(current_img())]][["scene"]] <- scene_vals()
         out <- suppressWarnings( # hide coercion warnings
           v$responses %>%
             imap_dfr(
