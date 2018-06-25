@@ -64,7 +64,7 @@ shinyServer(
       selection_data <- do.call("rbind",
                                 c(list(data.frame(xmin=numeric(), xmax=numeric(), ymin=numeric(), ymax=numeric())),
                                   map(v$responses[[basename(current_img())]][["selection"]],
-                                         function(x) as.data.frame(x$pos))
+                                      function(x) as.data.frame(x$pos))
                                 )
       )
       selection_data <- transform(selection_data, current = seq_len(NROW(selection_data)) %in% current_sel())
@@ -107,6 +107,23 @@ shinyServer(
       vals <- map(selectionInputs, function(id){input[[id$id]]})
       names(vals) <- map_chr(selectionInputs, "id")
       vals
+    })
+
+    output$ui_instructions <- renderUI({
+      box(
+        title = "Instructions",
+        "Welcome to your survey.", br(),
+        "To answer questions about the current image, respond in the box titled Scene below.", br(),
+        "These questions are about the whole image, and will be saved when you continue to the next image.", br(),  br(),
+        "Next step is to select an area. Do this by holding down where you would like a corner to be on the image. Drag the cross hairs to extend vertically and horizontally to create a rectangle or a square around your area of interest.", br(),
+        "Now you will see a different set of questions has appeared below. These questions relate only to the location you have currently selected.", br(),
+        "To save these answers there is a new save selection button, click on this when you have completed the answers for this area.",br(),
+        "Continue this until all answers have been answered for all areas of interest.", br(),
+        "Double click within an area to view or edit the answers.",
+        status = "primary",
+        solidHeader = TRUE,
+        collapsible = TRUE
+      )
     })
 
     output$ui_questions <- renderUI({
@@ -165,12 +182,12 @@ shinyServer(
       xpos <- input$img_dblclick$x
       ypos <- input$img_dblclick$y
       match <- map_lgl(v$responses[[basename(current_img())]][["selection"]],
-             function(sel){
-               (xpos >= sel$pos$xmin) &&
-               (xpos <= sel$pos$xmax) &&
-               (ypos >= sel$pos$ymin) &&
-               (ypos <= sel$pos$ymax)
-             }
+                       function(sel){
+                         (xpos >= sel$pos$xmin) &&
+                           (xpos <= sel$pos$xmax) &&
+                           (ypos >= sel$pos$ymin) &&
+                           (ypos <= sel$pos$ymax)
+                       }
       )
       sel_match <- which(match)
       if(length(sel_match) == 1){
@@ -178,16 +195,16 @@ shinyServer(
 
         # Update selection inputs
         map(selectionInputs,
-           function(io){
-             val <- v$responses[[basename(current_img())]][["selection"]][[sel_match]][["inputs"]][[io$id]]
-             session$sendInputMessage(
-               io$id,
-               list(
-                 value = val,
-                 selected = val
-               )
-             )
-           }
+            function(io){
+              val <- v$responses[[basename(current_img())]][["selection"]][[sel_match]][["inputs"]][[io$id]]
+              session$sendInputMessage(
+                io$id,
+                list(
+                  value = val,
+                  selected = val
+                )
+              )
+            }
         )
       }
       else{
@@ -199,24 +216,24 @@ shinyServer(
     # Update the scene values when images change
     observeEvent(current_img(), {
       map(sceneInputs,
-             function(io){
-               # Update scene inputs
-               val <- v$responses[[basename(current_img())]][["scene"]][[io$id]]
-               if(!is.null(val)){
-                 session$sendInputMessage(
-                   io$id,
-                   list(
-                     value = val,
-                     selected = val
-                   )
-                 )
-               }
-               else{
-                 # Trigger re-build of UI
-                 v$current_sel <- 1
-                 v$current_sel <- NULL
-               }
-             }
+          function(io){
+            # Update scene inputs
+            val <- v$responses[[basename(current_img())]][["scene"]][[io$id]]
+            if(!is.null(val)){
+              session$sendInputMessage(
+                io$id,
+                list(
+                  value = val,
+                  selected = val
+                )
+              )
+            }
+            else{
+              # Trigger re-build of UI
+              v$current_sel <- 1
+              v$current_sel <- NULL
+            }
+          }
       )
     })
 
