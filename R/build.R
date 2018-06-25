@@ -1,3 +1,4 @@
+#' @importFrom shiny runApp
 buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FALSE){
   # images <- tools::file_path_as_absolute(images)
   if(!inherits(questions, "taipanQuestions")){
