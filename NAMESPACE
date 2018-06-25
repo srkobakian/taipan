@@ -3,3 +3,4 @@
 export(buildTaipan)
 export(taipanQuestions)
 importFrom(shiny,runApp)
+importFrom(utils,download.file)

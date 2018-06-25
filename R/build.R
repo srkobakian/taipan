@@ -1,4 +1,5 @@
 #' @importFrom shiny runApp
+#' @importFrom utils download.file
 #' @export
 buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FALSE){
   # images <- tools::file_path_as_absolute(images)
@@ -38,6 +39,6 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
 
   # LAUNCH APP
   if(launch){
-    shiny::runApp(appdir)
+    runApp(appdir)
   }
 }
