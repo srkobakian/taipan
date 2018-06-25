@@ -4,6 +4,12 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
     stop("Questions must be created using the taipanQuestions() function.")
   }
   if(overwrite){
+    message(paste0("Are you sure you want to overwrite '", appdir, "'? All files in this folder will be deleted!\nYes: Delete ALL of these files!\nNo: Keep it the way it is!"))
+    auth <- readline()
+    if(toupper(auth)!="YES"){
+      message("Aborted building of taipan app.")
+      return(invisible(NULL))
+    }
     unlink(appdir, recursive = TRUE)
   }
   if(dir.exists(appdir)){
