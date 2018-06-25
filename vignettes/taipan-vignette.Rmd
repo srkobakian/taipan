@@ -15,7 +15,8 @@ editor_options:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.align = "centre")
+  fig.align = "centre",
+  eval = FALSE)
 library(taipan)
 ```
 
