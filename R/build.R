@@ -6,10 +6,7 @@
 #' @param launch launch the app from the new directory after build is completed
 #' @param overwrite replace the contents of the supplied location with the completed app
 #'
-#' @importFrom shiny runApp
-#' @importFrom utils download.file
-#' @export
-#'
+#' @examples
 #' \dontrun{
 #' library(shiny)
 #' library(taipan)
@@ -52,13 +49,15 @@
 #' buildTaipan(
 #'   questions = questions,
 #'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2016_CT6_R01_CGarcia_FRA_vs_BStrycova_CZE_WS145_clip.0015.png",
-#'   "~/myapp1",
-#'   overwrite = TRUE
+#'   file.path(tempdir(), "taipan")
 #' )
-#' yes
 #'
 #' }
 #'
+#' @importFrom shiny runApp
+#' @importFrom utils download.file
+#'
+#' @export
 
 buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FALSE){
   # images <- tools::file_path_as_absolute(images)
