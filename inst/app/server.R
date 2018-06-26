@@ -20,6 +20,7 @@ shinyServer(
     v <- reactiveValues(
       imageNum = 1,
       current_sel = NULL,
+      editing = F,
       responses = list()
     )
 
@@ -112,16 +113,21 @@ shinyServer(
     output$ui_instructions <- renderUI({
       box(
         title = "Instructions",
-        "Welcome to your survey.", br(),
-        "To answer questions about the current image, respond in the box titled Scene below.", br(),
-        "These questions are about the whole image, and will be saved when you continue to the next image.", br(),  br(),
-        "Next step is to select an area. Do this by holding down where you would like a corner to be on the image. Drag the cross hairs to extend vertically and horizontally to create a rectangle or a square around your area of interest.", br(),
-        "Now you will see a different set of questions has appeared below. These questions relate only to the location you have currently selected.", br(),
-        "To save these answers there is a new save selection button, click on this when you have completed the answers for this area.",br(),
-        "Continue this until all answers have been answered for all areas of interest.", br(),
-        "Double click within an area to view or edit the answers.",
+        h3("Welcome to your survey."), br(),
+        p("The", strong("Scene"),
+          "section asks questions regarding the whole image, and will be saved when you continue to the next image.", "To answer questions about the current image,
+          respond to the questions below."), br(),
+          br(),
+        "Next step is to select an area. Hold down on the image to create a cornerof the selected area,
+        drag the crosshairs vertically and horizontally to create a rectangle around your area of interest.", br(),
+        p("The", strong("Selection"), "questions now appear.
+          These questions relate only to the location you have currently selected."), br(),
+        p("Save these answers by clicking the", strong("Save Selection"), "button,
+          when you have completed the answers for this area."), br(),
+        "Repeat for all areas of interest.", br(),
+        "It is possible to view or edit the answers provided by double clicking within the area.",
         status = "primary",
-        solidHeader = TRUE,
+        solidHeader = FALSE,
         collapsible = TRUE
       )
     })
@@ -153,14 +159,31 @@ shinyServer(
           "btn_saveSelection",
           box(
             "Save Selection",
-            width = 4,
-            background = "blue"
+            width = 3,
+            background = "blue", offset=1
           )
         )
       } else {
-        column(4)
+        column(3)
       }
     })
+
+
+    observeEvent(v$editing, {
+        output$ui_deleteSelection <- renderUI({
+          if(!is.null(current_sel()) & v$editing){
+            actionLink(
+              "btn_deleteSelection",
+              box(
+                "Delete Selection",
+                width = 3,
+                background = "red", offset=1
+              )
+            )
+          } else {
+            column(3)
+          }
+        })})
 
     observeEvent(input$img_brush, {
       if(is.null(input$img_brush)){
@@ -192,6 +215,7 @@ shinyServer(
       sel_match <- which(match)
       if(length(sel_match) == 1){
         v$current_sel <- sel_match
+        v$editing <- T
 
         # Update selection inputs
         map(selectionInputs,
@@ -247,12 +271,15 @@ shinyServer(
       v$current_sel <- NULL
       v$imageNum <- pmax(1, v$imageNum - 1)
     })
+
     observeEvent(input$btn_next, {
       v$responses[[basename(current_img())]][["scene"]] <- scene_vals()
       session$resetBrush("img_brush")
       v$current_sel <- NULL
       v$imageNum <- pmin(length(image_list), v$imageNum + 1)
+      v$editing <- F
     })
+
     observeEvent(input$btn_saveSelection, {
       v$responses[[basename(current_img())]][["selection"]][[current_sel()]] <-
         list(pos = current_area(),
@@ -260,6 +287,13 @@ shinyServer(
         )
       session$resetBrush("img_brush")
       v$current_sel <- NULL
+      v$editing <- F
+    })
+
+    observeEvent(input$btn_deleteSelection, {
+      v$responses[[basename(current_img())]][["selection"]][[current_sel()]] <- NULL
+      v$current_sel <- NULL
+      v$editing <- F
     })
 
     output$btn_export <- downloadHandler(

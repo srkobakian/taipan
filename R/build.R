@@ -1,6 +1,65 @@
+#' buildTaipan
+#'
+#' @param questions a taipan Questions list of scene and selection questions
+#' @param images a vector of image locations, can be local or URLs
+#' @param appdir location to export the completed app
+#' @param launch launch the app from the new directory after build is completed
+#' @param overwrite replace the contents of the supplied location with the completed app
+#'
 #' @importFrom shiny runApp
 #' @importFrom utils download.file
 #' @export
+#'
+#' \dontrun{
+#' library(shiny)
+#' library(taipan)
+#'
+#' questions <- taipanQuestions(
+#'   scene = div(radioButtons("graphic", label = ("2D Graphic"),
+#'                            choices = list("Live image", "2D Graphic")),
+#'               radioButtons("bg", label = ("Background"),
+#'                            choices = list("Crowd",
+#'                                           "Court", "Logo wall", "Not applicable")),
+#'               radioButtons("person", label = ("Detectable Person"),
+#'                            choices = list("Yes", "No")),
+#'               radioButtons("shotangle", label = ("Shot angle"),
+#'                            choices = list("Level with players",
+#'                                           "Birds eye",
+#'                                           "Upward angle")),
+#'               radioButtons("situation", label = ("Situation"),
+#'                            choices = list("Court in play",
+#'                                           "Court player close-up",
+#'                                           "Court close-up not player",
+#'                                           "Crowd",
+#'                                           "Off court close up of player",
+#'                                           "Transition"))),
+#'   selection = div(radioButtons("detect", label = ("Detect Face"),
+#'                                choices = list("Player" ,
+#'                                               "Other staff on court", "Fan", "None")),
+#'                   radioButtons("obscured", label = ("Face obscured"),
+#'                                choices = list("Yes", "No")),
+#'                   radioButtons("lighting", label = ("Lighting"),
+#'                                choices = list("Direct sunlight", "Shaded", "Partially shaded")),
+#'                   radioButtons("headangle", label = ("Head angle"),
+#'                                choices = list("Front on", "Back of head",
+#'                                               "Profile", "Other")),
+#'                   radioButtons("glasses", label = ("Glasses"),
+#'                                choices = list("Yes", "No")),
+#'                   radioButtons("visorhat", label = ("Visor/hat"),
+#'                                choices = list("Yes", "No")))
+#' )
+#'
+#' buildTaipan(
+#'   questions = questions,
+#'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2016_CT6_R01_CGarcia_FRA_vs_BStrycova_CZE_WS145_clip.0015.png",
+#'   "~/myapp1",
+#'   overwrite = TRUE
+#' )
+#' yes
+#'
+#' }
+#'
+
 buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FALSE){
   # images <- tools::file_path_as_absolute(images)
   if(!inherits(questions, "taipanQuestions")){
@@ -16,8 +75,10 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
     unlink(appdir, recursive = TRUE)
   }
   if(dir.exists(appdir)){
-    stop(sprintf('Output appdir "%s" already exists, please provide a different location to save app',
-                 appdir))
+    if(length(list.files(appdir))>0){
+      stop(sprintf('Output appdir "%s" already exists, please provide a different location to save app',
+                   appdir))
+    }
   }
   else{
     dir.create(appdir)

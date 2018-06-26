@@ -29,8 +29,8 @@ shinyUI(
         status = "primary",
         collapsible = TRUE
       ),
+      uiOutput("ui_instructions"),
       column(6,
-             uiOutput("ui_instructions"),
              uiOutput("ui_questions"),
              actionLink(
                "btn_prev",
@@ -40,15 +40,15 @@ shinyUI(
                  background = "green"
                )
              ),
-             column(1),
+             uiOutput("ui_deleteSelection"),
              uiOutput("ui_saveSelection"),
-             column(1),
              actionLink(
                "btn_next",
                box(
                  "Next",
                  width = 3,
-                 background = "green"
+                 background = "green",
+                 offset = 1
                )
              )
       )
