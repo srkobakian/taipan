@@ -1,6 +1,9 @@
 .taipan_image_div {
   position:relative;
 }
+img {
+  max-width: 100%;
+}
 #out_img_overlay {
   position:absolute;
   top:0;

@@ -51,8 +51,8 @@ shinyServer(
     output$out_img_overlay <- renderImage({
       session$sendCustomMessage("get_dim","taipan_current_img")
       if(is.null(input$taipan_img_dim)){
-        out_width <- 1
-        out_height <- 1
+        out_width <- 100
+        out_height <- 100
         xlim <- NULL
         ylim <- NULL
       }
@@ -81,13 +81,15 @@ shinyServer(
           , legend.box.background = element_rect(fill = "transparent") # get rid of legend panel bg
         ) +
         guides(colour = "none")
-      ggsave(overlay_img <- tempfile(), p, png, width = out_width, height = out_height, limitsize = FALSE, bg = "transparent")
+      ggsave(overlay_img <- tempfile(), p, png, width = out_width,
+             height = out_height, limitsize = FALSE, bg = "transparent")
       list(src = overlay_img)
     })
 
     output$out_img <- renderImage({
       list(src = current_img(), id = "taipan_current_img")
     }, deleteFile = FALSE)
+
     output$out_img_info <- renderText({
       sprintf("Image: %s (%i/%i)",
               basename(current_img()),
@@ -113,7 +115,7 @@ shinyServer(
     output$ui_instructions <- renderUI({
       box(
         title = "Instructions",
-        h3("Welcome to your survey."), br(),
+        h4("Welcome to your survey."), br(),
         p("The", strong("Scene"),
           "section asks questions regarding the whole image, and will be saved when you continue to the next image.", "To answer questions about the current image,
           respond to the questions below."), br(),
@@ -126,9 +128,10 @@ shinyServer(
           when you have completed the answers for this area."), br(),
         "Repeat for all areas of interest.", br(),
         "It is possible to view or edit the answers provided by double clicking within the area.",
-        status = "primary",
-        solidHeader = FALSE,
-        collapsible = TRUE
+        status = "warning",
+        solidHeader = TRUE,
+        collapsible = TRUE,
+        width = 12
       )
     })
 

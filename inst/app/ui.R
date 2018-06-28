@@ -29,8 +29,9 @@ shinyUI(
         status = "primary",
         collapsible = TRUE
       ),
-      uiOutput("ui_instructions"),
+
       column(6,
+             uiOutput("ui_instructions"),
              uiOutput("ui_questions"),
              actionLink(
                "btn_prev",

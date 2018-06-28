@@ -63,10 +63,8 @@ questions <- taipanQuestions(
 buildTaipan(
   questions = questions,
   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2016_CT6_R01_CGarcia_FRA_vs_BStrycova_CZE_WS145_clip.0015.png",
-  "~/myapp1",
-  overwrite = TRUE
+  file.path(tempdir(), "taipan")
 )
-yes
 
 }
 
