@@ -14,7 +14,8 @@ shinyUI(
     dashboardBody(
       includeScript("www/img_size.js"),
       includeCSS("www/taipan.css"),
-      box(
+      column(6,
+             box(
         title = textOutput("out_img_info"),
         div(class = "taipan_image_div",
             imageOutput("out_img_overlay",
@@ -25,13 +26,13 @@ shinyUI(
             imageOutput("out_img",
                         inline = TRUE)
         ),
-        width = 6,
+        width = 12,
         status = "primary",
         collapsible = TRUE
       ),
+      uiOutput("ui_instructions")),
 
       column(6,
-             uiOutput("ui_instructions"),
              uiOutput("ui_questions"),
              actionLink(
                "btn_prev",
