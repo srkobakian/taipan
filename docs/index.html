@@ -89,43 +89,22 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="taipan" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#taipan" class="anchor"></a>Taipan</h1></div>
+<a href="#taipan" class="anchor"></a>Taipan <img src="reference/figures/taipan.png" align="right">
+</h1></div>
 
-<p>Taipan is a Tool for Annotating Images in Preparation for ANalysis. It functions as a Shiny web app which allows image surveys to be created from a list of questions and folder of images.</p>
+<p>Taipan is a Tool for Annotating Images in Preparation for ANalysis.</p>
+<p>The Taipan package creates simple shiny surveys. The web applications can be used locally or deployed and allow people to save survey results as tidy data that is ready to use for analysis.</p>
+<p>The app was initially created to streamline the process of manually tagging images to create a training set. It allows users to provide information regarding entire images, and smaller regions within. It is a survey style tool, with questions being posed for each image and area identified.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install taipan from github with:</p>
+<p>You can install the development version from Github using:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"srkob1/taipan"</span>)</code></pre></div>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"srkobakian/taipan"</span>)</code></pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="usage-coming-soon" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
-<p>This code displays several questions regarding images captured from the Channel 7 broadcast of the 2016 Australian Open.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(taipan)
-
-tennisQuestionsSmall &lt;-<span class="st"> </span><span class="kw">list</span>(
-  <span class="dt">scene =</span> <span class="kw">list</span>(<span class="dt">bg =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
-                         <span class="dt">label =</span> <span class="st">"What is the background?"</span>,
-                         <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"Crowd"</span>, <span class="st">"Court"</span>, <span class="st">"Logo wall"</span>, <span class="st">"Not applicable"</span>)),
-               <span class="dt">shotangle =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
-                                <span class="dt">label =</span> <span class="st">"What angle was the image taken from?"</span>,
-                                <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"Level with players"</span>,<span class="st">"Birds eye"</span>, <span class="st">"Upward angle"</span>)),
-               <span class="dt">situation =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
-                                <span class="dt">label =</span> <span class="st">"What is the siutation occurring?"</span>,
-                                <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"Court in play"</span>, <span class="st">"Court player close-up"</span>,<span class="st">"Court close-up not player"</span>,<span class="st">"Crowd"</span>, <span class="st">"Off court close up of player"</span>,<span class="st">"Transition"</span>))),
-  <span class="dt">selection =</span> <span class="kw">list</span>(<span class="dt">detect =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
-                               <span class="dt">label =</span> <span class="st">"Who is the person selected?"</span>,
-                               <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"Player"</span>,<span class="st">"Other staff on court"</span>, <span class="st">"Fan"</span>)),
-                   <span class="dt">glasses =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
-                                <span class="dt">label =</span> <span class="st">"Is the person wearing glasses?"</span>,
-                                <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)),
-                   <span class="dt">visorhat =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
-                                 <span class="dt">label =</span> <span class="st">"Is the person wearing a visor or hat?"</span>,
-                                 <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>))))
-
- <span class="kw"><a href="reference/launchTaipan.html">launchTaipan</a></span>(tennisQuestionsSmall)</code></pre></div>
+<a href="#usage-coming-soon" class="anchor"></a>Usage: coming soon…</h2>
 </div>
 </div>
   </div>

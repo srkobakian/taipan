@@ -82,7 +82,7 @@
       <h1>Taipan Vignette</h1>
                         <h4 class="author">Stephanie Kobakian</h4>
             
-            <h4 class="date">2018-06-16</h4>
+            <h4 class="date">2018-07-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/srkob1/taipan/blob/master/vignettes/taipan-vignette.Rmd"><code>vignettes/taipan-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>taipan-vignette.Rmd</code></div>
@@ -91,125 +91,18 @@
 
     
     
-<p>The taipan web application was created to streamline the process of manually tagging images to create a training set. It results in a tidy data structure that is ready to use for analysis. It allows users to provide information regarding entire images, and smaller regions within. It is a survey style tool, with questions being posed for each image and area identified.</p>
+<p>The Taipan package creates simple shiny surveys. The web applications can be used locally or deployed and allow people to save survey results as tidy data that is ready to use for analysis.</p>
+<p>The app was initially created to streamline the process of manually tagging images to create a training set. It allows users to provide information regarding entire images, and smaller regions within. It is a survey style tool, with questions being posed for each image and area identified.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the development version from Github using:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"srkob1/taipan"</span>)</code></pre></div>
-<p>The Taipan app has been designed to run locally with images stored within the working directory.</p>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"srkobakian/taipan"</span>)</code></pre></div>
 </div>
-<div id="usage" class="section level2">
+<div id="usage-coming-soon" class="section level2">
 <h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
-<div id="example-images" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example-images" class="anchor"></a>Example Images</h3>
-<p>A folder has been provided in this packaged called <code>images</code>. It contains a sample of images provided by Tennis Australia, they depict scenes from the Channel 7 broadcast of the Australian Open 2016. To use your own images you must create a directory called <code>images</code> in the current project. When running the app it will default to the example image directory in the package if an images folder cannot be found in the project. Your image set may contain PNG, JPEG and/or BMP files, these should be located in the <code>images</code> folder.</p>
-</div>
-<div id="example-questions" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example-questions" class="anchor"></a>Example Questions</h3>
-<p>The question lists should be provided in the style of the sample question list. For each question users are expected to answer, you must provide the choices available, the question type and whether there should be a specific default answer. The style of the question list is explored further in the Question List section below.</p>
-</div>
-<div id="launch-the-shiny-app" class="section level3">
-<h3 class="hasAnchor">
-<a href="#launch-the-shiny-app" class="anchor"></a>Launch the Shiny App</h3>
-<p>The taipan Shiny App is integrated into the taipan pacakge, it can be deployed locally using the following command:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(taipan)
-<span class="kw"><a href="../reference/launchTaipan.html">launchTaipan</a></span>()</code></pre></div>
-<p>Note that the function call is empty, it can be run with no arguments provided if there are images in the <code>images</code> directory.</p>
-<p>The <code>questions</code> argument takes a question list. Utilised when the question list has been provided in the global environment, for example the default <code>questions = sampleQuestions</code> indicates the structure required of the list object. Also available when loading the package is <code>questions = tennisQuestions</code>, this will result in the app displaying questions regarding the faces and scenes of the tennis broadcast images.</p>
-<p>When the app is first run the <code>loadCache = FALSE</code> argument is appropriate. If annotations have already been attempted and you would like to progress to the next image in the folder that has not been considered <code>loadCache = TRUE</code>should be used in the function call. This requires a <code>cache.Rdata</code> object to be found in the working directory, if there is no object the app will proceed from the beginning of the image set. The <code>cache.Rdata</code> object will be saved and accessible in the working directory after any use of the app.</p>
-<p>The <code>images</code> argument does not need to be provided by a user. The object is automatically created as a list of the names of all images provided in the images folder.</p>
-</div>
-</div>
-<div id="image-information" class="section level2">
-<h2 class="hasAnchor">
-<a href="#image-information" class="anchor"></a>Image Information</h2>
-<p>When a new image is shown the questions will reset to the default values. The selected answers are saved when either the <code>Previous Image</code>, <code>Next Image</code>, or <code>Save All Answers</code> buttons are clicked.</p>
-<div class="figure" style="text-align: centre">
-<img src="Taipan1imageInformation.png" alt="Taipan initial display" width="192"><p class="caption">
-Taipan initial display
-</p>
-</div>
-<p>The answers will now be available in the <code>scene_answers</code> data frame in the global package environment, or also available in the cache file if the app or R session is terminated.</p>
-<div id="selection-information" class="section level3">
-<h3 class="hasAnchor">
-<a href="#selection-information" class="anchor"></a>Selection Information</h3>
-<p>The brush tool is used to highlight areas of interest, in the tennis example the areas selected contained faces.</p>
-<p>When a new area is selected the question set changes to show the questions provided for areas, instead of the questions for the whole image.</p>
-<div class="figure" style="text-align: centre">
-<img src="Taipan2selectionInformation.png" alt="Taipan application selection questions displayed when area is selected by brush." width="197"><p class="caption">
-Taipan application selection questions displayed when area is selected by brush.
-</p>
-</div>
-<p>To save the answers for the specific faces, click the <code>Save Selection Answers</code> button. When saved, the image will reload and the faces that have been saved will be outlined in green.</p>
-<div class="figure" style="text-align: centre">
-<img src="Taipan3selectionInformation.png" alt="Taipan application previously annotated face highlighted by green box." width="192"><p class="caption">
-Taipan application previously annotated face highlighted by green box.
-</p>
-</div>
-<p>When a selection is made, and another area of the image is clicked before saving, the answers will not be saved. This can be used to intentionally redraw a selection without saving.</p>
-<p>The answers for all selection questions, for all selections will now be available in the <code>selection_answers</code> data frame in the global package environment.</p>
-</div>
-<div id="editing" class="section level3">
-<h3 class="hasAnchor">
-<a href="#editing" class="anchor"></a>Editing</h3>
-<p>It is possible to make changes to previously answered questions. To edit scene information, return to the desired image and change the previously selected answers by clicking on either the <code>Previous Image</code>, <code>Next Image</code> or <code>Save All Answers</code> buttons.</p>
-<p>To edit selection information, double click within a green outlined square. This will turn the square red, and indicate the answers now chosen will be saved for the selected area.</p>
-<div class="figure" style="text-align: centre">
-<img src="Taipan4editings.png" alt="Taipan application editing previously annotated face, highlighted by red box on face and around image." width="198"><p class="caption">
-Taipan application editing previously annotated face, highlighted by red box on face and around image.
-</p>
-</div>
-</div>
-</div>
-<div id="accessing-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#accessing-data" class="anchor"></a>Accessing Data</h2>
-<p>All information recorded in the app is accessible after the app is exited. The tidy format data frames can now be used for analysis.</p>
-<p>The <code>scene_answers</code> data frame is arranged so that every row contains a single answer to a question regarding one of the images considered. The question column is created such that each row is named according to the nested list the question belongs to, followed by an underscore and the name of the list item for the question. The following code loads previously recorded annotations for the Australian Open tennis images.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scene_answers &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_delim">read_csv</a></span>(<span class="st">"data/scene_answers.csv"</span>)
-selection_answers &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/readr/topics/read_delim">read_csv</a></span>(<span class="st">"data/selection_answers.csv"</span>)</code></pre></div>
-<pre><code>#&gt;          question            answers
-#&gt; 1        scene_bg          Logo wall
-#&gt; 2 scene_shotangle Level with players
-#&gt; 3 scene_situation      Court in play</code></pre>
-<p>These can be rearranged to a wide form data set using the following function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scene_answers <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/spread">spread</a></span>(question, answers)</code></pre></div>
-<p>A similar approach may be taken with the <code>selection_answers</code></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">selection_answers <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/spread">spread</a></span>(question, answers)</code></pre></div>
-<div id="plotting-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#plotting-data" class="anchor"></a>Plotting data</h3>
-<p><img src="Taipan5plotting.png" width="337"></p>
-</div>
-<div id="question-lists" class="section level3">
-<h3 class="hasAnchor">
-<a href="#question-lists" class="anchor"></a>Question Lists</h3>
-<p>Two sets of questions have been provided in the package. The question lists have a specific format:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sampleQuestions &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">scene =</span> <span class="kw">list</span>(<span class="dt">Q1 =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
-                                               <span class="dt">label =</span> <span class="st">"My First Question"</span>,
-                                               <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>),
-                                               <span class="dt">selected =</span> <span class="kw">c</span>(<span class="st">"b"</span>)),
-                                     <span class="dt">Q2 =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"check"</span>,
-                                               <span class="dt">label =</span> <span class="st">"My Second Question"</span>,
-                                               <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))),
-                        <span class="dt">selection =</span> <span class="kw">list</span>(<span class="dt">Q1 =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"check"</span>,
-                                                   <span class="dt">label =</span> <span class="st">"My First Question"</span>,
-                                                   <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>)),
-                                         <span class="dt">Q2 =</span> <span class="kw">list</span>(<span class="dt">qType =</span> <span class="st">"radio"</span>,
-                                                   <span class="dt">label =</span> <span class="st">"My Second Question"</span>,
-                                                   <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))))</code></pre></div>
-<p>The first object in the outer list, <code>scene</code>, contains a list of questions regarding the entire image. It is recommended the objects within this list are carefully named for identification and analysis, they will become the identifiers in the exported data sets, the first question in the list above will be identified as <code>scene_Q1</code>.</p>
-<p>The second object in the outer list is the <code>selection</code> list. It is recommended these names are not changed. The selection list contains the questions asked about the smaller areas located within an image. The answers given may, and are expected to, differ for each selected area within an image. There is no limit to how many selections can be found within each image or <code>scene</code>.</p>
-<p>The list for each individual question should at least contain the following named objects: <code>qType, label, choices</code>. The character string provided for <code>qType</code> should be the function name of the shiny question object to be produced. For simplicity, the functions <code>radioButtons()</code> and <code>checkboxGroupInput()</code> can also be produced using the strings <code>"radio"</code> and <code>"check"</code>.</p>
-<p>The second named list object for each question is <code>label</code>, this refers to the text of the question that will be displayed to those answering. This should contain one character string.</p>
-<p>Choices should contain two or more options. They type of question will determine whether there is always an answer provided. Choices should be provided as a vector containing character strings for each possible choice for the question. For example <code>choices = c("1", "2", "3")</code> will give the user three options to be selected.</p>
-<p>The optional argument, <code>selected</code>, applies when a particular answer should be a default answer. This may be appropriate if the expected default is not desired, for example the first option provided to a radio buttons question is shown as the default, or there is no check box initially selected and the question should not have a null result. To provide a default answer, provide the list object <code>selected</code> followed by a vector containing a character string, <code>= c("b"))</code> will make the default answer “b”.</p>
-</div>
+<a href="#usage-coming-soon" class="anchor"></a>Usage: coming soon…</h2>
 </div>
   </div>
 
@@ -219,9 +112,7 @@ selection_answers &lt;-<span class="st"> </span><span class="kw"><a href="http:/
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#installation">Installation</a></li>
-      <li><a href="#usage">Usage</a></li>
-      <li><a href="#image-information">Image Information</a></li>
-      <li><a href="#accessing-data">Accessing Data</a></li>
+      <li><a href="#usage-coming-soon">Usage: coming soon…</a></li>
       </ul>
 </div>
       </div>
