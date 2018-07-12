@@ -17,48 +17,20 @@ knitr::opts_chunk$set(
 [![Travis-CI Build Status](https://travis-ci.org/srkob1/taipan.svg?branch=master)](https://travis-ci.org/srkob1/taipan)
 
 Taipan is a Tool for Annotating Images in Preparation for ANalysis.
-It functions as a Shiny web app which allows image surveys to be created from a list of questions and folder of images. 
+
+The Taipan package creates simple shiny surveys. The web applications can be used locally or deployed and allow people to save survey results as tidy data that is ready to use for analysis.
+
+The app was initially created to streamline the process of manually tagging images to create a training set. 
+It allows users to provide information regarding entire images, and smaller regions within. It is a survey style tool, with questions being posed for each image and area identified.
+
 
 ## Installation
 
-You can install taipan from github with:
+You can install the development version from Github using:
 
-```{r gh-installation, eval = FALSE}
+```{r, eval = FALSE}
 # install.packages("devtools")
-devtools::install_github("srkob1/taipan")
+devtools::install_github("srkobakian/taipan")
 ```
 
-##
-
-As this tool is for image analysis it requires images to be available in a folder in the working directory. 
-A set of example images can be found.
-
-## Example
-
-This code displays several questions regarding images captured from the Channel 7 broadcast of the 2016 Australian Open.
-
-```{r example, eval=FALSE}
-library(taipan)
-
-tennisQuestionsSmall <- list(
-  scene = list(bg = list(qType = "radio",
-                         label = "What is the background?",
-                         choices = c("Crowd", "Court", "Logo wall", "Not applicable")),
-               shotangle = list(qType = "radio",
-                                label = "What angle was the image taken from?",
-                                choices = c("Level with players","Birds eye", "Upward angle")),
-               situation = list(qType = "radio",
-                                label = "What is the siutation occurring?",
-                                choices = c("Court in play", "Court player close-up","Court close-up not player","Crowd", "Off court close up of player","Transition"))),
-  selection = list(detect = list(qType = "radio",
-                               label = "Who is the person selected?",
-                               choices = c("Player","Other staff on court", "Fan")),
-                   glasses = list(qType = "radio",
-                                label = "Is the person wearing glasses?",
-                                choices = c("No", "Yes")),
-                   visorhat = list(qType = "radio",
-                                 label = "Is the person wearing a visor or hat?",
-                                 choices = c("No", "Yes"))))
-
- launchTaipan(tennisQuestionsSmall)
-```
+## Usage: coming soon...
