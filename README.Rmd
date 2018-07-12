@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Taipan
+# Taipan <img src="man/figures/taipan.png" align="right" />
 
 [![Travis-CI Build Status](https://travis-ci.org/srkob1/taipan.svg?branch=master)](https://travis-ci.org/srkob1/taipan)
 
