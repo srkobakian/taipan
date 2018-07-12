@@ -11,7 +11,8 @@ Description: Taipan is a tool for annotating images in preparation for analysis.
 Depends:
     R (>= 3.2.0)
 Imports:
-    shiny
+    shiny,
+    downloader
 Suggests:
     testthat,
     knitr,

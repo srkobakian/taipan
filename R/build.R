@@ -55,7 +55,7 @@
 #' }
 #'
 #' @importFrom shiny runApp
-#' @importFrom utils download.file
+#' @importFrom downloader download
 #'
 #' @export
 
@@ -97,7 +97,7 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
   }
   img_success <- file.copy(images, file.path(appdir, "www", "app_images", basename(images)))
   if(any(!img_success)){
-    downloader::download(images[!img_success], file.path(appdir, "www", "app_images", basename(images)), mode = "wb")
+    download(images[!img_success], file.path(appdir, "www", "app_images", basename(images)), mode = "wb")
   }
 
   # LAUNCH APP
