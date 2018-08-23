@@ -4,7 +4,8 @@
 \alias{buildTaipan}
 \title{buildTaipan}
 \usage{
-buildTaipan(questions, images, appdir, launch = TRUE, overwrite = FALSE)
+buildTaipan(questions, images, appdir, launch = TRUE,
+  overwrite = FALSE)
 }
 \arguments{
 \item{questions}{a taipan Questions list of scene and selection questions}
@@ -18,7 +19,9 @@ buildTaipan(questions, images, appdir, launch = TRUE, overwrite = FALSE)
 \item{overwrite}{replace the contents of the supplied location with the completed app}
 }
 \description{
-buildTaipan
+This function produces a shiny app.
+It requires a list of questions to ask users, the location of the images to
+display and the directory to the shiny app files.
 }
 \examples{
 \dontrun{
@@ -62,7 +65,7 @@ questions <- taipanQuestions(
 
 buildTaipan(
   questions = questions,
-  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2016_CT6_R01_CGarcia_FRA_vs_BStrycova_CZE_WS145_clip.0015.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",
   file.path(tempdir(), "taipan")
 )
 

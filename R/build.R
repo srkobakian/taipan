@@ -1,5 +1,9 @@
 #' buildTaipan
 #'
+#' This function produces a shiny app.
+#' It requires a list of questions to ask users, the location of the images to
+#' display and the directory to the shiny app files.
+#'
 #' @param questions a taipan Questions list of scene and selection questions
 #' @param images a vector of image locations, can be local or URLs
 #' @param appdir location to export the completed app
@@ -48,7 +52,7 @@
 #'
 #' buildTaipan(
 #'   questions = questions,
-#'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2016_CT6_R01_CGarcia_FRA_vs_BStrycova_CZE_WS145_clip.0015.png",
+#'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",
 #'   file.path(tempdir(), "taipan")
 #' )
 #'
@@ -103,5 +107,8 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
   # LAUNCH APP
   if(launch){
     runApp(appdir)
+  }
+  else {
+    cat(paste("The app has been saved in", appdir))
   }
 }
