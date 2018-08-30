@@ -53,8 +53,13 @@
 #'
 #' buildTaipan(
 #'   questions = questions,
-#'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",
-#'   file.path(tempdir(), "taipan")
+#'   images =
+#'   c("https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",
+#'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2second_image.png",
+#'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/3third_image.png",
+#'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/4fourth_image.png",
+#'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/5fifth_image.png"),
+#'      file.path(tempdir(), "taipan")
 #' )
 #'
 #' }
@@ -102,7 +107,7 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
   }
   img_success <- file.copy(images, file.path(appdir, "www", "app_images", basename(images)))
   if(any(!img_success)){
-    download(images[!img_success], file.path(appdir, "www", "app_images", basename(images)), mode = "wb")
+    lapply(images[!img_success], download, mode = "wb", destfile = file.path(appdir, "www", "app_images", basename(images)))
   }
 
   # LAUNCH APP
