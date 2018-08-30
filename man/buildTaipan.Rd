@@ -5,7 +5,7 @@
 \title{buildTaipan}
 \usage{
 buildTaipan(questions, images, appdir, launch = TRUE,
-  overwrite = FALSE)
+  overwrite = FALSE, skip_check = FALSE)
 }
 \arguments{
 \item{questions}{a taipan Questions list of scene and selection questions}
@@ -17,6 +17,9 @@ buildTaipan(questions, images, appdir, launch = TRUE,
 \item{launch}{launch the app from the new directory after build is completed}
 
 \item{overwrite}{replace the contents of the supplied location with the completed app}
+
+\item{skip_check}{if TRUE, the requirement for user input to overwrite an
+existing app is removed}
 }
 \description{
 This function produces all necessary files for a shiny app.

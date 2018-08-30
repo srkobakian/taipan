@@ -10,6 +10,8 @@
 #' @param appdir location to export the completed app
 #' @param launch launch the app from the new directory after build is completed
 #' @param overwrite replace the contents of the supplied location with the completed app
+#' @param skip_check if TRUE, the requirement for user input to overwrite an
+#' existing app is removed
 #'
 #' @examples
 #' \dontrun{
@@ -68,17 +70,19 @@
 #'
 #' @export
 
-buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FALSE){
+buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FALSE, skip_check = FALSE){
   # images <- tools::file_path_as_absolute(images)
   if(!inherits(questions, "taipanQuestions")){
     stop("Questions must be created using the taipanQuestions() function.")
   }
   if(overwrite){
     message(paste0("Are you sure you want to overwrite '", appdir, "'? All files in this folder will be deleted!\nYes: Delete ALL of these files!\nNo: Keep it the way it is!"))
-    auth <- readline()
-    if(toupper(auth)!="YES"){
-      message("Aborted building of taipan app.")
-      return(invisible(NULL))
+    if(skip_check){
+      auth <- readline()
+      if(toupper(auth)!="YES"){
+        message("Aborted building of taipan app.")
+        return(invisible(NULL))
+      }
     }
     unlink(appdir, recursive = TRUE)
   }
