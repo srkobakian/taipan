@@ -73,13 +73,14 @@ shinyServer(
         scale_x_continuous(limits = xlim, expand=c(0,0)) +
         scale_y_continuous(limits = ylim, expand=c(0,0)) +
         geom_rect(fill="transparent") +
-        theme_void()+
+        theme_void() +
         theme(
           panel.background = element_rect(fill = "transparent") # bg of the panel
           , plot.background = element_rect(fill = "transparent", colour = NA) # bg of the plot
           , legend.background = element_rect(fill = "transparent") # get rid of legend bg
           , legend.box.background = element_rect(fill = "transparent") # get rid of legend panel bg
         ) +
+        scale_colour_manual(values = c("TRUE" = "red", "FALSE" = "green")) +
         guides(colour = "none")
       ggsave(overlay_img <- tempfile(), p, png, width = out_width,
              height = out_height, limitsize = FALSE, bg = "transparent")
