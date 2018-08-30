@@ -77,7 +77,7 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
   }
   if(overwrite){
     message(paste0("Are you sure you want to overwrite '", appdir, "'? All files in this folder will be deleted!\nYes: Delete ALL of these files!\nNo: Keep it the way it is!"))
-    if(skip_check){
+    if(!skip_check){
       auth <- readline()
       if(toupper(auth)!="YES"){
         message("Aborted building of taipan app.")
@@ -111,14 +111,17 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
   img_success <- file.copy(images, file.path(appdir, "www", "app_images", basename(images)))
   if(any(!img_success)){
     # check download method to use
-    browser()
     isR32 <- getRversion() >= "3.2"
     if (.Platform$OS.type == "windows") {
       if (isR32) {
         method <- "wininet"
-      }}
+      }
+    }
+    else{
+      method <- "auto"
+    }
 
-    Map(download, url = images[!img_success], mode = "wb", method = method, destfile = file.path(appdir, "www", "app_images", basename(images[!img_success])))
+    Map(download.file, url = images[!img_success], mode = "wb", method = method, destfile = file.path(appdir, "www", "app_images", basename(images[!img_success])))
   }
 
   # TODO: DELETE UNSUPPORTED IMAGES
