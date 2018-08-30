@@ -44,15 +44,7 @@ shinyUI(
              ),
              uiOutput("ui_deleteSelection"),
              uiOutput("ui_saveSelection"),
-             actionLink(
-               "btn_next",
-               box(
-                 "Next",
-                 width = 3,
-                 background = "green",
-                 offset = 1
-               )
-             )
+             uiOutput("ui_btn_next")
       )
     )
   )
