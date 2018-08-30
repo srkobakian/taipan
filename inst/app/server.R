@@ -32,7 +32,10 @@ shinyServer(
     })
     current_area <- reactive({
       if(!is.null(input$img_brush)){
-        input$img_brush[c("xmin", "xmax", "ymin", "ymax")]
+        size <- as.numeric(input$img_brush$range[c("right", "bottom")]) + 1
+        scale <- size / input$taipan_img_dim
+        brush <- input$img_brush[c("xmin", "xmax", "ymin", "ymax")]
+        map2(brush, rep(scale, each = 2), ~ .x / .y)
       }
       else if(!is.null(current_sel())){
         sel_val <- v$responses[[basename(current_img())]][["selection"]][[current_sel()]]
