@@ -66,8 +66,13 @@ questions <- taipanQuestions(
 
 buildTaipan(
   questions = questions,
-  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",
-  file.path(tempdir(), "taipan")
+  images =
+  c("https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2second_image.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/3third_image.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/4fourth_image.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/5fifth_image.png")
+     file.path(tempdir(), "taipan")
 )
 
 }
