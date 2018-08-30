@@ -20,13 +20,13 @@ knitr::opts_chunk$set(
 library(taipan)
 ```
 
-The Taipan package creates simple shiny surveys. The web applications can be used locally or deployed and allow people to save survey results as tidy data that is ready to use for analysis.
+The Taipan package creates simple shiny surveys. The web applications can be used locally and allow people to save survey results in a tidy data format that is ready to use for analysis.
 
-The app was initially created to streamline the process of manually tagging images to create a training set. 
+The app was initially created to streamline the process of manually tagging images to create a training set describing the images.
 It allows users to provide information regarding entire images, and smaller regions within. It is a survey style tool, with questions being posed for each image and area identified.
 
 
-## Installation
+# Installation
 
 You can install the development version from Github using:
 
@@ -35,4 +35,97 @@ You can install the development version from Github using:
 devtools::install_github("srkobakian/taipan")
 ```
 
-## Usage: coming soon...
+# Usage
+
+
+### Example Images
+ A folder has been provided in this package called `sample_images`. It contains five sample of images provided by Tennis Australia, they depict scenes from the Channel 7 broadcast of the Australian Open 2016. 
+
+## Creating your app
+
+ The folling code creates the app that was used to tag images from the Australian Open in 2016.
+ 
+ First load taipan, and shiny.
+```{r}
+# load packages
+library(shiny)
+library(taipan)
+```
+
+### Create questions
+
+Questions are created in the form of widgets. [Shiny](https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/) tutorials expand on the types of widgets you can use to collect information from users. Radio button widgets are used in the sample app, as all questions require one answer, and were limited to one answer.
+
+Two sets of questions are required, one set that relates to the entire scene, and another set that relates to the smaller areas that can be selected in the images.
+
+You can use the following code as a basic layout to include questions.
+
+```{r, eval = FALSE}
+questions <- taipanQuestions(
+  scene = div(),
+  selection = div())
+```
+
+The following code creates the `taipanQuestions` set:
+
+```{r}
+# create questions to ask users
+questions <- taipanQuestions(
+  scene = div(radioButtons("graphic", label = ("2D Graphic"),
+                           choices = list("Live image", "2D Graphic")),
+              radioButtons("bg", label = ("Background"),
+                           choices = list("Crowd",
+                                          "Court", "Logo wall", "Not applicable")),
+              radioButtons("person", label = ("Detectable Person"),
+                           choices = list("Yes", "No")),
+              radioButtons("shotangle", label = ("Shot angle"),
+                           choices = list("Level with players",
+                                          "Birds eye",
+                                          "Upward angle")),
+              radioButtons("situation", label = ("Situation"),
+                           choices = list("Court in play",
+                                          "Court player close-up",
+                                          "Court close-up not player",
+                                          "Crowd",
+                                          "Off court close up of player",
+                                          "Transition"))),
+  selection = div(radioButtons("detect", label = ("Detect Face"),
+                               choices = list("Player" ,
+                                              "Other staff on court", "Fan", "None")),
+                  radioButtons("obscured", label = ("Face obscured"),
+                               choices = list("Yes", "No")),
+                  radioButtons("lighting", label = ("Lighting"),
+                               choices = list("Direct sunlight", "Shaded", "Partially shaded")),
+                  radioButtons("headangle", label = ("Head angle"),
+                               choices = list("Front on", "Back of head",
+                                              "Profile", "Other")),
+                  radioButtons("glasses", label = ("Glasses"),
+                               choices = list("Yes", "No")),
+                  radioButtons("visorhat", label = ("Visor/hat"),
+                               choices = list("Yes", "No")))
+)
+```
+
+
+### Build app
+
+To build the shiny app the following `buildTaipan` function is used.
+It requires questions, the location of images held locally or via URL, and the location to the save the new app.
+
+```{r}
+buildTaipan(
+  questions = questions,
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",  file.path(tempdir(), "taipan")
+)
+```
+
+The sample app is stored in a temporary directory. It is launched automatically after it has been created, this default behaviour can be changed by setting `launch = FALSE`.
+
+## Using the app
+
+### Selecting areas
+
+The scene questions only need to be answered once image.
+The *selection* questions are answered for each highlighted area. To make a selection, click on the image and drag the mouse to create a shaded box of the desired area. The location of the box can be altered by clicking within the shaded area and dragging it to the desired location.
+
+When the area is selected, the selection questions become available. When they have been answered, the user should click the Save Selection button, this will save the current information for the shaded area of the image. It will also allow a user to select additional areas.
