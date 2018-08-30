@@ -106,10 +106,19 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
   }
   img_success <- file.copy(images, file.path(appdir, "www", "app_images", basename(images)))
   if(any(!img_success)){
-    Map(download, url = images[!img_success], mode = "wb", destfile = file.path(appdir, "www", "app_images", basename(images[!img_success])))
+    # check download method to use
+    browser()
+    isR32 <- getRversion() >= "3.2"
+    if (.Platform$OS.type == "windows") {
+      if (isR32) {
+        method <- "wininet"
+      }}
+
+    Map(download, url = images[!img_success], mode = "wb", method = method, destfile = file.path(appdir, "www", "app_images", basename(images[!img_success])))
   }
 
   # TODO: DELETE UNSUPPORTED IMAGES
+
 
   # LAUNCH APP
   if(launch){
