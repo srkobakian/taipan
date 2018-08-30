@@ -116,20 +116,20 @@ shinyServer(
     })
 
     output$ui_instructions <- renderUI({
+      # These instructions can be used as a welcome section to explain your app
       box(
         title = "Instructions",
         h4("Welcome to your survey."), br(),
         p("The", strong("Scene"),
           "section asks questions regarding the whole image, and will be saved when you continue to the next image.", "To answer questions about the current image,
-          respond to the questions below."), br(),
+          respond to the questions in the Scene tab below."), br(),
           br(),
-        "Next step is to select an area. Hold down on the image to create a cornerof the selected area,
-        drag the crosshairs vertically and horizontally to create a rectangle around your area of interest.", br(),
-        p("The", strong("Selection"), "questions now appear.
-          These questions relate only to the location you have currently selected."), br(),
-        p("Save these answers by clicking the", strong("Save Selection"), "button,
-          when you have completed the answers for this area."), br(),
-        "Repeat for all areas of interest.", br(),
+        "Your next step is to select an area of the image.
+Hold down on the image to create a cornerof the selected area,
+        drag the crosshairs vertically and horizontally to create a rectangle.", br(),
+        p("Answer the", strong("Selection"), "questions for the highlighted area.
+          These questions relate only to the location you have currently selected.
+To save these answers, click the", strong("Save Selection"), "button. You can now select a new area"), br(),
         "It is possible to view or edit the answers provided by double clicking within the area.",
         status = "warning",
         solidHeader = TRUE,

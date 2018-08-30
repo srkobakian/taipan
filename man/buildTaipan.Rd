@@ -19,9 +19,10 @@ buildTaipan(questions, images, appdir, launch = TRUE,
 \item{overwrite}{replace the contents of the supplied location with the completed app}
 }
 \description{
-This function produces a shiny app.
+This function produces all necessary files for a shiny app.
 It requires a list of questions to ask users, the location of the images to
-display and the directory to the shiny app files.
+display and the directory for the folder of shiny app files.
+Changes can be made to the appearance by altering the css in the folder.
 }
 \examples{
 \dontrun{
