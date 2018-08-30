@@ -27,7 +27,6 @@ Changes can be made to the appearance by altering the css in the folder.
 \examples{
 \dontrun{
 library(shiny)
-library(taipan)
 
 questions <- taipanQuestions(
   scene = div(radioButtons("graphic", label = ("2D Graphic"),
@@ -71,7 +70,7 @@ buildTaipan(
   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2second_image.png",
   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/3third_image.png",
   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/4fourth_image.png",
-  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/5fifth_image.png")
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/5fifth_image.png"),
      file.path(tempdir(), "taipan")
 )
 

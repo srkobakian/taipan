@@ -14,7 +14,6 @@
 #' @examples
 #' \dontrun{
 #' library(shiny)
-#' library(taipan)
 #'
 #' questions <- taipanQuestions(
 #'   scene = div(radioButtons("graphic", label = ("2D Graphic"),
