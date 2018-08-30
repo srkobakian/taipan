@@ -176,22 +176,21 @@ To save these answers, click the", strong("Save Selection"), "button. You can no
     })
 
     output$ui_btn_next <- renderUI({
-      if (v$imageNum == length(image_list)) {
-      actionLink(
-        "btn_next",
-        box(
-          "Next",
-          width = 3,
-          background = "green",
-          offset = 1
+      if (v$imageNum != length(image_list)) {
+        actionLink(
+          "btn_next",
+          box(
+            "Next",
+            width = 3,
+            background = "green",
+            offset = 1
+          )
         )
-      )}
+      }
       else {
-        NULL }
-
+        NULL
+      }
     })
-
-
 
     observeEvent(v$editing, {
         output$ui_deleteSelection <- renderUI({
