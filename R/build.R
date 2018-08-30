@@ -101,13 +101,15 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
   saveRDS(questions, file = file.path(appdir, "data", "questions.rds"))
 
   # CONSTRUCT IMAGE DIR
-  if(dir.exists(images)){
-    images <- list.files(images, full.names = TRUE)
+  if(any(dirs <- dir.exists(images))){
+    images <- c(list.files(images[dirs], full.names = TRUE, recursive = TRUE), images[!dirs])
   }
   img_success <- file.copy(images, file.path(appdir, "www", "app_images", basename(images)))
   if(any(!img_success)){
-    lapply(images[!img_success], download, mode = "wb", destfile = file.path(appdir, "www", "app_images", basename(images)))
+    Map(download, url = images[!img_success], mode = "wb", destfile = file.path(appdir, "www", "app_images", basename(images[!img_success])))
   }
+
+  # TODO: DELETE UNSUPPORTED IMAGES
 
   # LAUNCH APP
   if(launch){
