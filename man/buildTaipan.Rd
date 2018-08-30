@@ -27,7 +27,6 @@ Changes can be made to the appearance by altering the css in the folder.
 \examples{
 \dontrun{
 library(shiny)
-library(taipan)
 
 questions <- taipanQuestions(
   scene = div(radioButtons("graphic", label = ("2D Graphic"),
