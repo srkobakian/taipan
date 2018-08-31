@@ -116,6 +116,9 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
       if (isR32) {
         method <- "wininet"
       }
+      else{
+        method <- "auto"
+      }
     }
     else{
       method <- "auto"
