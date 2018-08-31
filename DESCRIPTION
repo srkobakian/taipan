@@ -12,7 +12,7 @@ Depends:
     R (>= 3.2.0)
 Imports:
     shiny,
-    downloader
+    utils
 Suggests:
     testthat,
     knitr,
