@@ -107,6 +107,21 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
   # SAVE QUESTIONS
   saveRDS(questions, file = file.path(appdir, "data", "questions.Rds"))
 
+
+  # DELETE UNSUPPORTED IMAGES
+  if (ext_restricted){
+    valid_ext <- file_ext(images) %in% c("png", "jpeg", "jpg", "svg", "gif")
+    if(any(!valid_ext)){
+      message <- "Images have been removed due to extension type:\n"
+      message <- paste0(message, paste(head(images[!valid_ext]), collapse = ", \n"))
+      if (length(images) > 6) {
+        extra <- length(images)-6
+        message <- paste0(message,", \n and ", extra, " other images.")
+      }
+      message(message)
+      images  <- images[valid_ext] #only keep valid image extensions
+    }
+
   # CONSTRUCT IMAGE DIR
   if(any(dirs <- dir.exists(images))){
     images <- c(list.files(images[dirs], full.names = TRUE, recursive = TRUE), images[!dirs])
@@ -123,19 +138,6 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
     Map(download.file, url = images[!img_success], mode = "wb", method = method, destfile = file.path(appdir, "www", "app_images", basename(images[!img_success])))
   }
 
-  # DELETE UNSUPPORTED IMAGES
-  if (ext_restricted){
-    valid_ext <- file_ext(images) %in% c("png", "jpeg", "jpg", "svg", "gif")
-    if(any(!valid_ext)){
-      message <- "Images have been removed due to extension type:\n"
-      message <- paste0(message, paste(head(images[!valid_ext]), collapse = ", \n"))
-      if (length(images) > 6) {
-        extra <- length(images)-6
-        message <- paste0(message,", \n and ", extra, " other images.")
-      }
-      message(message)
-      images  <- images[valid_ext] #only keep valid image extensions
-    }
 
   }
 
