@@ -12,6 +12,8 @@
 #' @param overwrite replace the contents of the supplied location with the completed app
 #' @param skip_check if TRUE, the requirement for user input to overwrite an
 #' existing app is removed
+#' @param ext_restricted if TRUE only JPEG (JPG), PNG, GIF, SVG are acceptable image
+#' formats, all other types will be removed
 #'
 #' @examples
 #' \dontrun{
@@ -66,11 +68,12 @@
 #' }
 #'
 #' @importFrom shiny runApp
-#' @importFrom downloader download
+#' @importFrom utils download.file head
+#' @importFrom tools file_ext
 #'
 #' @export
 
-buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FALSE, skip_check = FALSE){
+buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FALSE, skip_check = FALSE, ext_restricted = TRUE){
   # images <- tools::file_path_as_absolute(images)
   if(!inherits(questions, "taipanQuestions")){
     stop("Questions must be created using the taipanQuestions() function.")
@@ -102,7 +105,7 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
   file.copy(file.path(system.file(package="taipan"), "app", app_files), appdir, recursive = TRUE)
 
   # SAVE QUESTIONS
-  saveRDS(questions, file = file.path(appdir, "data", "questions.rds"))
+  saveRDS(questions, file = file.path(appdir, "data", "questions.Rds"))
 
   # CONSTRUCT IMAGE DIR
   if(any(dirs <- dir.exists(images))){
@@ -111,23 +114,30 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
   img_success <- file.copy(images, file.path(appdir, "www", "app_images", basename(images)))
   if(any(!img_success)){
     # check download method to use
-    isR32 <- getRversion() >= "3.2"
     if (.Platform$OS.type == "windows") {
-      if (isR32) {
-        method <- "wininet"
-      }
-      else{
-        method <- "auto"
-      }
+      method <- "wininet"
     }
     else{
       method <- "auto"
     }
-
     Map(download.file, url = images[!img_success], mode = "wb", method = method, destfile = file.path(appdir, "www", "app_images", basename(images[!img_success])))
   }
 
-  # TODO: DELETE UNSUPPORTED IMAGES
+  # DELETE UNSUPPORTED IMAGES
+  if (ext_restricted){
+    valid_ext <- file_ext(images) %in% c("png", "jpeg", "jpg", "svg", "gif")
+    if(any(!valid_ext)){
+      message <- "Images have been removed due to extension type:\n"
+      message <- paste0(message, paste(head(images[!valid_ext]), collapse = ", \n"))
+      if (length(images) > 6) {
+        extra <- length(images)-6
+        message <- paste0(message,", \n and ", extra, " other images.")
+      }
+      message(message)
+      images  <- images[valid_ext] #only keep valid image extensions
+    }
+
+  }
 
 
   # LAUNCH APP

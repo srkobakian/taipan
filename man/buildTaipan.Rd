@@ -5,7 +5,7 @@
 \title{buildTaipan}
 \usage{
 buildTaipan(questions, images, appdir, launch = TRUE,
-  overwrite = FALSE, skip_check = FALSE)
+  overwrite = FALSE, skip_check = FALSE, ext_restricted = TRUE)
 }
 \arguments{
 \item{questions}{a taipan Questions list of scene and selection questions}
@@ -20,6 +20,9 @@ buildTaipan(questions, images, appdir, launch = TRUE,
 
 \item{skip_check}{if TRUE, the requirement for user input to overwrite an
 existing app is removed}
+
+\item{ext_restricted}{if TRUE only JPEG (JPG), PNG, GIF, SVG are acceptable image
+formats, all other types will be removed}
 }
 \description{
 This function produces all necessary files for a shiny app.
