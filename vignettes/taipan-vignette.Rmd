@@ -20,10 +20,12 @@ knitr::opts_chunk$set(
 library(taipan)
 ```
 
-The Taipan package creates simple shiny surveys. The web applications can be used locally and allow people to save survey results in a tidy data format that is ready to use for analysis.
+The Taipan package is a tool that can be used to create [Shiny](https://shiny.rstudio.com/) surveys.
+The Shiny web applications can be run locally and allow users to export the survey results in a tidy data format, that is ready to use for analysis.
 
-The app was initially created to streamline the process of manually tagging images to create a training set describing the images.
-It allows users to provide information regarding entire images, and smaller regions within. It is a survey style tool, with questions being posed for each image and area identified.
+The app was initially created to streamline the process of manually tagging images to create a training set describing each image.
+It allows users to provide information regarding entire images, and smaller regions within.
+It is an interactive survey tool, with questions displayed for each image and area identified.
 
 
 # Installation
@@ -43,10 +45,11 @@ devtools::install_github("srkobakian/taipan")
 
 ## Creating your app
 
- The folling code creates the app that was used to tag images from the Australian Open in 2016.
+ The following code creates the app that was used to tag images from the Australian Open in 2016.
  
  First load taipan, and shiny.
-```{r}
+ 
+```{r packages}
 # load packages
 library(shiny)
 library(taipan)
@@ -54,21 +57,21 @@ library(taipan)
 
 ### Create questions
 
-Questions are created in the form of widgets. [Shiny](https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/) tutorials expand on the types of widgets you can use to collect information from users. Radio button widgets are used in the sample app, as all questions require one answer, and were limited to one answer.
+The survey creator provides questions using [Shiny widgets](https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/), and the tutorials expand on the types of widgets you can use to collect information from users. Radio button widgets are used in the sample app, as all questions required one answer, and were limited to one answer.
 
 Two sets of questions are required, one set that relates to the entire scene, and another set that relates to the smaller areas that can be selected in the images.
 
-You can use the following code as a basic layout to include questions.
+The following code shows the basic layout to include questions.
 
-```{r, eval = FALSE}
+```
 questions <- taipanQuestions(
   scene = div(),
   selection = div())
 ```
 
-The following code creates the `taipanQuestions` set:
+The following code creates the `taipanQuestions` set for the tennis images:
 
-```{r}
+```{r questions}
 # create questions to ask users
 questions <- taipanQuestions(
   scene = div(radioButtons("graphic", label = ("2D Graphic"),
@@ -110,31 +113,33 @@ questions <- taipanQuestions(
 ### Build app
 
 To build the shiny app the following `buildTaipan` function is used.
-It requires questions, the location of images held locally or via URL, and the location to the save the new app.
+It requires the taipanQuestions, the location to the save the new app, and the location of images. Images can be accessed via a URL, or a file path is held locally. Note that these images will be downloaded or copied to the directory of the new app.
 
-```{r}
+```{r build}
 buildTaipan(
   questions = questions,
-  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",  file.path(tempdir(), "taipan")
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",
+  file.path(tempdir(), "taipan")
 )
 ```
 
-The sample app is stored in a temporary directory. It is launched automatically after it has been created, this default behaviour can be changed by setting `launch = FALSE`.
+The sample app is stored in a temporary directory.
+It will launch after it has been created, this default behaviour can be changed by setting `launch = FALSE`.
 
 ## Using the app
 
 ### Selecting areas
 
-The *scene* questions need to be answered only once per image.
+The `scene` questions need to be answered only once per image.
 When a user is finished answering questions for ALL selections in an image, they should check the scene answers, then click the `Next Image` button to continue to the next image available. A user can also choose the `Export responses` button at any time, downloading and saving all current information as a text file.
 
-The *selection* questions are answered for each highlighted area. To make a selection, click on the image and drag the mouse to create a shaded box showing the desired area. The location of the box can be altered by clicking within the shaded area and dragging it to the desired location.
-When the area is selected, the selection questions become available. 
+The `selection` questions are answered for each highlighted area. To make a selection, click on the image and drag the mouse to create a shaded box covering the desired area.
+When the area is selected, the `selection` questions become available. 
 
 ### Saving answers
 
 When the questions for an area have been answered, the user should click the `Save Selection` button, this will save the current answers as information for the currently shaded area of the image.
-Saving one area will then allow a user to select a new area.
+Users can repeat the process of highlighting an area, answering and savings related questions as many times as needed.
 
 ### Exporting answers
 
@@ -145,10 +150,13 @@ Each row contains one observation, we consider each selected area in an image an
 The columns contain information regarding each selected area. This includes:
 
 - The file name of the image, labelled image_name
-- The answer to each scene question, labelled by the input id
+- The answer to each scene question, labelled as per the input id
 - The bounding coordinates of the location, labelled xmin, xmax, ymin, ymax
-- The answer to each selection question, labelled by the input id
+- The answer to each selection question, labelled as per the input id
 
 ### Editing results
 
-It is possible to return to 
+It is possible to view and edit answers for a selected area by double clicking within the box shown on the image. 
+
+Saving the new answers for this selection will replace the previous answers, if the answers are not saved or deleted they will remain unchanged in the data set.
+
