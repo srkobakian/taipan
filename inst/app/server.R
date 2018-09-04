@@ -20,7 +20,7 @@ shinyServer(
     v <- reactiveValues(
       imageNum = 1,
       current_sel = NULL,
-      editing = F,
+      editing = FALSE,
       responses = list()
     )
 
@@ -53,18 +53,17 @@ shinyServer(
 
     output$out_img_overlay <- renderImage({
       session$sendCustomMessage("get_dim","taipan_current_img")
-      if(is.null(input$taipan_img_dim)){
-        out_width <- 100
-        out_height <- 100
-        xlim <- NULL
-        ylim <- NULL
+
+      if(!isTruthy(input$taipan_img_dim)){
+        invalidateLater(25)
+        req(FALSE)
       }
-      else{
-        out_width <- input$taipan_img_dim[1]
-        out_height <- input$taipan_img_dim[2]
-        xlim <- c(0, out_width)
-        ylim <- c(-out_height, 0)
-      }
+
+      out_width <- input$taipan_img_dim[1]
+      out_height <- input$taipan_img_dim[2]
+      xlim <- c(0, out_width)
+      ylim <- c(-out_height, 0)
+
       selection_data <- do.call("rbind",
                                 c(list(data.frame(xmin=numeric(), xmax=numeric(), ymin=numeric(), ymax=numeric())),
                                   map(v$responses[[basename(current_img())]][["selection"]],
