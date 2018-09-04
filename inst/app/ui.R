@@ -21,7 +21,7 @@ shinyUI(
             imageOutput("out_img_overlay",
                         click = clickOpts(id = "img_click"),
                         dblclick = dblclickOpts(id = "img_dblclick"),
-                        brush = brushOpts(id = "img_brush"),
+                        brush = brushOpts(id = "img_brush", stroke = "#00A65A", fill = "transparent", opacity = 1),
                         inline=TRUE),
             imageOutput("out_img",
                         inline = TRUE)
