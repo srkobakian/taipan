@@ -305,7 +305,7 @@ shinyServer(
       session$resetBrush("img_brush")
       v$current_sel <- NULL
       v$imageNum <- pmin(length(image_list), v$imageNum + 1)
-      v$editing <- F
+      v$editing <- FALSE
       out <<- suppressWarnings( # hide coercion warnings
         v$responses %>%
           imap_dfr(
@@ -333,13 +333,13 @@ shinyServer(
         )
       session$resetBrush("img_brush")
       v$current_sel <- NULL
-      v$editing <- F
+      v$editing <- FALSE
     })
 
     observeEvent(input$btn_saveImage, {
       v$responses[[basename(current_img())]][["scene"]] <- scene_vals()
       session$resetBrush("img_brush")
-      v$editing <- F
+      v$editing <- FALSE
       out <<- suppressWarnings( # hide coercion warnings
         v$responses %>%
           imap_dfr(
@@ -363,7 +363,7 @@ shinyServer(
     observeEvent(input$btn_deleteSelection, {
       v$responses[[basename(current_img())]][["selection"]][[current_sel()]] <- NULL
       v$current_sel <- NULL
-      v$editing <- F
+      v$editing <- FALSE
     })
 
     output$btn_export <- downloadHandler(
