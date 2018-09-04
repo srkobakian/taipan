@@ -14,7 +14,7 @@ getInputID <- function(input){
 
 shinyServer(
   function(input, output, session) {
-    questions <- readRDS("data/questions.rds")
+    questions <- readRDS("data/questions.Rds")
     image_list <- list.files("www/app_images", full.names = TRUE)
 
     v <- reactiveValues(
