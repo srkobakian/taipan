@@ -37,13 +37,13 @@ shinyUI(
              actionLink(
                "btn_prev",
                box(
-                 "Previous",
+                 "Previous Image",
                  width = 3,
                  background = "green"
                )
              ),
              uiOutput("ui_deleteSelection"),
-             uiOutput("ui_saveSelection"),
+             uiOutput("ui_save"),
              uiOutput("ui_btn_next")
       )
     )
