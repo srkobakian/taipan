@@ -26,7 +26,7 @@
 #'                            choices = list("Crowd",
 #'                                           "Court", "Logo wall", "Not applicable")),
 #'               radioButtons("person", label = ("Detectable Person"),
-#'                            choices = list("Yes", "No")),
+#'                            choices = list("Yes", "No"), selected = "Yes"),
 #'               radioButtons("shotangle", label = ("Shot angle"),
 #'                            choices = list("Level with players",
 #'                                           "Birds eye",
@@ -42,16 +42,16 @@
 #'                                choices = list("Player" ,
 #'                                               "Other staff on court", "Fan", "None")),
 #'                   radioButtons("obscured", label = ("Face obscured"),
-#'                                choices = list("Yes", "No")),
+#'                                choices = list("Yes", "No"), selected = "No"),
 #'                   radioButtons("lighting", label = ("Lighting"),
 #'                                choices = list("Direct sunlight", "Shaded", "Partially shaded")),
 #'                   radioButtons("headangle", label = ("Head angle"),
 #'                                choices = list("Front on", "Back of head",
 #'                                               "Profile", "Other")),
 #'                   radioButtons("glasses", label = ("Glasses"),
-#'                                choices = list("Yes", "No")),
+#'                                choices = list("Yes", "No"), selected = "No"),
 #'                   radioButtons("visorhat", label = ("Visor/hat"),
-#'                                choices = list("Yes", "No")))
+#'                                choices = list("Yes", "No"), selected = "No"))
 #' )
 #'
 #' buildTaipan(
