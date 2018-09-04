@@ -1,0 +1,6 @@
+"image_name","graphic","bg","person","shotangle","situation","xmin","xmax","ymin","ymax","detect","obscured","lighting","headangle","glasses","visorhat"
+"blue_player.png","Live image","Logo wall","Yes","Level with players","Court player close-up",335.930735930736,440.981240981241,164.711538461538,285.865384615385,"Player","No","Shaded","Other","No","Yes"
+"blue_player.png","Live image","Logo wall","Yes","Level with players","Court player close-up",623.376623376623,711.111111111111,213.173076923077,292.788461538462,"Other staff on court","No","Shaded","Front on","Yes","Yes"
+"disgruntled_player.png","Live image","Crowd","Yes","Level with players","Court in play",214.718614718615,346.320346320346,33.1730769230769,184.326923076923,"Player","No","Shaded","Other","No","No"
+"pink_player.png","Live image","Crowd","Yes","Level with players","Court in play",364.790764790765,468.686868686869,35.4807692307692,179.711538461538,"Player","No","Direct sunlight","Front on","No","No"
+"pink_player.png","Live image","Crowd","Yes","Level with players","Court in play",278.210678210678,349.78354978355,72.4038461538461,154.326923076923,"Other staff on court","No","Shaded","Profile","No","Yes"

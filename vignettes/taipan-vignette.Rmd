@@ -16,7 +16,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.align = "centre",
-  eval = FALSE)
+  eval = TRUE,
+  echo = TRUE,
+  out.width=700)
 library(taipan)
 ```
 
@@ -80,7 +82,7 @@ questions <- taipanQuestions(
                            choices = list("Crowd",
                                           "Court", "Logo wall", "Not applicable")),
               radioButtons("person", label = ("Detectable Person"),
-                           choices = list("Yes", "No")),
+                           choices = list("Yes", "No"), selected = "Yes"),
               radioButtons("shotangle", label = ("Shot angle"),
                            choices = list("Level with players",
                                           "Birds eye",
@@ -96,17 +98,18 @@ questions <- taipanQuestions(
                                choices = list("Player" ,
                                               "Other staff on court", "Fan", "None")),
                   radioButtons("obscured", label = ("Face obscured"),
-                               choices = list("Yes", "No")),
+                               choices = list("Yes", "No"), selected = "No"),
                   radioButtons("lighting", label = ("Lighting"),
                                choices = list("Direct sunlight", "Shaded", "Partially shaded")),
                   radioButtons("headangle", label = ("Head angle"),
                                choices = list("Front on", "Back of head",
                                               "Profile", "Other")),
                   radioButtons("glasses", label = ("Glasses"),
-                               choices = list("Yes", "No")),
+                               choices = list("Yes", "No"), selected = "No"),
                   radioButtons("visorhat", label = ("Visor/hat"),
                                choices = list("Yes", "No")))
 )
+
 ```
 
 
@@ -115,13 +118,14 @@ questions <- taipanQuestions(
 To build the shiny app the following `buildTaipan` function is used.
 It requires the taipanQuestions, the location to the save the new app, and the location of images. Images can be accessed via a URL, or a file path is held locally. Note that these images will be downloaded or copied to the directory of the new app.
 
-```{r build}
-  images <- c("https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",
-              "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2second_image.png",
-              "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/3third_image.png",
-              "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/4fourth_image.png",
-              "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/5fifth_image.png",
-              "https://www.iconsdb.com/icons/download/black/mickey-mouse-128.ico")
+```{r build, eval = FALSE}
+images <-
+  c("https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/blue_player.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/pink_player.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/red_player.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/yellow_player.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/disgruntled_player.png")
+
 
 buildTaipan(
   questions = questions,
@@ -135,22 +139,40 @@ It will launch after it has been created, this default behaviour can be changed 
 
 ## Using the app
 
-### Selecting areas
-
+### Annotating Images
 The `scene` questions need to be answered only once per image.
-When a user is finished answering questions for ALL selections in an image, they should check the scene answers, then click the `Next Image` button to continue to the next image available. A user can also choose the `Export responses` button at any time, downloading and saving all current information as a text file.
+These questions appear for the first image when the app begins, and will be displayed as long as there is no area selected.
+
+```{r echo=FALSE, dpi=150, fig.cap="Taipan application scene questions."}
+knitr::include_graphics("taipan_scene.png")
+```
+
+### Selecting areas
 
 The `selection` questions are answered for each highlighted area. To make a selection, click on the image and drag the mouse to create a shaded box covering the desired area.
 When the area is selected, the `selection` questions become available. 
+
+
+```{r echo=FALSE, dpi=150, fig.cap="Taipan application selection questions appear when selecting an area."}
+knitr::include_graphics("taipan_make_selection.png")
+```
+
+When a user is finished answering questions for ALL selections in an image, click the `Next Image` button to continue to the next image available. A user can also choose the `Export responses` button at any time, downloading and saving all current information as a text file.
 
 ### Saving answers
 
 When the questions for an area have been answered, the user should click the `Save Selection` button, this will save the current answers as information for the currently shaded area of the image.
 Users can repeat the process of highlighting an area, answering and savings related questions as many times as needed.
 
+
+```{r echo=FALSE, dpi=150, fig.cap="Taipan application selection questions can be answered for multiple selections."}
+knitr::include_graphics("taipan_save_selection.png")
+```
+
+
 ### Exporting answers
 
-While the answers provided are regularly saved, they are not exported unless the `Export responses` button is used. This will save the comma separated values as a text file in the chosen directory. The file type can be specified, we recommend ".csv".
+While the answers provided are regularly saved, they are not exported unless the `Export responses` button is used. This will save the comma separated values in the chosen directory. 
 
 The answers are provided in a tidy format.
 Each row contains one observation, we consider each selected area in an image an observation.
@@ -161,9 +183,20 @@ The columns contain information regarding each selected area. This includes:
 - The bounding coordinates of the location, labelled xmin, xmax, ymin, ymax
 - The answer to each selection question, labelled as per the input id
 
+```{r preview_data, echo = TRUE}
+taipan_export_2018_09_04 <- read.csv("taipan-export-2018-09-04.csv")
+taipan_export_2018_09_04
+```
+
+
 ### Editing results
 
 It is possible to view and edit answers for a selected area by double clicking within the box shown on the image. 
+
+
+```{r echo=FALSE, dpi=150, fig.cap="Taipan application selection answers can be viewed and edited by double clicking within an area."}
+knitr::include_graphics("taipan_edit_selection.png")
+```
 
 Saving the new answers for this selection will replace the previous answers, if the answers are not saved or deleted they will remain unchanged in the data set.
 
