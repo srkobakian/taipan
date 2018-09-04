@@ -230,6 +230,7 @@ shinyServer(
     })
 
     observeEvent(input$img_dblclick, {
+      browser()
       xpos <- input$img_dblclick$x
       ypos <- input$img_dblclick$y
       match <- map_lgl(v$responses[[basename(current_img())]][["selection"]],

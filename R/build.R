@@ -142,11 +142,10 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
   }
 
 
+  cat(paste("The app has been saved in", appdir))
   # LAUNCH APP
-  if(launch){
+  if (launch) {
     runApp(appdir)
   }
-  else {
-    cat(paste("The app has been saved in", appdir))
-  }
+
 }
