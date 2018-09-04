@@ -44,11 +44,11 @@ test_that("building app", {
 
   appdir <- file.path(tempdir(), "taipan")
 
-  images <- c("https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",
-              "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2second_image.png",
-              "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/3third_image.png",
-              "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/4fourth_image.png",
-              "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/5fifth_image.png",
+  images <- c("https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/blue_player.png",
+              "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/pink_player.png",
+              "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/red_player.png",
+              "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/yellow_player.png",
+              "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/disgruntled_player.png",
               "https://www.iconsdb.com/icons/download/black/mickey-mouse-128.ico")
 
   buildTaipan(
