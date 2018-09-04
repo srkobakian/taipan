@@ -71,6 +71,20 @@ questions <- taipanQuestions(
 )
 
 
+images =
+  c("https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/blue_player.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/pink_player.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/red_player.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/yellow_player.png",
+  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/disgruntled_player.png")
+
+
+buildTaipan(
+  questions = questions,
+  images = images,
+  appdir = file.path(tempdir(), "taipan")
+)
+
 }
 
 }
