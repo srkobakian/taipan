@@ -236,6 +236,7 @@ shinyServer(
       scale <- size / input$taipan_img_dim
       xpos <- input$img_dblclick$x/scale[1]
       ypos <- input$img_dblclick$y/scale[2]
+      # match in reverse order if overlaid
       match <- map_lgl(v$responses[[basename(current_img())]][["selection"]],
                        function(sel){
                          (xpos >= sel$pos$xmin) &&
@@ -245,8 +246,13 @@ shinyServer(
                        }
       )
       sel_match <- which(match)
-      if(length(sel_match) == 1){
-        v$current_sel <- sel_match
+
+      if(length(sel_match) > 0){
+        if(any(rem <- sel_match < current_sel())){
+          sel_match <- sel_match[rem]
+        }
+
+        v$current_sel <- sel_match <- max(sel_match)
         v$editing <- TRUE
 
         # Update selection inputs
