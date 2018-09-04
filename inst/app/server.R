@@ -20,7 +20,7 @@ shinyServer(
     v <- reactiveValues(
       imageNum = 1,
       current_sel = NULL,
-      editing = F,
+      editing = FALSE,
       responses = list()
     )
 
