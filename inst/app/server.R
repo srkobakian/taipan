@@ -83,7 +83,7 @@ shinyServer(
           , legend.background = element_rect(fill = "transparent") # get rid of legend bg
           , legend.box.background = element_rect(fill = "transparent") # get rid of legend panel bg
         ) +
-        scale_colour_manual(values = c("TRUE" = "red", "FALSE" = "green")) +
+        scale_colour_manual(values = c("TRUE" = "#00A65A", "FALSE" = "white")) +
         guides(colour = "none")
       ggsave(overlay_img <- tempfile(), p, png, width = out_width,
              height = out_height, limitsize = FALSE, bg = "transparent")
