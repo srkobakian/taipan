@@ -306,24 +306,6 @@ shinyServer(
       v$current_sel <- NULL
       v$imageNum <- pmin(length(image_list), v$imageNum + 1)
       v$editing <- FALSE
-      out <<- suppressWarnings( # hide coercion warnings
-        v$responses %>%
-          imap_dfr(
-            function(img, image_name){
-              scene_vals <- img$scene %>%
-                map(paste0, collapse = ", ")
-              selection_vals <- img$selection %>%
-                map_dfr(function(sel_val){
-                  c(sel_val$pos,
-                    sel_val$inputs %>%
-                      map(paste0, collapse = ", ")
-                  ) %>%
-                    as.data.frame
-                })
-              as.data.frame(c(image_name = image_name, scene_vals, selection_vals))
-            }
-          )
-      )
     })
 
     observeEvent(input$btn_saveSelection, {
@@ -337,27 +319,7 @@ shinyServer(
     })
 
     observeEvent(input$btn_saveImage, {
-      v$responses[[basename(current_img())]][["scene"]] <- scene_vals()
-      session$resetBrush("img_brush")
-      v$editing <- FALSE
-      out <<- suppressWarnings( # hide coercion warnings
-        v$responses %>%
-          imap_dfr(
-            function(img, image_name){
-              scene_vals <- img$scene %>%
-                map(paste0, collapse = ", ")
-              selection_vals <- img$selection %>%
-                map_dfr(function(sel_val){
-                  c(sel_val$pos,
-                    sel_val$inputs %>%
-                      map(paste0, collapse = ", ")
-                  ) %>%
-                    as.data.frame
-                })
-              as.data.frame(c(image_name = image_name, scene_vals, selection_vals))
-            }
-          )
-      )
+      showNotification(h3("Scene information has been saved."), type = "default")
     })
 
     observeEvent(input$btn_deleteSelection, {
