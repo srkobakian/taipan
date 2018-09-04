@@ -243,7 +243,7 @@ shinyServer(
       sel_match <- which(match)
       if(length(sel_match) == 1){
         v$current_sel <- sel_match
-        v$editing <- T
+        v$editing <- TRUE
 
         # Update selection inputs
         map(selectionInputs,
