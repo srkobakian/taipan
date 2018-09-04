@@ -55,7 +55,7 @@ shinyServer(
       session$sendCustomMessage("get_dim","taipan_current_img")
 
       if(!isTruthy(input$taipan_img_dim)){
-        invalidateLater(25)
+        invalidateLater(100)
         req(FALSE)
       }
 
