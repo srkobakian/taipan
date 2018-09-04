@@ -275,27 +275,25 @@ shinyServer(
     })
 
     # Update the scene values when images change
-    observeEvent(current_img(), {
-      map(sceneInputs,
-          function(io){
-            # Update scene inputs
-            val <- v$responses[[basename(current_img())]][["scene"]][[io$id]]
-            if(!is.null(val)){
-              session$sendInputMessage(
-                io$id,
-                list(
-                  value = val,
-                  selected = val
+    observeEvent(c(current_img(),current_sel()), {
+      browser()
+      if(is.null(current_sel())){
+        map(sceneInputs,
+            function(io){
+              # Update scene inputs
+              val <- v$responses[[basename(current_img())]][["scene"]][[io$id]]
+              if(!is.null(val)){
+                session$sendInputMessage(
+                  io$id,
+                  list(
+                    value = val,
+                    selected = val
+                  )
                 )
-              )
+              }
             }
-            else{
-              # Trigger re-build of UI
-              v$current_sel <- 1
-              v$current_sel <- NULL
-            }
-          }
-      )
+        )
+      }
     })
 
     observeEvent(scene_vals(), {
