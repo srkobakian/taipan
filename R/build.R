@@ -17,6 +17,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' library(taipan)
 #' library(shiny)
 #'
 #' questions <- taipanQuestions(
@@ -51,19 +52,23 @@
 #'                   radioButtons("glasses", label = ("Glasses"),
 #'                                choices = list("Yes", "No"), selected = "No"),
 #'                   radioButtons("visorhat", label = ("Visor/hat"),
-#'                                choices = list("Yes", "No"), selected = "No"))
+#'                                choices = list("Yes", "No")))
 #' )
 #'
-#' buildTaipan(
-#'   questions = questions,
-#'   images =
-#'   c("https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",
-#'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2second_image.png",
-#'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/3third_image.png",
-#'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/4fourth_image.png",
-#'   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/5fifth_image.png"),
-#'      file.path(tempdir(), "taipan")
-#' )
+#
+# images =
+#   c("https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/blue_player.png",
+#   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/pink_player.png",
+#   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/red_player.png",
+#   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/yellow_player.png",
+#   "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/disgruntled_player.png")
+#
+#
+# buildTaipan(
+#   questions = questions,
+#   images = images,
+#   appdir = file.path(tempdir(), "taipan")
+# )
 #'
 #' }
 #'

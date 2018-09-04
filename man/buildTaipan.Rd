@@ -32,6 +32,7 @@ Changes can be made to the appearance by altering the css in the folder.
 }
 \examples{
 \dontrun{
+library(taipan)
 library(shiny)
 
 questions <- taipanQuestions(
@@ -66,19 +67,9 @@ questions <- taipanQuestions(
                   radioButtons("glasses", label = ("Glasses"),
                                choices = list("Yes", "No"), selected = "No"),
                   radioButtons("visorhat", label = ("Visor/hat"),
-                               choices = list("Yes", "No"), selected = "No"))
+                               choices = list("Yes", "No")))
 )
 
-buildTaipan(
-  questions = questions,
-  images =
-  c("https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/1first_image.png",
-  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2second_image.png",
-  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/3third_image.png",
-  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/4fourth_image.png",
-  "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/5fifth_image.png"),
-     file.path(tempdir(), "taipan")
-)
 
 }
 
