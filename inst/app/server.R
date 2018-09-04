@@ -276,7 +276,6 @@ shinyServer(
 
     # Update the scene values when images change
     observeEvent(c(current_img(),current_sel()), {
-      browser()
       if(is.null(current_sel())){
         map(sceneInputs,
             function(io){
