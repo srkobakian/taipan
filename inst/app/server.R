@@ -140,10 +140,10 @@ shinyServer(
     output$ui_questions <- renderUI({
       if(!is.null(current_sel())){
         box(
-          title = h3("Selection"),
+          title = "Selection",
           questions$selection,
           width = 12,
-          status = "primary",
+          status = "success",
           collapsible = TRUE
         )
       }
@@ -152,7 +152,7 @@ shinyServer(
           title = "Scene",
           questions$scene,
           width = 12,
-          status = "primary",
+          status = "info",
           collapsible = TRUE
         )
       }
