@@ -230,9 +230,10 @@ shinyServer(
     })
 
     observeEvent(input$img_dblclick, {
-      browser()
-      xpos <- input$img_dblclick$x
-      ypos <- input$img_dblclick$y
+      size <- as.numeric(input$img_dblclick$range[c("right", "bottom")]) + 1
+      scale <- size / input$taipan_img_dim
+      xpos <- input$img_dblclick$x/scale[1]
+      ypos <- input$img_dblclick$y/scale[2]
       match <- map_lgl(v$responses[[basename(current_img())]][["selection"]],
                        function(sel){
                          (xpos >= sel$pos$xmin) &&
