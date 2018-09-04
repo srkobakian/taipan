@@ -120,16 +120,16 @@ shinyServer(
       # These instructions can be used as a welcome section to explain your app
       box(
         title = "Instructions",
-        h4("Welcome to taipan."), br(),
+        h4("Welcome to taipan!"),
         p("The", strong("Scene"),
           "section contains questions regarding the whole image.
           These answers can be saved by clicking the Save Image button or continuing to the next image."),
           br(),
-          p("Hold and drage the mouse on the image to create a shaded rectangle.
+          p("Hold and drag the mouse over the image to create a shaded rectangle.
         Answer the", strong("Selection"), "questions for the highlighted area.
           The answers to these questions will relate only to the location currently selected.
           To save these answers, click the", strong("Save Selection"), "button. You can now select a new area"), br(),
-        "It is possible to view or edit the answers provided by double clicking within the area.",
+        "It is possible to view or", strong(" edit "), "the answers provided by", strong(" double clicking ")," within the area.",
         status = "warning",
         solidHeader = TRUE,
         collapsible = TRUE,
@@ -144,6 +144,7 @@ shinyServer(
           questions$selection,
           width = 12,
           status = "success",
+          solidHeader = TRUE,
           collapsible = TRUE
         )
       }
@@ -153,6 +154,7 @@ shinyServer(
           questions$scene,
           width = 12,
           status = "info",
+          solidHeader = TRUE,
           collapsible = TRUE
         )
       }
