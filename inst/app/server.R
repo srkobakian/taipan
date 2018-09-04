@@ -120,29 +120,27 @@ shinyServer(
       # These instructions can be used as a welcome section to explain your app
       box(
         title = "Instructions",
-        h4("Welcome to your survey."), br(),
+        h4("Welcome to taipan."), br(),
         p("The", strong("Scene"),
-          "section asks questions regarding the whole image, and will be saved when you continue to the next image.", "To answer questions about the current image,
-          respond to the questions in the Scene tab below."), br(),
+          "section contains questions regarding the whole image.
+          These answers can be saved by clicking the Save Image button or continuing to the next image."),
           br(),
-        "Your next step is to select an area of the image.
-Hold down on the image to create a cornerof the selected area,
-        drag the crosshairs vertically and horizontally to create a rectangle.", br(),
-        p("Answer the", strong("Selection"), "questions for the highlighted area.
-          These questions relate only to the location you have currently selected.
-To save these answers, click the", strong("Save Selection"), "button. You can now select a new area"), br(),
+          p("Hold and drage the mouse on the image to create a shaded rectangle.
+        Answer the", strong("Selection"), "questions for the highlighted area.
+          The answers to these questions will relate only to the location currently selected.
+          To save these answers, click the", strong("Save Selection"), "button. You can now select a new area"), br(),
         "It is possible to view or edit the answers provided by double clicking within the area.",
         status = "warning",
         solidHeader = TRUE,
         collapsible = TRUE,
         width = 12
-      )
+        )
     })
 
     output$ui_questions <- renderUI({
       if(!is.null(current_sel())){
         box(
-          title = "Selection",
+          title = h3("Selection"),
           questions$selection,
           width = 12,
           status = "primary",
@@ -160,7 +158,7 @@ To save these answers, click the", strong("Save Selection"), "button. You can no
       }
     })
 
-    output$ui_saveSelection <- renderUI({
+    output$ui_save <- renderUI({
       if(!is.null(current_sel())){
         actionLink(
           "btn_saveSelection",
@@ -171,7 +169,14 @@ To save these answers, click the", strong("Save Selection"), "button. You can no
           )
         )
       } else {
-        column(3)
+        actionLink(
+          "btn_saveImage",
+          box(
+            "Save Image",
+            width = 3,
+            background = "blue", offset=1
+          )
+        )
       }
     })
 
@@ -180,7 +185,7 @@ To save these answers, click the", strong("Save Selection"), "button. You can no
         actionLink(
           "btn_next",
           box(
-            "Next",
+            "Next Image",
             width = 3,
             background = "green",
             offset = 1
@@ -193,20 +198,20 @@ To save these answers, click the", strong("Save Selection"), "button. You can no
     })
 
     observeEvent(v$editing, {
-        output$ui_deleteSelection <- renderUI({
-          if(!is.null(current_sel()) & v$editing){
-            actionLink(
-              "btn_deleteSelection",
-              box(
-                "Delete Selection",
-                width = 3,
-                background = "red", offset=1
-              )
+      output$ui_deleteSelection <- renderUI({
+        if(!is.null(current_sel()) & v$editing){
+          actionLink(
+            "btn_deleteSelection",
+            box(
+              "Delete Selection",
+              width = 3,
+              background = "red", offset=1
             )
-          } else {
-            column(3)
-          }
-        })})
+          )
+        } else {
+          column(3)
+        }
+      })})
 
     observeEvent(input$img_brush, {
       if(is.null(input$img_brush)){
@@ -331,6 +336,30 @@ To save these answers, click the", strong("Save Selection"), "button. You can no
       v$editing <- F
     })
 
+    observeEvent(input$btn_saveImage, {
+      v$responses[[basename(current_img())]][["scene"]] <- scene_vals()
+      session$resetBrush("img_brush")
+      v$editing <- F
+      out <<- suppressWarnings( # hide coercion warnings
+        v$responses %>%
+          imap_dfr(
+            function(img, image_name){
+              scene_vals <- img$scene %>%
+                map(paste0, collapse = ", ")
+              selection_vals <- img$selection %>%
+                map_dfr(function(sel_val){
+                  c(sel_val$pos,
+                    sel_val$inputs %>%
+                      map(paste0, collapse = ", ")
+                  ) %>%
+                    as.data.frame
+                })
+              as.data.frame(c(image_name = image_name, scene_vals, selection_vals))
+            }
+          )
+      )
+    })
+
     observeEvent(input$btn_deleteSelection, {
       v$responses[[basename(current_img())]][["selection"]][[current_sel()]] <- NULL
       v$current_sel <- NULL
@@ -365,4 +394,4 @@ To save these answers, click the", strong("Save Selection"), "button. You can no
       }
     )
   }
-)
+  )
