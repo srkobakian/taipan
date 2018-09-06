@@ -55,14 +55,13 @@ shinyServer(
       session$sendCustomMessage("get_dim","taipan_current_img")
 
       if(!isTruthy(input$taipan_img_dim)){
-        invalidateLater(10)
-        out_width <- 100
-        out_height <- 100
+        invalidateLater(500)
+        req(FALSE)
       }
-      else{
-        out_width <- input$taipan_img_dim[1]
-        out_height <- input$taipan_img_dim[2]
-      }
+
+      out_width <- input$taipan_img_dim[1]
+      out_height <- input$taipan_img_dim[2]
+
       xlim <- c(0, out_width)
       ylim <- c(-out_height, 0)
 
