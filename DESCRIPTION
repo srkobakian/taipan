@@ -1,15 +1,16 @@
 Package: taipan
 Version: 0.1.1
-Title: Taipan For R
+Title: Taipan for R
 Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
              person("Mitchell", "O'Hara-Wild", email = "mail@mitchelloharawild.com", role = c("aut")))
-Description:  Taipan is a tool to select and annotate elements of images. Users
-    supply images, questions and answer choice. The user interface is a dynamic
-    shiny app, that displays the images and questions and answer choices. The
-    data generated can be saved as a csv file that can be used for subsequent
-    analysis. The original purpose was to annotate still images from tennis
-    video for face recognition and emotion detection purposes. Taipan is an 
-    acronym standing for: tool for annotating images in preparation for analysis. 
+Description: A tool to help create shiny apps for selecting and annotating 
+    elements of images. Users must supply images, questions, and answer
+    choices. The user interface is a dynamic shiny app, that displays the images
+    and questions and answer choices. The data generated can be saved as a csv
+    file that can be used for subsequent analysis. The original purpose was to
+    annotate still images from tennis video for face recognition and emotion 
+    detection purposes. Taipan is an acronym standing for: tool for annotating
+    images in preparation for analysis. 
 Depends:
     R (>= 3.2.0)
 Imports:
