@@ -6,7 +6,7 @@ Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.c
 Description: A tool to help create shiny apps for selecting and annotating 
     elements of images. Users must supply images, questions, and answer
     choices. The user interface is a dynamic shiny app, that displays the images
-    and questions and answer choices. The data generated can be saved as a csv
+    and questions and answer choices. The data generated can be saved to a
     file that can be used for subsequent analysis. The original purpose was to
     annotate still images from tennis video for face recognition and emotion 
     detection purposes.
