@@ -66,9 +66,11 @@ To build a taipan app with these questions, we can use the `buildTaipan` functio
 ```{r, eval = FALSE}
 buildTaipan(
   questions = questions,
-  images = c("https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/hotdog.jpg",
-             "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/not_hotdog.jpg"),
-  appdir = file.path(tempdir(), "taipan")
+  images = c("https://raw.githubusercontent.com/srkobakian/taipan/master/sample_images/hotdog.jpg",
+             "https://raw.githubusercontent.com/srkobakian/taipan/master/sample_images/not_hotdog.jpg"),
+  appdir = file.path(tempdir(), "taipan"), overwrite = TRUE
 )
 ```
+
+![Example App Screenshot](man/figures/readme_app.png)
 

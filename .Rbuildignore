@@ -6,3 +6,4 @@
 ^docs$
 ^sample_images$
 ^cran-comments.md$
+^_pkgdown\.yml$

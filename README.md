@@ -72,8 +72,10 @@ will be created with the `appdir` argument.
 ``` r
 buildTaipan(
   questions = questions,
-  images = c("https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/hotdog.jpg",
-             "https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/not_hotdog.jpg"),
-  appdir = file.path(tempdir(), "taipan")
+  images = c("https://raw.githubusercontent.com/srkobakian/taipan/master/sample_images/hotdog.jpg",
+             "https://raw.githubusercontent.com/srkobakian/taipan/master/sample_images/not_hotdog.jpg"),
+  appdir = file.path(tempdir(), "taipan"), overwrite = TRUE
 )
 ```
+
+![Example App Screenshot](man/figures/readme_app.png)

@@ -5,16 +5,18 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Taipan For R • taipan</title>
+<title>Tool for Annotating Images in Preparation for Analysis • taipan</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Taipan For R">
-<meta property="og:description" content="Taipan is a tool for annotating images in preparation for analysis. 
-    It allows users to annotate images in an interactive environment. 
-    Users supply images, questions and the possible answers.
-    When Images are displayed, survey takers can select the appropriate responses.
-    The answers are stored in a tidy format for analysis.">
+<script src="pkgdown.js"></script><meta property="og:title" content="Tool for Annotating Images in Preparation for Analysis">
+<meta property="og:description" content="A tool to help create shiny apps for selecting and annotating 
+    elements of images. Users must supply images, questions, and answer
+    choices. The user interface is a dynamic shiny app, that displays the images
+    and questions and answer choices. The data generated can be saved to a
+    file that can be used for subsequent analysis. The original purpose was to
+    annotate still images from tennis video for face recognition and emotion 
+    detection purposes.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -33,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">taipan</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.2</span>
       </span>
     </div>
 
@@ -66,7 +68,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/srkob1/taipan">
+  <a href="https://github.com/srkobakian/taipan">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -98,13 +100,39 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
+<p>You can install the <strong>stable</strong> version from <a href="https://cran.r-project.org/package=taipan">CRAN</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">'taipan'</span>)</a></code></pre></div>
 <p>You can install the development version from Github using:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"srkobakian/taipan"</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"srkobakian/taipan"</span>)</a></code></pre></div>
 </div>
-<div id="usage-coming-soon" class="section level2">
+<div id="usage" class="section level2">
 <h2 class="hasAnchor">
-<a href="#usage-coming-soon" class="anchor"></a>Usage: coming soon…</h2>
+<a href="#usage" class="anchor"></a>Usage</h2>
+<p>Taipan builds a shiny app suitable for annotating images. Questions can be provided for two scenarios in the app: ‘scene’ and ‘selection’. Scene questions are suitable for questions that apply to the whole image, and are shown when no selection is made. Selection questions are appropriate for selected areas of the image, and are shown when a selection is made.</p>
+<p>These lists of questions can be flexibly produced using the <code>taipanQuestions</code> function, where any shiny inputs and web elements can be used to build your own survey UI. For example, to train a model for identifying hotdogs and condiments, you could use this interface:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(taipan)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(shiny)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">questions &lt;-<span class="st"> </span><span class="kw"><a href="reference/taipanQuestions.html">taipanQuestions</a></span>(</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="dt">scene =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/sliderInput">sliderInput</a></span>(<span class="st">"quality"</span>, <span class="dt">label =</span> <span class="st">"Image Quality"</span>,</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">                      <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">10</span>, <span class="dt">value =</span> <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">  <span class="dt">selection =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/builder">div</a></span>(</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">    <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/radioButtons">radioButtons</a></span>(<span class="st">"hotdog"</span>, <span class="dt">label =</span> <span class="st">"Hotdog?"</span>,</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">                 <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Hotdog"</span>, <span class="st">"Not hotdog"</span>)),</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">    <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/checkboxGroupInput">checkboxGroupInput</a></span>(<span class="st">"extra"</span>, <span class="dt">label =</span> <span class="st">"Condiments"</span>,</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">                       <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Onion"</span>, <span class="st">"Tomato (Ketchup)"</span>, <span class="st">"Barbeque"</span>, <span class="st">"Mustard"</span>))</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">  )</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">)</a></code></pre></div>
+<p>To build a taipan app with these questions, we can use the <code>buildTaipan</code> function and provide a set of images to annotate. These images can be provided locally, or via links to the web. You can specify where the app will be created with the <code>appdir</code> argument.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/buildTaipan.html">buildTaipan</a></span>(</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="dt">questions =</span> questions,</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">images =</span> <span class="kw">c</span>(<span class="st">"https://raw.githubusercontent.com/srkobakian/taipan/master/sample_images/hotdog.jpg"</span>,</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">             <span class="st">"https://raw.githubusercontent.com/srkobakian/taipan/master/sample_images/not_hotdog.jpg"</span>),</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="dt">appdir =</span> <span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"taipan"</span>), <span class="dt">overwrite =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">)</a></code></pre></div>
+<div class="figure">
+<img src="reference/figures/readme_app.png" alt="Example App Screenshot"><p class="caption">Example App Screenshot</p>
+</div>
 </div>
 </div>
   </div>
@@ -113,9 +141,11 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/srkob1/taipan">https://​github.com/​srkob1/​taipan</a>
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=taipan">https://​cloud.r-project.org/​package=taipan</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/srkob1/taipan/issues">https://​github.com/​srkob1/​taipan/​issues</a>
+<li>Browse source code at <br><a href="https://github.com/srkobakian/taipan">https://​github.com/​srkobakian/​taipan</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/srkobakian/taipan/issues">https://​github.com/​srkobakian/​taipan/​issues</a>
 </li>
 </ul>
 </div>
@@ -137,7 +167,9 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
       <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/srkob1/taipan"><img src="https://travis-ci.org/srkob1/taipan.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://travis-ci.org/srkobakian/taipan"><img src="https://travis-ci.org/srkobakian/taipan.svg?branch=master" alt="Travis build status"></a></li>
+<li><a href="https://cran.r-project.org/package=taipan"><img src="http://www.r-pkg.org/badges/version/taipan" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://cran.r-project.org/package=taipan"><img src="http://cranlogs.r-pkg.org/badges/taipan?color=brightgreen" alt="Downloads"></a></li>
 </ul>
 </div>
 </div>

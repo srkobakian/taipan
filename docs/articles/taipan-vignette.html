@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taipan</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.2</span>
       </span>
     </div>
 
@@ -62,7 +62,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/srkob1/taipan">
+  <a href="https://github.com/srkobakian/taipan">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -82,27 +82,184 @@
       <h1>Taipan Vignette</h1>
                         <h4 class="author">Stephanie Kobakian</h4>
             
-            <h4 class="date">2018-07-12</h4>
+            <h4 class="date">2018-09-21</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/srkob1/taipan/blob/master/vignettes/taipan-vignette.Rmd"><code>vignettes/taipan-vignette.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/srkobakian/taipan/blob/master/vignettes/taipan-vignette.Rmd"><code>vignettes/taipan-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>taipan-vignette.Rmd</code></div>
 
     </div>
 
     
     
-<p>The Taipan package creates simple shiny surveys. The web applications can be used locally or deployed and allow people to save survey results as tidy data that is ready to use for analysis.</p>
-<p>The app was initially created to streamline the process of manually tagging images to create a training set. It allows users to provide information regarding entire images, and smaller regions within. It is a survey style tool, with questions being posed for each image and area identified.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<p>The Taipan package is a tool that can be used to create <a href="https://shiny.rstudio.com/">Shiny</a> surveys. The Shiny web applications can be run locally and allow users to export the survey results in a tidy data format, that is ready to use for analysis.</p>
+<p>The app was initially created to streamline the process of manually tagging images to create a training set describing each image. It allows users to provide information regarding entire images, and smaller regions within. It is an interactive survey tool, with questions displayed for each image and area identified.</p>
+<div id="installation" class="section level1">
+<h1 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h1>
 <p>You can install the development version from Github using:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"srkobakian/taipan"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"srkobakian/taipan"</span>)</a></code></pre></div>
 </div>
-<div id="usage-coming-soon" class="section level2">
+<div id="usage" class="section level1">
+<h1 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h1>
+<div id="example-images" class="section level3">
+<h3 class="hasAnchor">
+<a href="#example-images" class="anchor"></a>Example Images</h3>
+<p>A folder has been provided in this package called <code>sample_images</code>. It contains five sample of images provided by Tennis Australia, they depict scenes from the Channel 7 broadcast of the Australian Open 2016.</p>
+</div>
+<div id="creating-your-app" class="section level2">
 <h2 class="hasAnchor">
-<a href="#usage-coming-soon" class="anchor"></a>Usage: coming soon…</h2>
+<a href="#creating-your-app" class="anchor"></a>Creating your app</h2>
+<p>The following code creates the app that was used to tag images from the Australian Open in 2016.</p>
+<p>First load taipan, and shiny.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># load packages</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">library</span>(shiny)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">library</span>(taipan)</a></code></pre></div>
+<div id="create-questions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#create-questions" class="anchor"></a>Create questions</h3>
+<p>The survey creator provides questions using <a href="https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/">Shiny widgets</a>, and the tutorials expand on the types of widgets you can use to collect information from users. Radio button widgets are used in the sample app, as all questions required one answer, and were limited to one answer.</p>
+<p>Two sets of questions are required, one set that relates to the entire scene, and another set that relates to the smaller areas that can be selected in the images.</p>
+<p>The following code shows the basic layout to include questions.</p>
+<pre><code>questions &lt;- taipanQuestions(
+  scene = div(),
+  selection = div())</code></pre>
+<p>The following code creates the <code>taipanQuestions</code> set for the tennis images:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># create questions to ask users</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">questions &lt;-<span class="st"> </span><span class="kw"><a href="../reference/taipanQuestions.html">taipanQuestions</a></span>(</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">scene =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/builder">div</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/radioButtons">radioButtons</a></span>(<span class="st">"graphic"</span>, <span class="dt">label =</span> (<span class="st">"2D Graphic"</span>),</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">                           <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Live image"</span>, <span class="st">"2D Graphic"</span>)),</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">              <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/radioButtons">radioButtons</a></span>(<span class="st">"bg"</span>, <span class="dt">label =</span> (<span class="st">"Background"</span>),</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">                           <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Crowd"</span>,</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">                                          <span class="st">"Court"</span>, <span class="st">"Logo wall"</span>, <span class="st">"Not applicable"</span>)),</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">              <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/radioButtons">radioButtons</a></span>(<span class="st">"person"</span>, <span class="dt">label =</span> (<span class="st">"Detectable Person"</span>),</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">                           <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>), <span class="dt">selected =</span> <span class="st">"Yes"</span>),</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">              <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/radioButtons">radioButtons</a></span>(<span class="st">"shotangle"</span>, <span class="dt">label =</span> (<span class="st">"Shot angle"</span>),</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">                           <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Level with players"</span>,</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">                                          <span class="st">"Birds eye"</span>,</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">                                          <span class="st">"Upward angle"</span>)),</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">              <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/radioButtons">radioButtons</a></span>(<span class="st">"situation"</span>, <span class="dt">label =</span> (<span class="st">"Situation"</span>),</a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">                           <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Court in play"</span>,</a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">                                          <span class="st">"Court player close-up"</span>,</a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">                                          <span class="st">"Court close-up not player"</span>,</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18">                                          <span class="st">"Crowd"</span>,</a>
+<a class="sourceLine" id="cb4-19" data-line-number="19">                                          <span class="st">"Off court close up of player"</span>,</a>
+<a class="sourceLine" id="cb4-20" data-line-number="20">                                          <span class="st">"Transition"</span>))),</a>
+<a class="sourceLine" id="cb4-21" data-line-number="21">  <span class="dt">selection =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/builder">div</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/radioButtons">radioButtons</a></span>(<span class="st">"detect"</span>, <span class="dt">label =</span> (<span class="st">"Detect Face"</span>),</a>
+<a class="sourceLine" id="cb4-22" data-line-number="22">                               <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Player"</span> ,</a>
+<a class="sourceLine" id="cb4-23" data-line-number="23">                                              <span class="st">"Other staff on court"</span>, <span class="st">"Fan"</span>, <span class="st">"None"</span>)),</a>
+<a class="sourceLine" id="cb4-24" data-line-number="24">                  <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/radioButtons">radioButtons</a></span>(<span class="st">"obscured"</span>, <span class="dt">label =</span> (<span class="st">"Face obscured"</span>),</a>
+<a class="sourceLine" id="cb4-25" data-line-number="25">                               <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>), <span class="dt">selected =</span> <span class="st">"No"</span>),</a>
+<a class="sourceLine" id="cb4-26" data-line-number="26">                  <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/radioButtons">radioButtons</a></span>(<span class="st">"lighting"</span>, <span class="dt">label =</span> (<span class="st">"Lighting"</span>),</a>
+<a class="sourceLine" id="cb4-27" data-line-number="27">                               <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Direct sunlight"</span>, <span class="st">"Shaded"</span>, <span class="st">"Partially shaded"</span>)),</a>
+<a class="sourceLine" id="cb4-28" data-line-number="28">                  <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/radioButtons">radioButtons</a></span>(<span class="st">"headangle"</span>, <span class="dt">label =</span> (<span class="st">"Head angle"</span>),</a>
+<a class="sourceLine" id="cb4-29" data-line-number="29">                               <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Front on"</span>, <span class="st">"Back of head"</span>,</a>
+<a class="sourceLine" id="cb4-30" data-line-number="30">                                              <span class="st">"Profile"</span>, <span class="st">"Other"</span>)),</a>
+<a class="sourceLine" id="cb4-31" data-line-number="31">                  <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/radioButtons">radioButtons</a></span>(<span class="st">"glasses"</span>, <span class="dt">label =</span> (<span class="st">"Glasses"</span>),</a>
+<a class="sourceLine" id="cb4-32" data-line-number="32">                               <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>), <span class="dt">selected =</span> <span class="st">"No"</span>),</a>
+<a class="sourceLine" id="cb4-33" data-line-number="33">                  <span class="kw"><a href="http://www.rdocumentation.org/packages/shiny/topics/radioButtons">radioButtons</a></span>(<span class="st">"visorhat"</span>, <span class="dt">label =</span> (<span class="st">"Visor/hat"</span>),</a>
+<a class="sourceLine" id="cb4-34" data-line-number="34">                               <span class="dt">choices =</span> <span class="kw">list</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>)))</a>
+<a class="sourceLine" id="cb4-35" data-line-number="35">)</a></code></pre></div>
+</div>
+<div id="build-app" class="section level3">
+<h3 class="hasAnchor">
+<a href="#build-app" class="anchor"></a>Build app</h3>
+<p>To build the shiny app the following <code>buildTaipan</code> function is used. It requires the taipanQuestions, the location to the save the new app, and the location of images. Images can be accessed via a URL, or a file path is held locally. Note that these images will be downloaded or copied to the directory of the new app.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">images &lt;-</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw">c</span>(<span class="st">"https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/blue_player.png"</span>,</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="st">"https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/pink_player.png"</span>,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="st">"https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/red_player.png"</span>,</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="st">"https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/yellow_player.png"</span>,</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="st">"https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/disgruntled_player.png"</span>)</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="kw"><a href="../reference/buildTaipan.html">buildTaipan</a></span>(</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">  <span class="dt">questions =</span> questions,</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">  <span class="dt">images =</span> images,</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">  <span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"taipan"</span>)</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13">)</a></code></pre></div>
+<p>The sample app is stored in a temporary directory. It will launch after it has been created, this default behaviour can be changed by setting <code>launch = FALSE</code>.</p>
+</div>
+</div>
+<div id="using-the-app" class="section level2">
+<h2 class="hasAnchor">
+<a href="#using-the-app" class="anchor"></a>Using the app</h2>
+<div id="annotating-images" class="section level3">
+<h3 class="hasAnchor">
+<a href="#annotating-images" class="anchor"></a>Annotating Images</h3>
+<p>The <code>scene</code> questions need to be answered only once per image. These questions appear for the first image when the app begins, and will be displayed as long as there is no area selected.</p>
+<div class="figure" style="text-align: centre">
+<img src="taipan_scene.png" alt="Taipan application scene questions." width="700"><p class="caption">
+Taipan application scene questions.
+</p>
+</div>
+</div>
+<div id="selecting-areas" class="section level3">
+<h3 class="hasAnchor">
+<a href="#selecting-areas" class="anchor"></a>Selecting areas</h3>
+<p>The <code>selection</code> questions are answered for each highlighted area. To make a selection, click on the image and drag the mouse to create a shaded box covering the desired area. When the area is selected, the <code>selection</code> questions become available.</p>
+<div class="figure" style="text-align: centre">
+<img src="taipan_make_selection.png" alt="Taipan application selection questions appear when selecting an area." width="700"><p class="caption">
+Taipan application selection questions appear when selecting an area.
+</p>
+</div>
+<p>When a user is finished answering questions for ALL selections in an image, click the <code>Next Image</code> button to continue to the next image available. A user can also choose the <code>Export responses</code> button at any time, downloading and saving all current information as a text file.</p>
+</div>
+<div id="saving-answers" class="section level3">
+<h3 class="hasAnchor">
+<a href="#saving-answers" class="anchor"></a>Saving answers</h3>
+<p>When the questions for an area have been answered, the user should click the <code>Save Selection</code> button, this will save the current answers as information for the currently shaded area of the image. Users can repeat the process of highlighting an area, answering and savings related questions as many times as needed.</p>
+<div class="figure" style="text-align: centre">
+<img src="taipan_save_selection.png" alt="Taipan application selection questions can be answered for multiple selections." width="700"><p class="caption">
+Taipan application selection questions can be answered for multiple selections.
+</p>
+</div>
+</div>
+<div id="exporting-answers" class="section level3">
+<h3 class="hasAnchor">
+<a href="#exporting-answers" class="anchor"></a>Exporting answers</h3>
+<p>While the answers provided are regularly saved, they are not exported unless the <code>Export responses</code> button is used. This will save the comma separated values in the chosen directory.</p>
+<p>The answers are provided in a tidy format. Each row contains one observation, we consider each selected area in an image an observation. The columns contain information regarding each selected area. This includes:</p>
+<ul>
+<li>The file name of the image, labelled image_name</li>
+<li>The answer to each scene question, labelled as per the input id</li>
+<li>The bounding coordinates of the location, labelled xmin, xmax, ymin, ymax</li>
+<li>The answer to each selection question, labelled as per the input id</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">taipan_export_<span class="dv">2018</span>_<span class="dv">09</span>_<span class="dv">04</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"taipan-export-2018-09-04.csv"</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">taipan_export_<span class="dv">2018</span>_<span class="dv">09</span>_<span class="dv">04</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;               image_name    graphic        bg person          shotangle</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; 1        blue_player.png Live image Logo wall    Yes Level with players</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; 2        blue_player.png Live image Logo wall    Yes Level with players</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; 3 disgruntled_player.png Live image     Crowd    Yes Level with players</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; 4        pink_player.png Live image     Crowd    Yes Level with players</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 5        pink_player.png Live image     Crowd    Yes Level with players</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;               situation     xmin     xmax      ymin     ymax</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; 1 Court player close-up 335.9307 440.9812 164.71154 285.8654</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 2 Court player close-up 623.3766 711.1111 213.17308 292.7885</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; 3         Court in play 214.7186 346.3203  33.17308 184.3269</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; 4         Court in play 364.7908 468.6869  35.48077 179.7115</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; 5         Court in play 278.2107 349.7835  72.40385 154.3269</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt;                 detect obscured        lighting headangle glasses visorhat</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; 1               Player       No          Shaded     Other      No      Yes</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; 2 Other staff on court       No          Shaded  Front on     Yes      Yes</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; 3               Player       No          Shaded     Other      No       No</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; 4               Player       No Direct sunlight  Front on      No       No</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; 5 Other staff on court       No          Shaded   Profile      No      Yes</span></a></code></pre></div>
+</div>
+<div id="editing-results" class="section level3">
+<h3 class="hasAnchor">
+<a href="#editing-results" class="anchor"></a>Editing results</h3>
+<p>It is possible to view and edit answers for a selected area by double clicking within the box shown on the image.</p>
+<div class="figure" style="text-align: centre">
+<img src="taipan_edit_selection.png" alt="Taipan application selection answers can be viewed and edited by double clicking within an area." width="700"><p class="caption">
+Taipan application selection answers can be viewed and edited by double clicking within an area.
+</p>
+</div>
+<p>Saving the new answers for this selection will replace the previous answers, if the answers are not saved or deleted they will remain unchanged in the data set.</p>
+</div>
+</div>
 </div>
   </div>
 
@@ -112,7 +269,12 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#installation">Installation</a></li>
-      <li><a href="#usage-coming-soon">Usage: coming soon…</a></li>
+      <li>
+<a href="#usage">Usage</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#creating-your-app">Creating your app</a></li>
+      <li><a href="#using-the-app">Using the app</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>
