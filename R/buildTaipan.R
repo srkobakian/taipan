@@ -5,7 +5,7 @@
 #' display and the directory for the folder of shiny app files.
 #' Changes can be made to the appearance by altering the css in the folder.
 #'
-#' @param questions a taipan Questions list of scene and selection questions
+#' @param questions a `taipanQuestions` list of scene and selection questions
 #' @param images a vector of image locations, can be local or URLs
 #' @param appdir location to export the completed app
 #' @param launch launch the app from the new directory after build is completed

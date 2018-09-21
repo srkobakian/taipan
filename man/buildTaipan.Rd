@@ -8,7 +8,7 @@ buildTaipan(questions, images, appdir, launch = TRUE,
   overwrite = FALSE, skip_check = FALSE, ext_restricted = TRUE)
 }
 \arguments{
-\item{questions}{a taipan Questions list of scene and selection questions}
+\item{questions}{a \code{taipanQuestions} list of scene and selection questions}
 
 \item{images}{a vector of image locations, can be local or URLs}
 
