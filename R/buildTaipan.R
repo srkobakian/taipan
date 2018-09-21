@@ -77,7 +77,6 @@
 #' @importFrom tools file_ext
 #'
 #' @export
-
 buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FALSE, skip_check = FALSE, ext_restricted = TRUE){
   # images <- tools::file_path_as_absolute(images)
   if(!inherits(questions, "taipanQuestions")){
