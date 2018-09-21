@@ -14,6 +14,13 @@ The app was initially created to streamline the process of manually tagging imag
 Installation
 ------------
 
+You can install the **stable** version from
+[CRAN](https://cran.r-project.org/package=taipan).
+
+``` r
+install.packages('taipan')
+```
+
 You can install the development version from Github using:
 
 ``` r

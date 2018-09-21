@@ -25,6 +25,11 @@ It allows users to provide information regarding entire images, and smaller regi
 
 
 ## Installation
+You can install the **stable** version from [CRAN](https://cran.r-project.org/package=taipan).
+
+```{r, eval = FALSE}
+install.packages('taipan')
+```
 
 You can install the development version from Github using:
 
