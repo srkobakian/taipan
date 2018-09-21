@@ -195,7 +195,7 @@ shinyServer(
         )
       }
       else {
-        NULL
+        column(3)
       }
     })
 
@@ -211,7 +211,7 @@ shinyServer(
         )
       }
       else {
-        NULL
+        column(3)
       }
     })
 
