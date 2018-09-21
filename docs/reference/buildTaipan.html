@@ -32,7 +32,10 @@
 
 <meta property="og:title" content="buildTaipan — buildTaipan" />
 
-<meta property="og:description" content="buildTaipan" />
+<meta property="og:description" content="This function produces all necessary files for a shiny app.
+It requires a list of questions to ask users, the location of the images to
+display and the directory for the folder of shiny app files.
+Changes can be made to the appearance by altering the css in the folder." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -61,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taipan</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.2</span>
       </span>
     </div>
 
@@ -95,7 +98,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/srkob1/taipan">
+  <a href="https://github.com/srkobakian/taipan">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -113,17 +116,21 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>buildTaipan</h1>
-    <small class="dont-index">Source: <a href='https://github.com/srkob1/taipan/blob/master/R/build.R'><code>R/build.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/srkobakian/taipan/blob/master/R/build.R'><code>R/build.R</code></a></small>
     <div class="hidden name"><code>buildTaipan.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>buildTaipan</p>
+    <p>This function produces all necessary files for a shiny app.
+It requires a list of questions to ask users, the location of the images to
+display and the directory for the folder of shiny app files.
+Changes can be made to the appearance by altering the css in the folder.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>buildTaipan</span>(<span class='no'>questions</span>, <span class='no'>images</span>, <span class='no'>appdir</span>, <span class='kw'>launch</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>buildTaipan</span>(<span class='no'>questions</span>, <span class='no'>images</span>, <span class='no'>appdir</span>, <span class='kw'>launch</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>skip_check</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ext_restricted</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,22 +155,32 @@
       <th>overwrite</th>
       <td><p>replace the contents of the supplied location with the completed app</p></td>
     </tr>
+    <tr>
+      <th>skip_check</th>
+      <td><p>if TRUE, the requirement for user input to overwrite an
+existing app is removed</p></td>
+    </tr>
+    <tr>
+      <th>ext_restricted</th>
+      <td><p>if TRUE only JPEG (JPG), PNG, GIF, SVG are acceptable image
+formats, all other types will be removed</p></td>
+    </tr>
     </table>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>library</span>(<span class='no'>shiny</span>)
 <span class='fu'>library</span>(<span class='no'>taipan</span>)
+<span class='fu'>library</span>(<span class='no'>shiny</span>)
 
-<span class='no'>questions</span> <span class='kw'>&lt;-</span> <span class='fu'>taipanQuestions</span>(
+<span class='no'>questions</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='taipanQuestions.html'>taipanQuestions</a></span>(
   <span class='kw'>scene</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/shiny/topics/builder'>div</a></span>(<span class='fu'><a href='http://www.rdocumentation.org/packages/shiny/topics/radioButtons'>radioButtons</a></span>(<span class='st'>"graphic"</span>, <span class='kw'>label</span> <span class='kw'>=</span> (<span class='st'>"2D Graphic"</span>),
                            <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Live image"</span>, <span class='st'>"2D Graphic"</span>)),
               <span class='fu'><a href='http://www.rdocumentation.org/packages/shiny/topics/radioButtons'>radioButtons</a></span>(<span class='st'>"bg"</span>, <span class='kw'>label</span> <span class='kw'>=</span> (<span class='st'>"Background"</span>),
                            <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Crowd"</span>,
                                           <span class='st'>"Court"</span>, <span class='st'>"Logo wall"</span>, <span class='st'>"Not applicable"</span>)),
               <span class='fu'><a href='http://www.rdocumentation.org/packages/shiny/topics/radioButtons'>radioButtons</a></span>(<span class='st'>"person"</span>, <span class='kw'>label</span> <span class='kw'>=</span> (<span class='st'>"Detectable Person"</span>),
-                           <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Yes"</span>, <span class='st'>"No"</span>)),
+                           <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Yes"</span>, <span class='st'>"No"</span>), <span class='kw'>selected</span> <span class='kw'>=</span> <span class='st'>"Yes"</span>),
               <span class='fu'><a href='http://www.rdocumentation.org/packages/shiny/topics/radioButtons'>radioButtons</a></span>(<span class='st'>"shotangle"</span>, <span class='kw'>label</span> <span class='kw'>=</span> (<span class='st'>"Shot angle"</span>),
                            <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Level with players"</span>,
                                           <span class='st'>"Birds eye"</span>,
@@ -179,22 +196,31 @@
                                <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Player"</span> ,
                                               <span class='st'>"Other staff on court"</span>, <span class='st'>"Fan"</span>, <span class='st'>"None"</span>)),
                   <span class='fu'><a href='http://www.rdocumentation.org/packages/shiny/topics/radioButtons'>radioButtons</a></span>(<span class='st'>"obscured"</span>, <span class='kw'>label</span> <span class='kw'>=</span> (<span class='st'>"Face obscured"</span>),
-                               <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Yes"</span>, <span class='st'>"No"</span>)),
+                               <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Yes"</span>, <span class='st'>"No"</span>), <span class='kw'>selected</span> <span class='kw'>=</span> <span class='st'>"No"</span>),
                   <span class='fu'><a href='http://www.rdocumentation.org/packages/shiny/topics/radioButtons'>radioButtons</a></span>(<span class='st'>"lighting"</span>, <span class='kw'>label</span> <span class='kw'>=</span> (<span class='st'>"Lighting"</span>),
                                <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Direct sunlight"</span>, <span class='st'>"Shaded"</span>, <span class='st'>"Partially shaded"</span>)),
                   <span class='fu'><a href='http://www.rdocumentation.org/packages/shiny/topics/radioButtons'>radioButtons</a></span>(<span class='st'>"headangle"</span>, <span class='kw'>label</span> <span class='kw'>=</span> (<span class='st'>"Head angle"</span>),
                                <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Front on"</span>, <span class='st'>"Back of head"</span>,
                                               <span class='st'>"Profile"</span>, <span class='st'>"Other"</span>)),
                   <span class='fu'><a href='http://www.rdocumentation.org/packages/shiny/topics/radioButtons'>radioButtons</a></span>(<span class='st'>"glasses"</span>, <span class='kw'>label</span> <span class='kw'>=</span> (<span class='st'>"Glasses"</span>),
-                               <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Yes"</span>, <span class='st'>"No"</span>)),
+                               <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Yes"</span>, <span class='st'>"No"</span>), <span class='kw'>selected</span> <span class='kw'>=</span> <span class='st'>"No"</span>),
                   <span class='fu'><a href='http://www.rdocumentation.org/packages/shiny/topics/radioButtons'>radioButtons</a></span>(<span class='st'>"visorhat"</span>, <span class='kw'>label</span> <span class='kw'>=</span> (<span class='st'>"Visor/hat"</span>),
                                <span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='st'>"Yes"</span>, <span class='st'>"No"</span>)))
 )
 
+
+<span class='no'>images</span> <span class='kw'>=</span>
+  <span class='fu'>c</span>(<span class='st'>"https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/blue_player.png"</span>,
+  <span class='st'>"https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/pink_player.png"</span>,
+  <span class='st'>"https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/red_player.png"</span>,
+  <span class='st'>"https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/yellow_player.png"</span>,
+  <span class='st'>"https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/disgruntled_player.png"</span>)
+
+
 <span class='fu'>buildTaipan</span>(
   <span class='kw'>questions</span> <span class='kw'>=</span> <span class='no'>questions</span>,
-  <span class='st'>"https://raw.githubusercontent.com/srkob1/taipan/master/sample_images/2016_CT6_R01_CGarcia_FRA_vs_BStrycova_CZE_WS145_clip.0015.png"</span>,
-  <span class='fu'>file.path</span>(<span class='fu'>tempdir</span>(), <span class='st'>"taipan"</span>)
+  <span class='kw'>images</span> <span class='kw'>=</span> <span class='no'>images</span>,
+  <span class='kw'>appdir</span> <span class='kw'>=</span> <span class='fu'>file.path</span>(<span class='fu'>tempdir</span>(), <span class='st'>"taipan"</span>)
 )
 
 <span class='co'># }</span><div class='input'>

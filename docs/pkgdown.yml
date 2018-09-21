@@ -1,6 +1,6 @@
-pandoc: 1.19.2.1
-pkgdown: 1.1.0
-pkgdown_sha: ~
+pandoc: 2.2.2.1
+pkgdown: 1.1.0.9000
+pkgdown_sha: 88eacb1caeeb9bfa4e929681917576579e06bd7f
 articles:
   taipan-vignette: taipan-vignette.html
 
