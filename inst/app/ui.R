@@ -34,14 +34,7 @@ shinyUI(
 
       column(6,
              uiOutput("ui_questions"),
-             actionLink(
-               "btn_prev",
-               box(
-                 "Previous Image",
-                 width = 3,
-                 background = "green"
-               )
-             ),
+             uiOutput("ui_btn_prev"),
              uiOutput("ui_deleteSelection"),
              uiOutput("ui_save"),
              uiOutput("ui_btn_next")

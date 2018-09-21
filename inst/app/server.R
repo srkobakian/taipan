@@ -199,6 +199,22 @@ shinyServer(
       }
     })
 
+    output$ui_btn_prev <- renderUI({
+      if (v$imageNum != 1) {
+        actionLink(
+          "btn_prev",
+          box(
+            "Previous Image",
+            width = 3,
+            background = "green"
+          )
+        )
+      }
+      else {
+        NULL
+      }
+    })
+
     observeEvent(v$editing, {
       output$ui_deleteSelection <- renderUI({
         if(!is.null(current_sel()) & v$editing){
