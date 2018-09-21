@@ -1,4 +1,4 @@
-#' buildTaipan
+#' Build a taipan application
 #'
 #' This function produces all necessary files for a shiny app.
 #' It requires a list of questions to ask users, the location of the images to

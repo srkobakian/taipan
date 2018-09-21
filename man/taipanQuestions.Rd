@@ -2,7 +2,7 @@
 % Please edit documentation in R/taipanQuestions.R
 \name{taipanQuestions}
 \alias{taipanQuestions}
-\title{taipanQuestions}
+\title{Prepare a set of questions for taipan}
 \usage{
 taipanQuestions(scene, selection)
 }

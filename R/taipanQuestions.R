@@ -1,4 +1,4 @@
-#' taipanQuestions
+#' Prepare a set of questions for taipan
 #'
 #' Produces a set of scene and selection questions suiatable for use in
 #' `buildTaipan`

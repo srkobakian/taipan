@@ -2,7 +2,7 @@
 % Please edit documentation in R/buildTaipan.R
 \name{buildTaipan}
 \alias{buildTaipan}
-\title{buildTaipan}
+\title{Build a taipan application}
 \usage{
 buildTaipan(questions, images, appdir, launch = TRUE,
   overwrite = FALSE, skip_check = FALSE, ext_restricted = TRUE)
