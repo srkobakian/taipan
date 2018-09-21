@@ -19,7 +19,10 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    tidyverse
+    tidyverse,
+    ggplot2,
+    purrr,
+    shinydashboard
 URL: https://github.com/srkobakian/taipan
 BugReports: https://github.com/srkobakian/taipan/issues
 License: MIT + file LICENSE
