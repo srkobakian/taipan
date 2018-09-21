@@ -1,7 +1,7 @@
 #' taipanQuestions
 #'
 #' Produces a set of scene and selection questions suiatable for use in
-#' buildTaipan
+#' `buildTaipan`
 #'
 #' @param scene a shiny UI object containing shiny inputs and web elements.
 #' These questions relate to the entire image.
