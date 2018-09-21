@@ -28,3 +28,4 @@ LazyData: true
 ByteCompile: true
 RoxygenNote: 6.1.0
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE, roclets=c('rd', 'collate', 'namespace'))

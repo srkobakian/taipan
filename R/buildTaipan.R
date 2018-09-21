@@ -5,7 +5,7 @@
 #' display and the directory for the folder of shiny app files.
 #' Changes can be made to the appearance by altering the css in the folder.
 #'
-#' @param questions a taipan Questions list of scene and selection questions
+#' @param questions a `taipanQuestions` list of scene and selection questions
 #' @param images a vector of image locations, can be local or URLs
 #' @param appdir location to export the completed app
 #' @param launch launch the app from the new directory after build is completed
@@ -127,6 +127,7 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
       message(message)
       images  <- images[valid_ext] #only keep valid image extensions
     }
+  }
 
   # CONSTRUCT IMAGE DIR
   dir.create(file.path(appdir, "www", "app_images"))
@@ -144,10 +145,6 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
     }
     Map(download.file, url = images[!img_success], mode = "wb", method = method, destfile = file.path(appdir, "www", "app_images", basename(images[!img_success])))
   }
-
-
-  }
-
 
   cat(paste("The app has been saved in", appdir))
   # LAUNCH APP

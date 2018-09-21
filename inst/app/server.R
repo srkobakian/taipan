@@ -195,7 +195,23 @@ shinyServer(
         )
       }
       else {
-        NULL
+        column(3)
+      }
+    })
+
+    output$ui_btn_prev <- renderUI({
+      if (v$imageNum != 1) {
+        actionLink(
+          "btn_prev",
+          box(
+            "Previous Image",
+            width = 3,
+            background = "green"
+          )
+        )
+      }
+      else {
+        column(3)
       }
     })
 
