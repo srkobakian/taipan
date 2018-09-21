@@ -127,6 +127,7 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
       message(message)
       images  <- images[valid_ext] #only keep valid image extensions
     }
+  }
 
   # CONSTRUCT IMAGE DIR
   dir.create(file.path(appdir, "www", "app_images"))
@@ -144,10 +145,6 @@ buildTaipan <- function(questions, images, appdir, launch = TRUE, overwrite = FA
     }
     Map(download.file, url = images[!img_success], mode = "wb", method = method, destfile = file.path(appdir, "www", "app_images", basename(images[!img_success])))
   }
-
-
-  }
-
 
   cat(paste("The app has been saved in", appdir))
   # LAUNCH APP
