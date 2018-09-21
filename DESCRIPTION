@@ -1,5 +1,5 @@
 Package: taipan
-Version: 0.1.1
+Version: 0.1.2
 Title: Tool for Annotating Images in Preparation for Analysis
 Authors@R: c(person("Stephanie", "Kobakian", email = "stephanie.kobakian@gmail.com", role = c("aut", "cre")),
              person("Mitchell", "O'Hara-Wild", email = "mail@mitchelloharawild.com", role = c("aut")))
