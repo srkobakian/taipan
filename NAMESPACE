@@ -2,7 +2,6 @@
 
 export(buildTaipan)
 export(taipanQuestions)
-importFrom(shiny,div)
 importFrom(shiny,runApp)
 importFrom(tools,file_ext)
 importFrom(utils,download.file)

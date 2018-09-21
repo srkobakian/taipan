@@ -47,8 +47,6 @@
 #' )
 #'}
 #'
-#' @importFrom shiny div
-#'
 #' @export
 taipanQuestions <- function(scene, selection){
   structure(
