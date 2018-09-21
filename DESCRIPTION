@@ -20,8 +20,8 @@ Suggests:
     knitr,
     rmarkdown,
     tidyverse
-URL: https://github.com/srkob1/taipan
-BugReports: https://github.com/srkob1/taipan/issues
+URL: https://github.com/srkobakian/taipan
+BugReports: https://github.com/srkobakian/taipan/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

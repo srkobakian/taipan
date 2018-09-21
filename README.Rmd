@@ -14,7 +14,9 @@ knitr::opts_chunk$set(
 
 # Taipan <img src="man/figures/taipan.png" align="right" />
 
-[![Travis-CI Build Status](https://travis-ci.org/srkob1/taipan.svg?branch=master)](https://travis-ci.org/srkob1/taipan)
+[![Travis build status](https://travis-ci.org/srkobakian/taipan.svg?branch=master)](https://travis-ci.org/srkobakian/taipan)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/taipan)](https://cran.r-project.org/package=taipan)
+[![Downloads](http://cranlogs.r-pkg.org/badges/taipan?color=brightgreen)](https://cran.r-project.org/package=taipan)
 
 Taipan is a Tool for Annotating Images in Preparation for ANalysis.
 
@@ -25,6 +27,11 @@ It allows users to provide information regarding entire images, and smaller regi
 
 
 ## Installation
+You can install the **stable** version from [CRAN](https://cran.r-project.org/package=taipan).
+
+```{r, eval = FALSE}
+install.packages('taipan')
+```
 
 You can install the development version from Github using:
 
