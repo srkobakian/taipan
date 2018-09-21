@@ -7,11 +7,10 @@
 taipanQuestions(scene, selection)
 }
 \arguments{
-\item{scene}{a shiny UI object containing function calls for shiny inputs.
+\item{scene}{a shiny UI object containing shiny inputs and web elements.
 These questions relate to the entire image.}
 
-\item{selection}{a shiny UI object containing function calls for shiny
-inputs. These questions relate to each selected area of an image. There is
+\item{selection}{a shiny UI object containing shiny inputs and web elements. These questions relate to each selected area of an image. There is
 no limit on how many times these questions will be asked.}
 }
 \description{

@@ -3,10 +3,9 @@
 #' Produces a set of scene and selection questions suiatable for use in
 #' buildTaipan
 #'
-#' @param scene a shiny UI object containing function calls for shiny inputs.
+#' @param scene a shiny UI object containing shiny inputs and web elements.
 #' These questions relate to the entire image.
-#' @param selection a shiny UI object containing function calls for shiny
-#' inputs. These questions relate to each selected area of an image. There is
+#' @param selection a shiny UI object containing shiny inputs and web elements. These questions relate to each selected area of an image. There is
 #' no limit on how many times these questions will be asked.
 #'
 #' @examples
