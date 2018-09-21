@@ -25,7 +25,7 @@ Suggests:
     shinydashboard
 URL: https://github.com/srkobakian/taipan
 BugReports: https://github.com/srkobakian/taipan/issues
-License: MIT + file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
