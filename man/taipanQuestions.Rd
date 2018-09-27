@@ -14,7 +14,7 @@ These questions relate to the entire image.}
 no limit on how many times these questions will be asked.}
 }
 \description{
-Produces a set of scene and selection questions suiatable for use in
+Produces a set of scene and selection questions suitable for use in
 \code{buildTaipan}
 }
 \examples{

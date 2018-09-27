@@ -1,6 +1,6 @@
 #' Prepare a set of questions for taipan
 #'
-#' Produces a set of scene and selection questions suiatable for use in
+#' Produces a set of scene and selection questions suitable for use in
 #' `buildTaipan`
 #'
 #' @param scene a shiny UI object containing shiny inputs and web elements.
