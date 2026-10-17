@@ -50,7 +50,7 @@ env:
   APP_DESC: "Tool for annotating images in preparation for analysis"
   APP_HOMEPAGE: "https://github.com/srkobakian/taipan"
   APP_LICENSE: "GPL-3.0"
-  APP_MODE: "auto"
+  APP_MODE: "flat"
   APP_SUBDIR: "inst/app"
   PKG_SUBDIR: "."
   ENTRY_FN: ""
